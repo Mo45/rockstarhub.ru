@@ -127,7 +127,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     };
   }
   
-  return generateSEOMetaData({
+  return generateSEOMetadata({
     title: game.full_title,
     description: game.description && game.description.length > 0 
       ? game.description[0].children[0].text.substring(0, 160) + '...' 

@@ -152,7 +152,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     };
   }
   
-  return generateSEOMetaData({
+  return generateSEOMetadata({
     title: article.title,
     description: article.excerpt,
     imageUrl: article.coverImage?.url,
