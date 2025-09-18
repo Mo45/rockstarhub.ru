@@ -399,9 +399,11 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
               >
                 <div className="card similar-card">
                   {similarArticle.coverImage && (
-                    <img 
+                    <Image 
                       src={`${process.env.NEXT_PUBLIC_BACKEND}${similarArticle.coverImage.formats?.small?.url || similarArticle.coverImage.formats?.thumbnail?.url || similarArticle.coverImage.url}`} 
                       alt={similarArticle.coverImage.alternativeText || similarArticle.title}
+                      decoding="async"
+                      loading="lazy"
                       className="w-full h-40 object-cover"
                     />
                   )}

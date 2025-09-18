@@ -139,8 +139,10 @@ export default function CommentsList({ contentType, contentId }: CommentsListPro
             >
               <div className="flex items-start space-x-3">
                 {comment.attributes.author.data.attributes.avatar ? (
-                  <img 
+                  <Image 
                     src={`${process.env.NEXT_PUBLIC_BACKEND}${comment.attributes.author.data.attributes.avatar.url}`}
+                    decoding="async"
+                    loading="lazy"
                     alt="Аватар"
                     className="w-14 h-14 rounded-full"
                   />

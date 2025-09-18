@@ -62,9 +62,11 @@ export default function GameCard({ game, achievements = [], className = '' }: Ga
     <div className={`card p-6 rounded-lg ${className}`}>
       {game.cover_image && (
         <div className="w-full mb-3 overflow-hidden">
-          <img
+          <Image
             src={`${process.env.NEXT_PUBLIC_BACKEND}${game.cover_image.formats.large?.url || game.cover_image.url}`}
             alt={game.cover_image.alternativeText || game.full_title}
+            decoding="async"
+            loading="lazy"
             className="w-full h-full object-cover rounded-lg"
           />
         </div>

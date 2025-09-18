@@ -92,8 +92,10 @@ export default function AchievementsList({ achievements, gameSlug, limit }: Achi
                 <div className={`flex items-start gap-4 ${isHidden ? 'blur-sm' : ''}`}>
                   {achievement.image && (
                     <div className="relative w-24 h-24 flex-shrink-0">
-                      <img
+                      <Image
                         src={`${process.env.NEXT_PUBLIC_BACKEND}${achievement.image.formats.thumbnail.url}`}
+                        decoding="async"
+                        loading="lazy"
                         alt={achievement.image.alternativeText || achievement.name_ru}
                         className="object-contain"
                       />

@@ -229,8 +229,10 @@ export default async function AchievementPage(props: { params: Promise<{ slug: s
             <div className="flex flex-col md:flex-row gap-6 mb-6">
               {achievement.image && (
                 <div className="relative w-64 h-64 flex-shrink-0">
-                  <img
+                  <Image
                     src={`${process.env.NEXT_PUBLIC_BACKEND}${achievement.image.url}`}
+                    decoding="async"
+                    loading="lazy"
                     alt={achievement.image.alternativeText || achievement.name_ru}
                     className="object-contain rounded-lg"
                   />
