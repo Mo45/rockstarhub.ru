@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
+import Image from 'next/image'
 import { TbFolderFilled, TbCalendarWeek } from 'react-icons/tb';
 
 interface Article {
@@ -107,13 +108,11 @@ export default function ArticleList() {
               <Link href={`/articles/${article.slug}`} className="block h-full">
                 {image && (
                   <div className="w-full relative">
-                    <img 
-                      src={`${process.env.NEXT_PUBLIC_BACKEND}${imageFormats.small?.url || image.url}`}
-                      srcSet={`
-                        ${process.env.NEXT_PUBLIC_BACKEND}${imageFormats.small?.url || image.url} 1x,
-                        ${process.env.NEXT_PUBLIC_BACKEND}${imageFormats.large?.url || image.url} 2x
-                      `}
+                    <Image 
+                      src={`${process.env.NEXT_PUBLIC_BACKEND}${imageFormats.large?.url || image.url}`}
                       alt={image.alternativeText || article.title}
+                      fill
+                      decoding="async"
                       loading="lazy"
                       className="w-full h-full object-cover"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
