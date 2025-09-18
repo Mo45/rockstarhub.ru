@@ -113,6 +113,7 @@ export default function ArticleList() {
                       alt={image.alternativeText || article.title}
                       decoding="async"
                       loading="lazy"
+                      fill={true}
                       className="w-full h-full object-cover"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />

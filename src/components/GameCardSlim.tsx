@@ -51,9 +51,10 @@ export default function GameCardSlim({ game, className = '' }: GameCardSlimProps
         {game.cover_image && (
           <div className="relative h-96 w-full mb-3">
             <Image
-              src={`${process.env.NEXT_PUBLIC_BACKEND}${game.cover_image.formats.small?.url || game.cover_image.url}`}
+              src={`${process.env.NEXT_PUBLIC_BACKEND}${game.cover_image.formats.large?.url || game.cover_image.url}`}
               decoding="async"
               loading="lazy"
+              fill={true}
               alt={game.cover_image.alternativeText || game.full_title}
               className="object-cover rounded-lg"
             />
