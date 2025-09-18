@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image'
 
 interface User {
   id: number;
@@ -89,110 +88,77 @@ export default function AccountPage() {
   };
 
   const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-  const file = e.target.files?.[0];
-  if (!file) return;
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-  // Проверка размера файла (макс. 5 МБ)
-  if (file.size > 5 * 1024 * 1024) {
-    setAvatarError('Размер файла не должен превышать 5 МБ');
-    return;
-  }
-
-  // Создаем изображение с проверкой на клиентскую среду
-  let img: HTMLImageElement;
-  if (typeof window !== 'undefined') {
-    img = new Image();
-  } else {
-    // Заглушка для серверной среды
-    img = {
-      width: 0,
-      height: 0,
-      src: '',
-      onload: null,
-      onerror: null,
-      addEventListener: () => {},
-      removeEventListener: () => {},
-      dispatchEvent: () => false,
-      alt: '',
-      complete: false,
-      crossOrigin: null,
-      currentSrc: '',
-      decoding: 'auto',
-      height: 0,
-      isMap: false,
-      loading: 'eager',
-      naturalHeight: 0,
-      naturalWidth: 0,
-      referrerPolicy: '',
-      sizes: '',
-      srcset: '',
-      useMap: '',
-      width: 0,
-    } as unknown as HTMLImageElement;
-  }
-
-  img.src = URL.createObjectURL(file);
-  img.onload = async () => {
-    if (img.width !== img.height) {
-      setAvatarError('Изображение должно быть квадратным (1:1)');
-      URL.revokeObjectURL(img.src);
+    // Проверка размера файла (макс. 5 МБ)
+    if (file.size > 5 * 1024 * 1024) {
+      setAvatarError('Размер файла не должен превышать 5 МБ');
       return;
     }
 
-    if (img.width < 128 || img.height < 128 || img.width > 1024 || img.height > 1024) {
-      setAvatarError('Размер изображения должен быть между 128x128 и 1024x1024 пикселей');
-      URL.revokeObjectURL(img.src);
-      return;
-    }
-
-    URL.revokeObjectURL(img.src);
-
-    const jwt = localStorage.getItem('jwt');
-    if (!jwt) {
-      router.push('/login');
-      return;
-    }
-
-    setUploading(true);
-    setAvatarError('');
-    setSuccess('');
-
-    try {
-      const formData = new FormData();
-      formData.append('files', file);
-      formData.append('ref', 'plugin::users-permissions.user');
-      formData.append('refId', user?.id.toString() || '');
-      formData.append('field', 'avatar');
-
-      const uploadRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/upload`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${jwt}`,
-        },
-        body: formData,
-      });
-
-      if (!uploadRes.ok) {
-        throw new Error('Failed to upload avatar');
+    // Проверка пропорций изображения
+    const img = new Image();
+    img.src = URL.createObjectURL(file);
+    img.onload = async () => {
+      if (img.width !== img.height) {
+        setAvatarError('Изображение должно быть квадратным (1:1)');
+        URL.revokeObjectURL(img.src);
+        return;
       }
 
-      setSuccess('Аватар успешно обновлен');
-      fetchUserData();
-    } catch (error) {
-      console.error('Error uploading avatar:', error);
-      setAvatarError('Ошибка при загрузке аватара');
-    } finally {
-      setUploading(false);
-    }
-  };
+      if (img.width < 128 || img.height < 128 || img.width > 1024 || img.height > 1024) {
+        setAvatarError('Размер изображения должен быть между 128x128 и 1024x1024 пикселей');
+        URL.revokeObjectURL(img.src);
+        return;
+      }
 
-  img.onerror = () => {
-    setAvatarError('Ошибка загрузки изображения');
-    if (typeof window !== 'undefined') {
       URL.revokeObjectURL(img.src);
-    }
+
+      const jwt = localStorage.getItem('jwt');
+      if (!jwt) {
+        router.push('/login');
+        return;
+      }
+
+      setUploading(true);
+      setAvatarError('');
+      setSuccess('');
+
+      try {
+        const formData = new FormData();
+        formData.append('files', file);
+        formData.append('ref', 'plugin::users-permissions.user');
+        formData.append('refId', user?.id.toString() || '');
+        formData.append('field', 'avatar');
+
+        const uploadRes = await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/upload`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${jwt}`,
+          },
+          body: formData,
+        });
+
+        if (!uploadRes.ok) {
+          throw new Error('Failed to upload avatar');
+        }
+
+        setSuccess('Аватар успешно обновлен');
+        fetchUserData();
+      } catch (error) {
+        console.error('Error uploading avatar:', error);
+        setAvatarError('Ошибка при загрузке аватара');
+      } finally {
+        setUploading(false);
+      }
+    };
+
+    img.onerror = () => {
+      setAvatarError('Ошибка загрузки изображения');
+      URL.revokeObjectURL(img.src);
+    };
   };
-};
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -313,11 +279,9 @@ export default function AccountPage() {
           <div className="flex flex-col items-center mb-6">
             <div className="relative w-32 h-32 rounded-full overflow-hidden mb-4 bg-gray-200">
               {user.avatar ? (
-                <Image
+                <img
                   src={`${process.env.NEXT_PUBLIC_BACKEND}${user.avatar.formats?.thumbnail?.url || user.avatar.url}`}
                   alt="Аватар"
-                  decoding="async"
-                  loading="lazy"
                   className="object-cover w-full h-full"
                 />
               ) : (
