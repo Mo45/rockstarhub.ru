@@ -206,11 +206,11 @@ export default async function AchievementsPage(props: { params: Promise<{ slug: 
         </div>
       </header>
       
-      <SearchAchievements achievements={achievements} gameSlug={params.slug} />
+      <SearchAchievements achievements={achievements} gameSlug={slug} />
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
-          <AchievementsList achievements={achievements} gameSlug={params.slug} />
+          <AchievementsList achievements={achievements} gameSlug={slug} />
         </div>
         
         <div className="lg:col-span-1">

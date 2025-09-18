@@ -258,7 +258,7 @@ export default async function GamePage(props: { params: Promise<{ slug: string }
             </div>
           )}
 
-          <AchievementsList achievements={achievements} gameSlug={params.slug} limit={3}/>
+          <AchievementsList achievements={achievements} gameSlug={slug} limit={3}/>
         </div>
         
         <div className="lg:col-span-1">
