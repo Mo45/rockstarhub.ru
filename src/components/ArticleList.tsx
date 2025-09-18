@@ -111,7 +111,6 @@ export default function ArticleList() {
                     <Image 
                       src={`${process.env.NEXT_PUBLIC_BACKEND}${imageFormats.large?.url || image.url}`}
                       alt={image.alternativeText || article.title}
-                      fill
                       decoding="async"
                       loading="lazy"
                       className="w-full h-full object-cover"
