@@ -1,0 +1,10 @@
+.tag-background {
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+@media (max-width: 768px) {
+  .tag-background {
+    padding: 1rem;
+  }
+}

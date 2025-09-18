@@ -1,0 +1,56 @@
+{
+  "short_name": "Rockstar Хаб",
+  "name": "Всё о твоих любимых играх от компании Rockstar Games",
+  "icons": [
+  {
+    "purpose": "maskable",
+    "sizes": "96x96",
+    "src": "https://rockstarhub.ru/hub_96.png",
+    "type": "image/png"
+  },
+  {
+    "purpose": "maskable",
+    "sizes": "192x192",
+    "src": "https://rockstarhub.ru/hub_192.png",
+    "type": "image/png"
+  },
+  {
+    "purpose": "maskable",
+    "sizes": "256x256",
+    "src": "https://rockstarhub.ru/hub_256.png",
+    "type": "image/png"
+  },
+  {
+    "purpose": "maskable",
+    "sizes": "384x384",
+    "src": "https://rockstarhub.ru/hub_384.png",
+    "type": "image/png"
+  },
+  {
+    "purpose": "maskable",
+    "sizes": "512x512",
+    "src": "https://rockstarhub.ru/hub_512.png",
+    "type": "image/png"
+  }
+  ],
+  "id": "/?utm_source=pwa",
+  "start_url": "/?utm_source=pwa",
+  "background_color": "#0b0b0b",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#0b0b0b",
+  "shortcuts": [
+    {
+      "name": "Игры Rockstar Games",
+      "short_name": "Игры",
+      "description": "Коллекция игр Rockstar Games",
+      "url": "/games?utm_source=homescreen"
+    },
+    {
+      "name": "Статьи на Рокстар Хабе",
+      "short_name": "Стать",
+      "description": "Статьи по играм Rockstar Games",
+      "url": "/articles?utm_source=homescreen"
+    }
+  ]
+}

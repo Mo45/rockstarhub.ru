@@ -1,0 +1,10 @@
+.category-background {
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+@media (max-width: 768px) {
+  .category-background {
+    padding: 1rem;
+  }
+}

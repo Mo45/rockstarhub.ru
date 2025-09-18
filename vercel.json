@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "regions": ["arn1"],
+  "build": {
+    "env": {
+      "NODE_OPTIONS": "--max-old-space-size=4096"
+    }
+  }
+}

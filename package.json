@@ -1,0 +1,39 @@
+{
+  "name": "ROCKSTARHUB",
+  "homepage": "https://rockstarhub.ru",
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": "Mo45 <kirillkrasin@gmail.com>",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build && next-sitemap",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@strapi/blocks-react-renderer": "^1.0.2",
+    "axios": "^1.11.0",
+    "lucide-react": "^0.543.0",
+    "next": "15.5.2",
+    "next-sitemap": "^4.2.3",
+    "nextjs-toploader": "^3.8.16",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-icons": "^5.5.0",
+    "react-player": "^3.3.2",
+    "react-share": "^5.2.2",
+    "sharp": "^0.34.3"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.5.2",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
