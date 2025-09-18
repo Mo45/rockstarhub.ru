@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import axios from 'axios';
 import Link from 'next/link';
+import Image from 'next/image'
 import { TbFolderFilled, TbCalendarWeek } from 'react-icons/tb';
 import './category-styles.css';
 

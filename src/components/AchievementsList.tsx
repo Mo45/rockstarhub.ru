@@ -3,6 +3,7 @@
 "use client";
 
 import Link from 'next/link';
+import Image from 'next/image'
 import { IoLogoXbox, IoLogoPlaystation } from 'react-icons/io5';
 import { FaTrophy, FaEyeSlash } from "react-icons/fa6";
 import { useState } from 'react';

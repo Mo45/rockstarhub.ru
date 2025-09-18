@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Comment, CommentsListProps } from './types';
+import Image from 'next/image'
 
 interface ApiComment {
   id: number;

@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import axios from 'axios';
 import Link from 'next/link';
+import Image from 'next/image'
 import './article-styles.css';
 import { SiRockstargames, SiSteam } from 'react-icons/si';
 import { IoLogoXbox } from 'react-icons/io5';
