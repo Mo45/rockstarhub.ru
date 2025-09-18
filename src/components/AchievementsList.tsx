@@ -94,7 +94,7 @@ export default function AchievementsList({ achievements, gameSlug, limit }: Achi
                   {achievement.image && (
                     <div className="relative w-24 h-24 flex-shrink-0">
                       <Image
-                        src={`${process.env.NEXT_PUBLIC_BACKEND}${achievement.image.formats.large?.url || achievement.image.url}`}
+                        src={`${process.env.NEXT_PUBLIC_BACKEND}${achievement.image.url}`}
                         decoding="async"
                         loading="lazy"
                         fill={true}
