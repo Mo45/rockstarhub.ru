@@ -417,7 +417,7 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
         </div>
       )}
 
-        <CommentsSection contentType="articles" contentSlug={params.slug} />
+        <CommentsSection contentType="articles" contentSlug={slug} />
         
       </main>
     </div>
