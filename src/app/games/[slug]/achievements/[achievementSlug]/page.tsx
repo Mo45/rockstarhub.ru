@@ -234,6 +234,7 @@ export default async function AchievementPage(props: { params: Promise<{ slug: s
                     src={`${process.env.NEXT_PUBLIC_BACKEND}${achievement.image.url}`}
                     decoding="async"
                     loading="lazy"
+                    fill={true}
                     alt={achievement.image.alternativeText || achievement.name_ru}
                     className="object-contain rounded-lg"
                   />

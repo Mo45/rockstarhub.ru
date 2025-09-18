@@ -109,7 +109,7 @@ export default function ArticleList() {
                 {image && (
                   <div className="w-full relative">
                     <Image 
-                      src={`${process.env.NEXT_PUBLIC_BACKEND}${image.url}`}
+                      src={`${process.env.NEXT_PUBLIC_BACKEND}${imageFormats.large?.url || image.url}`}
                       alt={image.alternativeText || article.title}
                       decoding="async"
                       loading="lazy"
