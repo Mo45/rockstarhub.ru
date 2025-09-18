@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image'
 
 interface User {
   id: number;
@@ -279,9 +280,11 @@ export default function AccountPage() {
           <div className="flex flex-col items-center mb-6">
             <div className="relative w-32 h-32 rounded-full overflow-hidden mb-4 bg-gray-200">
               {user.avatar ? (
-                <img
+                <Image
                   src={`${process.env.NEXT_PUBLIC_BACKEND}${user.avatar.formats?.thumbnail?.url || user.avatar.url}`}
                   alt="Аватар"
+                  decoding="async"
+                  loading="lazy"
                   className="object-cover w-full h-full"
                 />
               ) : (

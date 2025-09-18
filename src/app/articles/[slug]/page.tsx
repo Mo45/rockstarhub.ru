@@ -258,9 +258,11 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
       
       {article.coverImage && (
         <div className="max-w-6xl mx-auto">
-          <img 
+          <Image 
             src={`${process.env.NEXT_PUBLIC_BACKEND}${article.coverImage.formats?.large?.url || article.coverImage.url}`} 
             alt={article.coverImage.alternativeText || article.title}
+            decoding="async"
+            loading="lazy"
             className="rounded-lg mt-2 md:mt-6 w-full h-auto object-cover"
           />
         </div>
