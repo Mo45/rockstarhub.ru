@@ -66,15 +66,7 @@ interface Achievement {
   page_url: string;
 }
 
-const CACHE = new Map();
-
 async function getGame(slug: string): Promise<Game | null> {
-  const cacheKey = `game:${slug}`;
-  
-  if (CACHE.has(cacheKey)) {
-    return CACHE.get(cacheKey);
-  }
-
   try {
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_BACKEND}/api/games?filters[slug][$eq]=${slug}&populate[0]=cover_image&populate[1]=game_facts`,
@@ -85,9 +77,7 @@ async function getGame(slug: string): Promise<Game | null> {
       return null;
     }
     
-    const gameData = response.data.data[0];
-    CACHE.set(cacheKey, gameData);
-    return gameData;
+    return response.data.data[0];
   } catch (error) {
     console.error('Ошибка загрузки игры:', error);
     return null;
@@ -95,12 +85,6 @@ async function getGame(slug: string): Promise<Game | null> {
 }
 
 async function getAchievementBySlug(achievementSlug: string): Promise<Achievement | null> {
-  const cacheKey = `achievement:${achievementSlug}`;
-  
-  if (CACHE.has(cacheKey)) {
-    return CACHE.get(cacheKey);
-  }
-
   try {
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_BACKEND}/api/achievements?filters[page_url][$eq]=${achievementSlug}&populate[0]=image`,
@@ -111,9 +95,7 @@ async function getAchievementBySlug(achievementSlug: string): Promise<Achievemen
       return null;
     }
     
-    const achievementData = response.data.data[0];
-    CACHE.set(cacheKey, achievementData);
-    return achievementData;
+    return response.data.data[0];
   } catch (error) {
     console.error('Ошибка загрузки достижения:', error);
     return null;
@@ -121,21 +103,13 @@ async function getAchievementBySlug(achievementSlug: string): Promise<Achievemen
 }
 
 async function getAllAchievements(gameName: string): Promise<Achievement[]> {
-  const cacheKey = `all-achievements:${gameName}`;
-  
-  if (CACHE.has(cacheKey)) {
-    return CACHE.get(cacheKey);
-  }
-
   try {
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_BACKEND}/api/achievements?filters[game_name][$eq]=${gameName}&populate[0]=image&pagination[page]=1&pagination[pageSize]=100`,
       { timeout: 5000 }
     );
     
-    const achievementsData = response.data.data;
-    CACHE.set(cacheKey, achievementsData);
-    return achievementsData;
+    return response.data.data;
   } catch (error) {
     console.error('Ошибка загрузки достижений:', error);
     return [];
