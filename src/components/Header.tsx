@@ -214,6 +214,9 @@ export default function Header() {
             <Link href="/games/gtavi" className="navbar-item">
               GTA 6
             </Link>
+            <Link href="/games/gta-v" className="navbar-item">
+              GTA 5
+            </Link>
             <Link href="/games/gtao" className="navbar-item">
               GTA Online
             </Link>
@@ -311,6 +314,13 @@ export default function Header() {
                 onClick={closeMobileMenu}
               >
                 GTA 6
+              </Link>
+              <Link 
+                href="/games/gta-v" 
+                className="navbar-item text-white py-2"
+                onClick={closeMobileMenu}
+              >
+                GTA 5
               </Link>
               <Link 
                 href="/games/gtao" 
