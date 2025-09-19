@@ -19,7 +19,7 @@ export const metadata: Metadata = {
     statusBarStyle: 'default',
   },
   icons: {
-    icon: '/hub_512.png',
+    icon: '/hub_32.png',
     shortcut: '/hub_32.png',
     apple: '/hub_192.png',
     other: {
