@@ -54,12 +54,13 @@
 
 .article-content a {
   color: var(--accent-color, #e19808);
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .article-content a:hover {
   opacity: 0.8;
   color: var(--accent-color, #e19808);
+  text-decoration: underline;
 }
 
 .article-content {

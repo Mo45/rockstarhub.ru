@@ -108,15 +108,7 @@ a.text-white:hover,button.text-white:hover {
 .prose > ul > li {
   margin-left: .35rem;
 }
-.prose > p > a,.prose > ul > li > a {
-  text-decoration: none;
-  color: var(--rockstar-color);
-}
-.prose > p > a:hover, .prose > ul > li > a:hover {
-  text-decoration: underline;
-  color: #fff;
-}
-/* Утилиты для ограничения текста */
+
 .line-clamp-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -165,10 +157,6 @@ a.text-white:hover,button.text-white:hover {
 
 .article-content ol {
   @apply list-decimal;
-}
-
-.article-content a {
-  @apply text-blue-600 hover:underline;
 }
 
 .article-content blockquote {
