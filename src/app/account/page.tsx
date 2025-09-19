@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { BsPlaystation, BsXbox, BsSteam } from "react-icons/bs";
 
 interface User {
   id: number;
@@ -176,6 +177,15 @@ export default function AccountPage() {
     }
   };
 
+  const handlePlatformToggle = (platform: string) => {
+    setFormData(prev => ({
+      ...prev,
+      platforms: prev.platforms.includes(platform)
+        ? prev.platforms.filter(p => p !== platform)
+        : [...prev.platforms, platform]
+    }));
+  };
+
   const validateField = (value: string, fieldName: string): boolean => {
     if (fieldName === 'gamertag') {
       // Для Gamertag разрешаем пробелы, но проверяем что строка не пустая
@@ -343,19 +353,22 @@ export default function AccountPage() {
             
             <div className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-2">Платформы</label>
-              <div className="space-y-2">
-                {['Xbox', 'PlayStation', 'Steam'].map(platform => (
-                  <label key={platform} className="flex items-center">
-                    <input
-                      type="checkbox"
-                      value={platform}
-                      checked={formData.platforms.includes(platform)}
-                      onChange={handleInputChange}
-                      disabled={!isEditing}
-                      className="mr-2"
-                    />
-                    {platform}
-                  </label>
+              <div className="flex space-x-4">
+                {[
+                  { key: 'Xbox', icon: <BsXbox size={24} /> },
+                  { key: 'PlayStation', icon: <BsPlaystation size={24} /> },
+                  { key: 'Steam', icon: <BsSteam size={24} /> }
+                ].map(({ key, icon }) => (
+                  <div
+                    key={key}
+                    onClick={() => isEditing && handlePlatformToggle(key)}
+                    className={`p-3 rounded-full border-2 cursor-pointer ${formData.platforms.includes(key) 
+                      ? 'border-rockstar-500 bg-rockstar-100 text-rockstar-500' 
+                      : 'border-gray-300 text-gray-400'
+                    } ${isEditing ? 'hover:border-rockstar-300' : 'cursor-default'}`}
+                  >
+                    {icon}
+                  </div>
                 ))}
               </div>
             </div>
