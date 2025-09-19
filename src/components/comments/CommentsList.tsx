@@ -144,7 +144,7 @@ export default function CommentsList({ contentType, contentId }: CommentsListPro
                     src={`${process.env.NEXT_PUBLIC_BACKEND}${comment.attributes.author.data.attributes.avatar.url}`}
                     decoding="async"
                     loading="lazy"
-                    alt="Аватар"
+                    alt={comment.attributes.author.data.attributes.username}
                     className="w-14 h-14 rounded-full"
                   />
                 ) : (
