@@ -1,3 +1,4 @@
+// /src/components/CommentsSection.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -14,9 +15,11 @@ export default function CommentsSection({ contentType, contentSlug }: CommentsSe
   useEffect(() => {
     const fetchContentId = async () => {
       try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_BACKEND}/api/${contentType}?filters[slug][$eq]=${contentSlug}`
-        );
+        // Определяем поле для фильтрации в зависимости от типа контента
+        const filterField = contentType === 'achievements' ? 'page_url' : 'slug';
+        const apiUrl = `${process.env.NEXT_PUBLIC_BACKEND}/api/${contentType}?filters[${filterField}][$eq]=${contentSlug}`;
+
+        const res = await fetch(apiUrl);
         const data = await res.json();
         
         if (data.data && data.data.length > 0) {
