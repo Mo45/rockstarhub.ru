@@ -10,7 +10,7 @@ export const getPlatformClass = (platform: string): string => {
     'PS3': 'ps3',
     'PS4': 'ps4',
     'PS5': 'ps5',
-    'Nintendo Switch': 'nintendoswitch1',
+    'Nintendo Switch 1': 'nintendoswitch1',
     'Nintendo Switch 2': 'nintendoswitch2',
     'PC': 'pc',
     'Android': 'android',
@@ -28,7 +28,7 @@ export const getPlatformIcon = (platform: string): IconType | null => {
     'PS3': BsPlaystation,
     'PS4': BsPlaystation,
     'PS5': BsPlaystation,
-    'Nintendo Switch': BsNintendoSwitch,
+    'Nintendo Switch 1': BsNintendoSwitch,
     'Nintendo Switch 2': BsNintendoSwitch,
     'PC': BsWindows,
     'Android': BsAndroid2,
@@ -55,7 +55,7 @@ export const formatPlatformKey = (key: string): string => {
     'ios': 'iOS',
     'steam': 'Steam',
     'rockstar': 'Rockstar Launcher',
-    'nintendoswitch1': 'Nintendo Switch',
+    'nintendoswitch1': 'Nintendo Switch 1',
     'nintendoswitch2': 'Nintendo Switch 2'
   };
 
