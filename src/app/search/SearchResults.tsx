@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import axios from 'axios';
+import Image from 'next/image'
 
 interface Article {
   id: number;
@@ -71,10 +72,12 @@ export default function SearchResults() {
                 <Link href={`/articles/${article.slug}`} className="block">
                   {article.coverImage && (
                     <div className="w-full h-48 relative">
-                      <img 
+                      <Image
                         src={`${process.env.NEXT_PUBLIC_BACKEND}${article.coverImage.url}`} 
                         alt={article.coverImage.alternativeText || article.title}
                         className="w-full h-48 object-cover"
+                        decoding="async"
+                        loading="lazy"
                       />
                     </div>
                   )}

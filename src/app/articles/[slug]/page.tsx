@@ -334,11 +334,13 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
             <div className="flex flex-col md:flex-row items-center md:items-start gap-4 text-center md:text-left">
               {authorWithAvatar.avatar && (
                 <div className="flex-shrink-0">
-                  <img 
+                  <Image
                     src={`${process.env.NEXT_PUBLIC_BACKEND}${authorWithAvatar.avatar.formats?.thumbnail?.url || authorWithAvatar.avatar.url}`} 
                     alt={authorWithAvatar.avatar.alternativeText || authorWithAvatar.name}
                     width={130}
                     height={130}
+                    decoding="async"
+                    loading="lazy"
                     className="rounded-full mx-auto md:mx-0"
                   />
                 </div>
