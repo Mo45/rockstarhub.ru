@@ -343,7 +343,7 @@ export default function AccountPage() {
           </div>
           
           <div className="mt-6">
-            <h2 className="text-xl font-semibold mb-4">Игровые профили</h2>
+            <h2 className="text-xl font-semibold mb-4">Настрой свои игровые профили</h2>
             
             {formError && (
               <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
@@ -364,8 +364,8 @@ export default function AccountPage() {
                     onClick={() => isEditing && handlePlatformToggle(key)}
                     className={`p-3 rounded-full border-2 cursor-pointer ${formData.platforms.includes(key) 
                       ? 'border-rockstar-500 bg-rockstar-100 text-rockstar-500' 
-                      : 'border-gray-300 text-gray-400'
-                    } ${isEditing ? 'hover:border-rockstar-300' : 'cursor-default'}`}
+                      : 'text-zinc-700 text-zinc-700'
+                    } ${isEditing ? 'hover:border-amber-400' : 'cursor-default'}`}
                   >
                     {icon}
                   </div>
