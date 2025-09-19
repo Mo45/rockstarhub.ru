@@ -9,6 +9,7 @@ import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 import GameCard from '@/components/GameCard';
 import PlatformTag from '@/components/PlatformTag';
 import OrganizationSchema from '@/components/OrganizationSchema';
+import CommentsSection from '@/components/comments/CommentsSection';
 
 interface Game {
   id: number;
@@ -283,6 +284,8 @@ export default async function AchievementPage(props: { params: Promise<{ slug: s
               </div>
             </div>
           )}
+
+          <CommentsSection contentType="achievements" contentSlug={achievementSlug} />
 
         </div>
         
