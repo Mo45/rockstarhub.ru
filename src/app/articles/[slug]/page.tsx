@@ -61,6 +61,18 @@ interface SimilarArticle {
   };
 }
 
+interface ImageComponentProps {
+  src: string;
+  alt?: string;
+  width?: number;
+  height?: number;
+}
+
+interface LinkComponentProps {
+  href: string;
+  children: React.ReactNode;
+}
+
 async function getSimilarArticles(categoryId: number, currentArticleId: number, limit: number = 3): Promise<SimilarArticle[]> {
   try {
     const response = await axios.get(
@@ -144,7 +156,7 @@ function calculateReadingTime(content: any[]): number {
 }
 
 const customComponents = {
-  img: ({ src, alt, width, height }) => {
+  img: ({ src, alt, width, height }: ImageComponentProps) => {
     if (!src) return null;
     
     const fullSrc = src.startsWith('http') 
@@ -165,7 +177,7 @@ const customComponents = {
       </div>
     );
   },
-  link: ({ children, href }) => (
+  link: ({ href, children }: LinkComponentProps) => (
     <a href={href} target="_blank" rel="noopener noreferrer">
       {children}
     </a>
