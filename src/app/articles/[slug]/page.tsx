@@ -61,18 +61,6 @@ interface SimilarArticle {
   };
 }
 
-interface ImageComponentProps {
-  src: string;
-  alt?: string;
-  width?: number;
-  height?: number;
-}
-
-interface LinkComponentProps {
-  href: string;
-  children: React.ReactNode;
-}
-
 async function getSimilarArticles(categoryId: number, currentArticleId: number, limit: number = 3): Promise<SimilarArticle[]> {
   try {
     const response = await axios.get(
@@ -154,35 +142,6 @@ function calculateReadingTime(content: any[]): number {
   // Гарантируем минимум 1 минуту
   return Math.max(1, readingTime);
 }
-
-const customComponents = {
-  img: ({ src, alt, width, height }: ImageComponentProps) => {
-    if (!src) return null;
-    
-    const fullSrc = src.startsWith('http') 
-      ? src 
-      : `${process.env.NEXT_PUBLIC_BACKEND}${src}`;
-
-    return (
-      <div className="relative w-full h-96 my-4">
-        <Image
-          src={fullSrc}
-          alt={alt || ''}
-          fill
-          decoding="async"
-          loading="lazy"
-          className="w-full h-full object-cover"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        />
-      </div>
-    );
-  },
-  link: ({ href, children }: LinkComponentProps) => (
-    <a href={href} target="_blank" rel="noopener noreferrer">
-      {children}
-    </a>
-  ),
-};
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -356,7 +315,7 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
           </div>
           
           <div className="prose prose-lg max-w-none article-content">
-            <BlocksRenderer content={article.content} components={customComponents} />
+            <BlocksRenderer content={article.content} />
           </div>
 
           <div className="mt-8 flex justify-between">
