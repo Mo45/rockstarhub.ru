@@ -104,17 +104,9 @@ export default function Footer() {
                 )}
               </li>
               <li>
-                {isLoading ? (
-                  <span className="text-gray-500">Загрузка...</span>
-                ) : isAuthenticated ? (
-                  <Link href="/logout" className="gray-to-orange">
-                    Выход
-                  </Link>
-                ) : (
-                  <Link href="/login" className="gray-to-orange">
-                    Вход
-                  </Link>
-                )}
+                <Link href="/donate" className="gray-to-orange">
+                  Донат
+                </Link>
               </li>
             </ul>
           </div>

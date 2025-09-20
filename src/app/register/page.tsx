@@ -9,6 +9,7 @@ export default function RegisterPage() {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isAgreed, setIsAgreed] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [checkingAuth, setCheckingAuth] = useState(true);
@@ -27,6 +28,12 @@ export default function RegisterPage() {
     e.preventDefault();
     setLoading(true);
     setError('');
+
+    if (!isAgreed) {
+      setError('Необходимо согласиться с правилами сайта');
+      setLoading(false);
+      return;
+    }
 
     try {
       const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND}/api/auth/local/register`, {
@@ -125,9 +132,29 @@ export default function RegisterPage() {
               />
             </div>
 
+            <div className="flex items-start">
+              <div className="flex items-center h-5">
+                <input
+                  id="agree"
+                  type="checkbox"
+                  checked={isAgreed}
+                  onChange={(e) => setIsAgreed(e.target.checked)}
+                  required
+                  className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-rockstar-300"
+                  disabled={loading}
+                />
+              </div>
+              <label htmlFor="agree" className="ms-2 text-sm font-medium text-gray-300">
+                Я ознакомился и согласен с{' '}
+                <Link href="/rules" className="orange-to-white">
+                  правилами сайта
+                </Link>
+              </label>
+            </div>
+
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || !isAgreed}
               className="w-full bg-rockstar-500 text-black py-3 rounded-lg hover:bg-rockstar-600 hover:text-white transition-colors disabled:opacity-50"
             >
               {loading ? 'Регистрация...' : 'Зарегистрироваться'}
@@ -137,7 +164,7 @@ export default function RegisterPage() {
           <div className="mt-6 text-center">
             <p>
               Уже есть аккаунт?{' '}
-              <Link href="/login" className="white-to-orange">
+              <Link href="/login" className="orange-to-white">
                 Войти
               </Link>
             </p>
