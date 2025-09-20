@@ -1,34 +1,8 @@
-'use client';
-
 import Link from 'next/link';
 import { SiDiscord, SiVk, SiTelegram } from 'react-icons/si';
 import { useState, useEffect } from 'react';
 
 export default function Footer() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const checkAuth = () => {
-      const jwt = localStorage.getItem('jwt');
-      setIsAuthenticated(!!jwt);
-      setIsLoading(false);
-    };
-
-    checkAuth();
-
-    // Слушать кастомные события об изменении аутентификации
-    const handleAuthChange = () => checkAuth();
-    window.addEventListener('authChange', handleAuthChange);
-
-    // Слушать изменения localStorage из других вкладок
-    window.addEventListener('storage', checkAuth);
-
-    return () => {
-      window.removeEventListener('authChange', handleAuthChange);
-      window.removeEventListener('storage', checkAuth);
-    };
-  }, []);
 
   return (
     <footer className="bg-black text-white py-8 mt-auto border-t border-zinc-900">
@@ -91,17 +65,9 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                {isLoading ? (
-                  <span className="text-gray-500">Загрузка...</span>
-                ) : isAuthenticated ? (
-                  <Link href="/account" className="gray-to-orange">
-                    Аккаунт
-                  </Link>
-                ) : (
-                  <Link href="/register" className="gray-to-orange">
-                    Регистрация
-                  </Link>
-                )}
+                <Link href="/rules" className="gray-to-orange">
+                  Правила
+                </Link>
               </li>
               <li>
                 <Link href="/donate" className="gray-to-orange">
