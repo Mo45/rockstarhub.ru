@@ -2,9 +2,11 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   images: {
+    minimumCacheTTL: 2678400,
+    formats: ['image/webp'],
+    qualities: [75],
     domains: [
-      'data.rockstarhub.ru',
-      'mc.yandex.ru'
+      'data.rockstarhub.ru'
     ],
     unoptimized: false,
   },
