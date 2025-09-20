@@ -14,7 +14,7 @@ export default function AboutPage() {
 
           <div className="prose prose-lg max-w-none text-white">
             <p className="mb-6">
-              Добро пожаловать в Rockstar Хаб — ваш главный источник информации о играх Rockstar Games: <Link href="/games/gta-v" className="white-to-orange">GTA V</Link>, <Link href="/games/gtao" className="white-to-orange">GTA Online</Link>, <Link href="/games/rdr2" className="white-to-orange">Red Dead Redemption 2</Link> и грядущей <Link href="/games/gtavi" className="white-to-orange">GTA 6</Link>. Мы предоставляем самые свежие новости, эксклюзивные материалы и детальные руководства по самым популярным проектам легендарной студии.
+              Добро пожаловать в Rockstar Хаб — ваш главный источник информации о играх Rockstar Games: <Link href="/games/gta-v" className="orange-to-white">GTA V</Link>, <Link href="/games/gtao" className="orange-to-white">GTA Online</Link>, <Link href="/games/rdr2" className="orange-to-white">Red Dead Redemption 2</Link> и грядущей <Link href="/games/gtavi" className="orange-to-white">GTA 6</Link>. Мы предоставляем самые свежие новости, эксклюзивные материалы и детальные руководства по самым популярным проектам легендарной студии.
             </p>
 
             <h2 className="text-2xl font-bold mb-4 mt-8">Наша миссия</h2>
@@ -25,18 +25,18 @@ export default function AboutPage() {
 
             <h2 className="text-2xl font-bold mb-4 mt-8">Что мы предлагаем</h2>
             <ul className="list-disc pl-6 mb-6 space-y-3">
-              <li>Эксклюзивные <Link href="/articles" className="white-to-orange">новости и анонсы</Link></li>
-              <li>Первые подробности о готовящейся <Link href="/games/gtavi" className="white-to-orange">GTA 6</Link></li>
-              <li>Глубокие <Link href="/tags/analytics" className="white-to-orange">аналитические статьи</Link> и обзоры обновлений</li>
+              <li>Эксклюзивные <Link href="/articles" className="orange-to-white">новости и анонсы</Link></li>
+              <li>Первые подробности о готовящейся <Link href="/games/gtavi" className="orange-to-white">GTA 6</Link></li>
+              <li>Глубокие <Link href="/tags/analytics" className="orange-to-white">аналитические статьи</Link> и обзоры обновлений</li>
               <li>Подробные гайды и советы по прохождению</li>
               <li>Профессиональные переводы статей и интервью</li>
-              <li><Link href="/games" className="white-to-orange">База данных игр</Link> и достижений</li>
+              <li><Link href="/games" className="orange-to-white">База данных игр</Link> и достижений</li>
               <li>Сообщество единомышленников-фанатов</li>
             </ul>
 
             <h2 className="text-2xl font-bold mb-4 mt-8">Кто мы</h2>
             <p className="mb-6">
-              RockstarHub создан и поддерживается небольшим коллективом энтузиастов и давних поклонников творчества Rockstar Games. Мы объединились, чтобы делиться 
+              Rockstar Хаб создан и поддерживается небольшим коллективом энтузиастов и давних поклонников творчества Rockstar Games. Мы объединились, чтобы делиться 
               своей страстью к вселенной GTA и Red Dead с другими фанатами и игроками.
             </p>
 

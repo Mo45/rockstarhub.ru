@@ -11,11 +11,11 @@ export default function PrivacyPage() {
           <h1 className="text-4xl font-bold mb-6">Политика конфиденциальности</h1>
           
           <div className="prose prose-lg max-w-none text-white">
-            <p className="mb-6">Последнее обновление: {new Date().toLocaleDateString('ru-RU')}</p>
+            <p className="mb-6">Последнее обновление: 20.09.2025</p>
 
             <h2 className="text-2xl font-bold mb-4 mt-8">1. Введение</h2>
             <p className="mb-6">
-              В RockstarHub мы серьезно относимся к вашей конфиденциальности. Эта политика конфиденциальности 
+              В Rockstar Хаб мы серьезно относимся к вашей конфиденциальности. Эта политика конфиденциальности 
               описывает, как мы собираем, используем и защищаем вашу личную информацию при использовании нашего сайта.
             </p>
 
@@ -24,12 +24,15 @@ export default function PrivacyPage() {
             <ul className="list-disc pl-6 mb-6 space-y-2">
               <li>Данные об использовании сайта</li>
               <li>Данные cookies и аналогичные технологии</li>
+              <li>Данные об использовании сайта</li>
+              <li>Данные необходимые для регистрации: e-mail, логин и пароль</li>
             </ul>
 
             <h2 className="text-2xl font-bold mb-4 mt-8">3. Использование информации</h2>
             <p className="mb-4">Мы используем собранную информацию для:</p>
             <ul className="list-disc pl-6 mb-6 space-y-2">
               <li>Предоставления и улучшения наших услуг</li>
+              <li>Авторизации на сайте и использования функционала комментирования</li>
               <li>Анализа использования сайта для улучшения пользовательского опыта</li>
             </ul>
 
@@ -38,6 +41,10 @@ export default function PrivacyPage() {
               Мы реализуем соответствующие меры безопасности для защиты вашей личной информации 
               от несанкционированного доступа, изменения, раскрытия или уничтожения.
             </p>
+            <ul className="list-disc pl-6 mb-6 space-y-2">
+              <li>E-mail используется исключительно для регистрации</li>
+              <li>E-mail не используется для рассылок или передачи третьим лицам</li>
+            </ul>
 
             <h2 className="text-2xl font-bold mb-4 mt-8">5. Cookies</h2>
             <p className="mb-6">
@@ -61,7 +68,7 @@ export default function PrivacyPage() {
             <h2 className="text-2xl font-bold mb-4 mt-8">8. Контакты</h2>
             <p className="mb-6">
               Если у вас есть вопросы о нашей политике конфиденциальности, пожалуйста, 
-              свяжитесь с нами через <a href="/contact" className="text-blue-400 hover:text-blue-300">форму обратной связи</a>.
+              свяжитесь с нами через <a href="/contact" className="orange-to-white">форму обратной связи</a>.
             </p>
           </div>
         </div>
