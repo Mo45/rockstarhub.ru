@@ -143,6 +143,35 @@ function calculateReadingTime(content: any[]): number {
   return Math.max(1, readingTime);
 }
 
+const customComponents = {
+  img: ({ src, alt, width, height }) => {
+    if (!src) return null;
+    
+    const fullSrc = src.startsWith('http') 
+      ? src 
+      : `${process.env.NEXT_PUBLIC_BACKEND}${src}`;
+
+    return (
+      <div className="relative w-full h-96 my-4">
+        <Image
+          src={fullSrc}
+          alt={alt || ''}
+          fill
+          decoding="async"
+          loading="lazy"
+          className="w-full h-full object-cover"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+        />
+      </div>
+    );
+  },
+  link: ({ children, href }) => (
+    <a href={href} target="_blank" rel="noopener noreferrer">
+      {children}
+    </a>
+  ),
+};
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const article = await getArticle(slug);
@@ -315,7 +344,7 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
           </div>
           
           <div className="prose prose-lg max-w-none article-content">
-            <BlocksRenderer content={article.content} />
+            <BlocksRenderer content={article.content} components={customComponents} />
           </div>
 
           <div className="mt-8 flex justify-between">
