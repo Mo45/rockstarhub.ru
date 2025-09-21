@@ -63,18 +63,28 @@ interface Achievement {
   page_url: string;
 }
 
+const CACHE = new Map();
+
 async function getGame(slug: string): Promise<Game | null> {
+  const cacheKey = `game:${slug}`;
+  
+  if (CACHE.has(cacheKey)) {
+    return CACHE.get(cacheKey);
+  }
+
   try {
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_BACKEND}/api/games?filters[slug][$eq]=${slug}&populate[0]=cover_image&populate[1]=game_facts`,
-      { timeout: 15000 }
+      { timeout: 25000 }
     );
     
     if (response.data.data.length === 0) {
       return null;
     }
     
-    return response.data.data[0];
+    const gameData = response.data.data[0];
+    CACHE.set(cacheKey, gameData);
+    return gameData;
   } catch (error) {
     console.error('Ошибка загрузки игры:', error);
     return null;
@@ -82,13 +92,21 @@ async function getGame(slug: string): Promise<Game | null> {
 }
 
 async function getAllAchievements(gameName: string): Promise<Achievement[]> {
+  const cacheKey = `all-achievements:${gameName}`;
+  
+  if (CACHE.has(cacheKey)) {
+    return CACHE.get(cacheKey);
+  }
+
   try {
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_BACKEND}/api/achievements?filters[game_name][$eq]=${gameName}&populate[0]=image&sort[0]=gscore:desc&pagination[page]=1&pagination[pageSize]=200`,
-      { timeout: 15000 }
+      { timeout: 25000 }
     );
     
-    return response.data.data;
+    const achievementsData = response.data.data;
+    CACHE.set(cacheKey, achievementsData);
+    return achievementsData;
   } catch (error) {
     console.error('Ошибка загрузки достижений:', error);
     return [];

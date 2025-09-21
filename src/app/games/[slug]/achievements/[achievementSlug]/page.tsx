@@ -9,7 +9,6 @@ import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 import GameCard from '@/components/GameCard';
 import PlatformTag from '@/components/PlatformTag';
 import OrganizationSchema from '@/components/OrganizationSchema';
-import CommentsSection from '@/components/comments/CommentsSection';
 
 interface Game {
   id: number;
@@ -67,18 +66,28 @@ interface Achievement {
   page_url: string;
 }
 
+const CACHE = new Map();
+
 async function getGame(slug: string): Promise<Game | null> {
+  const cacheKey = `game:${slug}`;
+  
+  if (CACHE.has(cacheKey)) {
+    return CACHE.get(cacheKey);
+  }
+
   try {
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_BACKEND}/api/games?filters[slug][$eq]=${slug}&populate[0]=cover_image&populate[1]=game_facts`,
-      { timeout: 5000 }
+      { timeout: 25000 }
     );
     
     if (response.data.data.length === 0) {
       return null;
     }
     
-    return response.data.data[0];
+    const gameData = response.data.data[0];
+    CACHE.set(cacheKey, gameData);
+    return gameData;
   } catch (error) {
     console.error('Ошибка загрузки игры:', error);
     return null;
@@ -86,17 +95,25 @@ async function getGame(slug: string): Promise<Game | null> {
 }
 
 async function getAchievementBySlug(achievementSlug: string): Promise<Achievement | null> {
+  const cacheKey = `achievement:${achievementSlug}`;
+  
+  if (CACHE.has(cacheKey)) {
+    return CACHE.get(cacheKey);
+  }
+
   try {
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_BACKEND}/api/achievements?filters[page_url][$eq]=${achievementSlug}&populate[0]=image`,
-      { timeout: 5000 }
+      { timeout: 25000 }
     );
     
     if (response.data.data.length === 0) {
       return null;
     }
     
-    return response.data.data[0];
+    const achievementData = response.data.data[0];
+    CACHE.set(cacheKey, achievementData);
+    return achievementData;
   } catch (error) {
     console.error('Ошибка загрузки достижения:', error);
     return null;
@@ -104,13 +121,21 @@ async function getAchievementBySlug(achievementSlug: string): Promise<Achievemen
 }
 
 async function getAllAchievements(gameName: string): Promise<Achievement[]> {
+  const cacheKey = `all-achievements:${gameName}`;
+  
+  if (CACHE.has(cacheKey)) {
+    return CACHE.get(cacheKey);
+  }
+
   try {
     const response = await axios.get(
       `${process.env.NEXT_PUBLIC_BACKEND}/api/achievements?filters[game_name][$eq]=${gameName}&populate[0]=image&pagination[page]=1&pagination[pageSize]=100`,
-      { timeout: 5000 }
+      { timeout: 25000 }
     );
     
-    return response.data.data;
+    const achievementsData = response.data.data;
+    CACHE.set(cacheKey, achievementsData);
+    return achievementsData;
   } catch (error) {
     console.error('Ошибка загрузки достижений:', error);
     return [];
@@ -284,8 +309,6 @@ export default async function AchievementPage(props: { params: Promise<{ slug: s
               </div>
             </div>
           )}
-
-          <CommentsSection contentType="achievements" contentSlug={achievementSlug} />
 
         </div>
         

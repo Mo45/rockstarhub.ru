@@ -126,7 +126,7 @@ export default function LoginPage() {
           <div className="mt-6 text-center">
             <p>
               Нет аккаунта?{' '}
-              <Link href="/register" className="white-to-orange">
+              <Link href="/register" className="orange-to-white">
                 Зарегистрироваться
               </Link>
             </p>
