@@ -12,7 +12,7 @@ export default function ArticlesPage() {
     <main className="min-h-screen p-8">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-xl md:text-2xl font-bold mb-6">Все статьи</h1>
-        <ArticleList limit={48}/>
+        <ArticleList limit={24}/>
       </div>
     </main>
   );
