@@ -1,7 +1,7 @@
 // /src/app/page.tsx
 
 import Link from 'next/link';
-import ArticleList from '@/components/ArticleList';
+import ArticleListWithPagination from '@/components/ArticleListWithPagination';
 import { generateSEOMetadata } from '@/components/SEOMetaTags';
 
 export async function generateMetadata() {
@@ -27,7 +27,7 @@ export default function Home() {
             Все статьи →
           </Link>
         </div>
-        <ArticleList limit={12} />
+        <ArticleListWithPagination pageSize={12} />
       </div>
     </main>
   );
