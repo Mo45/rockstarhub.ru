@@ -155,7 +155,7 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={loading || !isAgreed}
-              className="w-full bg-rockstar-500 text-black py-3 rounded-lg hover:bg-rockstar-600 hover:text-white transition-colors disabled:opacity-50"
+              className="w-full button-orange disabled:opacity-50"
             >
               {loading ? 'Регистрация...' : 'Зарегистрироваться'}
             </button>
