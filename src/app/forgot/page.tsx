@@ -1,4 +1,4 @@
-// /src/app/forgot-password/page.tsx
+// /src/app/forgot/page.tsx
 'use client';
 
 import { useState } from 'react';
@@ -77,7 +77,7 @@ export default function ForgotPasswordPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-rockstar-500 text-black py-3 rounded-lg hover:bg-rockstar-600 hover:text-white transition-colors disabled:opacity-50"
+              className="button-orange disabled:opacity-50"
             >
               {loading ? 'Отправка...' : 'Отправить инструкции'}
             </button>

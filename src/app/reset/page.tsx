@@ -1,4 +1,4 @@
-// /src/app/reset-password/page.tsx
+// /src/app/reset/page.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -87,7 +87,7 @@ export default function ResetPasswordPage() {
             <h1 className="text-3xl font-bold mb-6 text-center">Ошибка</h1>
             <p className="text-red-600 mb-4">Отсутствует код сброса пароля</p>
             <Link 
-              href="/forgot-password" 
+              href="/forgot" 
               className="block text-center text-rockstar-500 hover:underline"
             >
               Запросить новый код
@@ -152,7 +152,7 @@ export default function ResetPasswordPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-rockstar-500 text-black py-3 rounded-lg hover:bg-rockstar-600 hover:text-white transition-colors disabled:opacity-50"
+              className="button-orange disabled:opacity-50"
             >
               {loading ? 'Сброс пароля...' : 'Сбросить пароль'}
             </button>
