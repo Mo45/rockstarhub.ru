@@ -77,7 +77,7 @@ export default function ForgotPasswordPage() {
             <button
               type="submit"
               disabled={loading}
-              className="button-orange disabled:opacity-50"
+              className="w-full button-orange disabled:opacity-50"
             >
               {loading ? 'Отправка...' : 'Отправить инструкции'}
             </button>

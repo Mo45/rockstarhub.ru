@@ -152,7 +152,7 @@ export default function ResetPasswordPage() {
             <button
               type="submit"
               disabled={loading}
-              className="button-orange disabled:opacity-50"
+              className="w-full button-orange disabled:opacity-50"
             >
               {loading ? 'Сброс пароля...' : 'Сбросить пароль'}
             </button>

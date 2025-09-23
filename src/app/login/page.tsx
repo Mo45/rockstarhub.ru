@@ -130,6 +130,12 @@ export default function LoginPage() {
                 Зарегистрироваться
               </Link>
             </p>
+            <p>
+              Забыли пароль?{' '}
+              <Link href="/forgot" className="orange-to-white">
+                Восстановить пароль
+              </Link>
+            </p>
           </div>
         </div>
       </div>
