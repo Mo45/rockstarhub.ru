@@ -1,3 +1,5 @@
+// /src/app/articles/page.tsx
+
 import ArticleList from '@/components/ArticleList';
 
 export const metadata = {

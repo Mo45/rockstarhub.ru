@@ -1,3 +1,5 @@
+// /src/app/privacy/page.tsx
+
 export const metadata = {
   title: 'Политика конфиденциальности - Rockstar Хаб',
   description: 'Политика конфиденциальности RockstarHub - как мы собираем, используем и защищаем ваши данные',

@@ -1,3 +1,5 @@
+// /src/components/OrganizationSchema.tsx
+
 const OrganizationSchema = () => {
   const organizationSchema = {
     '@context': 'https://schema.org',

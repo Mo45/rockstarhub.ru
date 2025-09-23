@@ -1,4 +1,5 @@
-// src/components/PurchaseLink.tsx
+// /src/components/PurchaseLink.tsx
+
 import { formatPlatformKey } from '@/lib/platforms';
 
 interface PurchaseLinkProps {

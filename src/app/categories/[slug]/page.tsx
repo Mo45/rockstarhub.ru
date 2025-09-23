@@ -1,3 +1,5 @@
+// /src/app/categories/[slug]/page.tsx
+
 import { notFound } from 'next/navigation';
 import axios from 'axios';
 import Link from 'next/link';

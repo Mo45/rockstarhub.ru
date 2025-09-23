@@ -1,3 +1,5 @@
+// /src/components/ArticleList.tsx
+
 "use client";
 
 import { useEffect, useState } from 'react';
@@ -37,7 +39,11 @@ interface ApiResponse {
   };
 }
 
-export default function ArticleList() {
+interface ArticleListProps {
+  limit?: number;
+}
+
+export default function ArticleList({ limit = 12 }: ArticleListProps) {
   const [articles, setArticles] = useState<Article[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -46,14 +52,18 @@ export default function ArticleList() {
     const fetchArticles = async () => {
       try {
         setLoading(true);
-        const response = await axios.get<ApiResponse>(
-          `${process.env.NEXT_PUBLIC_BACKEND}/api/articles?populate=*&sort[0]=createdAt:desc`,
-          {
-            headers: {
-              Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
-            },
-          }
-        );
+        
+        const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/articles`);
+        url.searchParams.set('populate', '*');
+        url.searchParams.set('sort[0]', 'createdAt:desc');
+        url.searchParams.set('pagination[pageSize]', limit.toString());
+        url.searchParams.set('pagination[page]', '1');
+        
+        const response = await axios.get<ApiResponse>(url.toString(), {
+          headers: {
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+          },
+        });
         
         if (response.data && response.data.data) {
           setArticles(response.data.data);
@@ -69,7 +79,7 @@ export default function ArticleList() {
     };
     
     fetchArticles();
-  }, []);
+  }, [limit]);
 
   if (error) {
     return <div className="p-4 text-red-500">Ошибка: {error}</div>;
@@ -82,8 +92,7 @@ export default function ArticleList() {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {loading ? (
-        // Плейсхолдеры загрузки
-        [...Array(6)].map((_, i) => (
+        [...Array(Math.min(limit, 12))].map((_, i) => (
           <div key={i} className="card article-list-card animate-pulse">
             <div className="w-full h-48 bg-gray-200"></div>
             <div className="p-4 h-full flex flex-col">
@@ -98,7 +107,6 @@ export default function ArticleList() {
           </div>
         ))
       ) : (
-        // Фактические статьи
         articles.map((article) => {
           const image = article.squareImage || article.coverImage;
           const imageFormats = image?.formats || {};

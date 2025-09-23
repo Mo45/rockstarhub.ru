@@ -1,3 +1,5 @@
+// /src/components/YandexMetrika.tsx
+
 import Script from 'next/script';
 
 export default function YandexMetrika() {

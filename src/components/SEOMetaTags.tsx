@@ -1,3 +1,5 @@
+// /src/components/SEOMetaTags.tsx
+
 import { Metadata } from 'next';
 
 interface SEOMetaTagsProps {

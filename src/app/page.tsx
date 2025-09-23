@@ -1,3 +1,5 @@
+// /src/app/page.tsx
+
 import Link from 'next/link';
 import ArticleList from '@/components/ArticleList';
 import { generateSEOMetadata } from '@/components/SEOMetaTags';
@@ -25,7 +27,7 @@ export default function Home() {
             Все статьи →
           </Link>
         </div>
-        <ArticleList />
+        <ArticleList limit={12} />
       </div>
     </main>
   );

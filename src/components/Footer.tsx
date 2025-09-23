@@ -1,3 +1,5 @@
+// /src/components/Footer.tsx
+
 import Link from 'next/link';
 import { SiDiscord, SiVk, SiTelegram } from 'react-icons/si';
 import { useState, useEffect } from 'react';

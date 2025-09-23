@@ -1,3 +1,5 @@
+// /src/app/games/page.tsx
+
 import axios from 'axios';
 import GameCardSlim from '@/components/GameCardSlim';
 

@@ -1,4 +1,5 @@
 // /src/app/games/[slug]/achievements/SearchAchievements.tsx
+
 'use client';
 
 import { useState, useMemo } from 'react';

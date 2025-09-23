@@ -1,3 +1,5 @@
+// /src/app/rules/page.tsx
+
 import Link from 'next/link';
 
 export const metadata = {

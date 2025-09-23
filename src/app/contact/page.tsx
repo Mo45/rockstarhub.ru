@@ -1,3 +1,5 @@
+// /src/app/contact/page.tsx
+
 import EmailProtection from './EmailProtection';
 
 export const metadata = {

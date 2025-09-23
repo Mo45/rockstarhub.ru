@@ -1,4 +1,4 @@
-// components/AchievementsList.tsx
+// /src/components/AchievementsList.tsx
 
 "use client";
 

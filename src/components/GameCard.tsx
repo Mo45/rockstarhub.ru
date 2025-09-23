@@ -1,4 +1,5 @@
-// components/GameCard.tsx
+// /src/components/GameCard.tsx
+
 import PurchaseLink from '@/components/PurchaseLink';
 import { formatPlatformKey } from '@/lib/platforms';
 import { FaTrophy } from "react-icons/fa6";

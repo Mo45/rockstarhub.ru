@@ -1,3 +1,5 @@
+// /src/app/donate/page.tsx
+
 import Link from 'next/link';
 
 export const metadata = {

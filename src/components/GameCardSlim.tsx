@@ -1,3 +1,5 @@
+// /src/components/GameCardSlim.tsx
+
 import Link from 'next/link';
 import PlatformTag from '@/components/PlatformTag';
 import { FaTrophy } from "react-icons/fa6";

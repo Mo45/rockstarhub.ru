@@ -1,4 +1,5 @@
-// src/components/PlatformTag.tsx
+// /src/components/PlatformTag.tsx
+
 import { getPlatformClass, getPlatformLabel, getPlatformTitle, getPlatformIcon } from '@/lib/platforms';
 
 interface PlatformTagProps {

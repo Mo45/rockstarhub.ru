@@ -1,3 +1,5 @@
+// /src/app/games/loading.tsx
+
 export default function Loading() {
   return (
     <div className="min-h-screen p-8 max-w-6xl mx-auto">

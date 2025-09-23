@@ -1,4 +1,5 @@
-// /src/components/CommentsSection.tsx
+// /src/components/comments/CommentsSection.tsx
+
 'use client';
 
 import { useState, useEffect } from 'react';

@@ -1,3 +1,5 @@
+// /src/app/contact/EmailProtection.tsx
+
 'use client';
 
 import { useState, useEffect } from 'react';

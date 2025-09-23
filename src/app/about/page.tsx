@@ -1,3 +1,5 @@
+// /src/app/about/page.tsx
+
 import Link from 'next/link';
 
 export const metadata = {

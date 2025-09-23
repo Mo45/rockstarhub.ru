@@ -1,3 +1,5 @@
+// /src/app/search/SearchResults.tsx
+
 "use client";
 
 import { useEffect, useState } from 'react';
