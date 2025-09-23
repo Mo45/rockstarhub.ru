@@ -5,7 +5,6 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import NextTopLoader from 'nextjs-toploader';
 import YandexMetrika from '@/components/YandexMetrika';
-import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/next"
 const inter = Inter({ subsets: ['latin'] });
 
@@ -51,7 +50,6 @@ export default function RootLayout({
           <Footer />
         </div>
         {process.env.NEXT_PUBLIC_YANDEX_METRICA_ID && <YandexMetrika />}
-        <SpeedInsights/>
         <Analytics/>
       </body>
     </html>
