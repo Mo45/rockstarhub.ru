@@ -98,13 +98,16 @@ a {
 a:hover {
   color: var(--rockstar-color);
 }
+
 a.text-white:hover,button.text-white:hover {
   color: #000000;
 }
+
 .prose > ul {
   list-style: circle;
   margin-left: 1rem;
 }
+
 .prose > ul > li {
   margin-left: .35rem;
 }
