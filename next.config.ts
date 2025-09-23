@@ -5,6 +5,8 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 2678400,
     formats: ['image/webp'],
     qualities: [75],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048],
+    imageSizes: [16, 32, 64, 128, 256, 384],
     domains: [
       'data.rockstarhub.ru'
     ],
