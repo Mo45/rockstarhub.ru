@@ -16,7 +16,6 @@ export default function CommentsSection({ contentType, contentSlug }: CommentsSe
   useEffect(() => {
     const fetchContentId = async () => {
       try {
-        // Определяем поле для фильтрации в зависимости от типа контента
         const filterField = contentType === 'achievements' ? 'page_url' : 'slug';
         const apiUrl = `${process.env.NEXT_PUBLIC_BACKEND}/api/${contentType}?filters[${filterField}][$eq]=${contentSlug}`;
 
@@ -57,7 +56,7 @@ export default function CommentsSection({ contentType, contentSlug }: CommentsSe
       <CommentsList 
         key={refreshKey}
         contentType={contentType} 
-        contentId={contentId} 
+        contentSlug={contentSlug} 
       />
     </div>
   );

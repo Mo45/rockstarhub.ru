@@ -20,8 +20,8 @@ export const metadata: Metadata = {
     statusBarStyle: 'default',
   },
   icons: {
-    icon: '/hub_32.png',
-    shortcut: '/hub_32.png',
+    icon: '/favicon.ico',
+    shortcut: '/favicon.ico',
     apple: '/hub_192.png',
     other: {
       rel: 'apple-touch-icon-precomposed',

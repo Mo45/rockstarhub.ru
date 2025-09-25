@@ -13,6 +13,20 @@ interface ApiComment {
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
+  article?: {
+    data?: {
+      attributes: {
+        slug: string;
+      };
+    };
+  };
+  achievement?: {
+    data?: {
+      attributes: {
+        slug: string;
+      };
+    };
+  };
   author: {
     id: number;
     documentId: string;
@@ -48,7 +62,7 @@ interface ApiComment {
   };
 }
 
-export default function CommentsList({ contentType, contentId }: CommentsListProps) {
+export default function CommentsList({ contentType, contentSlug }: CommentsListProps) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -56,25 +70,28 @@ export default function CommentsList({ contentType, contentId }: CommentsListPro
 
   useEffect(() => {
     fetchComments();
-  }, [contentType, contentId]);
+  }, [contentType, contentSlug]);
 
   const fetchComments = async () => {
     try {
-      // Формируем фильтр в зависимости от типа контента
-      let filterType = '';
+      let filterField = '';
+      let filterValue = '';
+      
       if (contentType === 'articles') {
-        filterType = 'article';
+        filterField = 'article';
+        filterValue = contentSlug;
       } else if (contentType === 'achievements') {
-        filterType = 'achievement';
+        filterField = 'achievement';
+        filterValue = contentSlug;
       }
 
-      if (!filterType) {
+      if (!filterField) {
         setComments([]);
         setLoading(false);
         return;
       }
 
-      const apiUrl = `${process.env.NEXT_PUBLIC_BACKEND}/api/comments?filters[${filterType}][id][$eq]=${contentId}&populate[0]=author&populate[1]=author.avatar&sort=createdAt:desc&pagination[page]=1&pagination[pageSize]=100`;
+      const apiUrl = `${process.env.NEXT_PUBLIC_BACKEND}/api/comments?filters[${filterField}][slug][$eq]=${filterValue}&populate[0]=author&populate[1]=author.avatar&populate[2]=${filterField}&sort=createdAt:desc&pagination[page]=1&pagination[pageSize]=100`;
 
       const res = await fetch(apiUrl);
       const data = await res.json();
@@ -84,7 +101,6 @@ export default function CommentsList({ contentType, contentId }: CommentsListPro
         return;
       }
 
-      // Преобразуем данные из формата API в ожидаемый формат компонента
       const formattedComments = data.data.map((apiComment: ApiComment) => ({
         id: apiComment.id,
         documentId: apiComment.documentId,
@@ -144,6 +160,8 @@ export default function CommentsList({ contentType, contentId }: CommentsListPro
                 {comment.attributes.author.data.attributes.avatar ? (
                   <Image 
                     src={`${process.env.NEXT_PUBLIC_BACKEND}${comment.attributes.author.data.attributes.avatar.url}`}
+                    width={56}
+                    height={56}
                     decoding="async"
                     loading="lazy"
                     alt={comment.attributes.author.data.attributes.username}
