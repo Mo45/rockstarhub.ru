@@ -71,7 +71,7 @@ export interface CommentFormProps {
 
 export interface CommentsListProps {
   contentType: string;
-  contentId: number;
+  contentSlug: string; // Исправлено с contentId на contentSlug
 }
 
 export interface CommentsSectionProps {
