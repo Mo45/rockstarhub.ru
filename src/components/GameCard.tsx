@@ -28,6 +28,9 @@ interface Game {
   purchase_links: {
     [key: string]: string;
   };
+  additional_links?: {
+    [key: string]: string;
+  };
 }
 
 interface Achievement {
@@ -54,7 +57,6 @@ export default function GameCard({ game, achievements = [], className = '' }: Ga
     platinumTrophies: achievements.filter(a => a.psn_trophy === 'platinum').length,
   };
 
-  // Сортировка дат выхода в хронологическом порядке
   const sortedReleaseDates = game.release_dates 
     ? Object.entries(game.release_dates)
         .sort(([, dateA], [, dateB]) => new Date(dateA).getTime() - new Date(dateB).getTime())
@@ -84,20 +86,42 @@ export default function GameCard({ game, achievements = [], className = '' }: Ga
           <p className="font-xs">{game.developer} / {game.publisher}</p>
         </div>
         
-        {sortedReleaseDates.length > 0 && (
+        {game.additional_links && Object.keys(game.additional_links).length > 0 && (
           <div>
-            <h3 className="font-sm text-gray-700">Даты выхода</h3>
-            <ul className="text-tiny space-y-1">
-              {sortedReleaseDates.map(([platformKey, date]) => (
-                <li key={platformKey}>
-                  {formatPlatformKey(platformKey)}: {new Date(date).toLocaleDateString('ru-RU')}
-                </li>
-              ))}
-            </ul>
+            <h3 className="font-sm text-gray-700">Полезные ссылки</h3>
+            <div className="flex flex-wrap gap-2 mt-2">
+              {Object.entries(game.additional_links).map(([label, url]) => {
+                const isExternal = !url.includes('rockstarhub.ru');
+                return (
+                  <a
+                    key={label}
+                    href={url}
+                    className="block w-full button-orange-sm"
+                    target="_blank"
+                    rel={isExternal ? 'noopener' : undefined}
+                  >
+                    {label}
+                  </a>
+                );
+              })}
+            </div>
           </div>
         )}
         
-        {/* Раздел Достижения */}
+        {sortedReleaseDates.length > 0 && (
+          <div>
+            <h3 className="font-sm text-gray-700">Даты выхода</h3>
+            <div className="flex gap-2 items-center flex-wrap text-tiny">
+              {sortedReleaseDates.map(([platformKey, date], index) => (
+                <span key={platformKey}>
+                  {formatPlatformKey(platformKey)}: {new Date(date).toLocaleDateString('ru-RU')}
+                  {index < sortedReleaseDates.length - 1 && ' / '}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+        
         {achievements.length > 0 && (
           <div>
             <h3 className="font-sm text-gray-700">Достижения / Трофеи</h3>

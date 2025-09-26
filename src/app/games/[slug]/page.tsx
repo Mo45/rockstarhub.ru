@@ -38,6 +38,9 @@ interface Game {
   purchase_links: {
     [key: string]: string;
   };
+  additional_links: {
+    [key: string]: string;
+  };
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
