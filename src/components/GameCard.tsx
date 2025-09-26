@@ -81,10 +81,6 @@ export default function GameCard({ game, achievements = [], className = '' }: Ga
       </h2>
       
       <div className="space-y-4">
-        <div>
-          <h3 className="font-sm text-gray-700">Разработчик / Издатель</h3>
-          <p className="font-xs">{game.developer} / {game.publisher}</p>
-        </div>
         
         {game.additional_links && Object.keys(game.additional_links).length > 0 && (
           <div>
@@ -115,7 +111,7 @@ export default function GameCard({ game, achievements = [], className = '' }: Ga
               {sortedReleaseDates.map(([platformKey, date], index) => (
                 <span key={platformKey}>
                   {formatPlatformKey(platformKey)}: {new Date(date).toLocaleDateString('ru-RU')}
-                  {index < sortedReleaseDates.length - 1 && ' / '}
+                  {index < sortedReleaseDates.length - 1 && ','}
                 </span>
               ))}
             </div>
