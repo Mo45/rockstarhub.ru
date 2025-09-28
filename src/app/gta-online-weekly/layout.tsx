@@ -18,8 +18,6 @@ export const metadata: Metadata = {
     type: 'website',
     url: 'https://rockstarhub.ru/gta-online-weekly',
     siteName: 'Rockstar Хаб',
-    locale: 'ru_RU',
-    authors: ['Kirill Krasin'],
   },
 };
 
