@@ -50,6 +50,19 @@ export default function EventsPage() {
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // Блокировка прокрутки фона при открытом модальном окне
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isModalOpen]);
+
   useEffect(() => {
     const fetchEventData = async () => {
       try {
@@ -149,11 +162,22 @@ export default function EventsPage() {
   return (
     <main className="min-h-screen p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-xl md:text-2xl font-bold">GTA Online: События и бонусы этой недели</h1>
+        </div>
+
+        {/* Описание страницы */}
+        <div className="w-full mb-8">
+          <p className="text-gray-600 text-lg">
+            Актуальные игровые события, скидки на транспорт, оружие и другое. А так-же все доступные бонусы к RP и GTA$ на этой неделе.
+          </p>
+        </div>
+
         {/* Заголовок и даты */}
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-xl md:text-2xl font-bold">
+          <h2 className="text-medium font-bold">
             {loading ? 'Загрузка...' : eventData?.title || 'События'}
-          </h1>
+          </h2>
           {eventData && (
             <div className="font-medium text-sm">
               С {formatDate(eventData.week_start)} до {formatDate(eventData.week_end)}
@@ -214,11 +238,11 @@ export default function EventsPage() {
 
       {isModalOpen && selectedEvent && (
         <div 
-          className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+          className="fixed inset-0 card flex items-center justify-center z-50 p-4 bg-black/80"
           onClick={closeModal}
         >
           <div 
-            className="bg-zinc-900 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-hidden"
+            className="bg-zinc-900 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-hidden transform transition-transform duration-300 ease-out animate-slide-down"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="p-6 overflow-y-auto max-h-[80vh]">
@@ -226,7 +250,7 @@ export default function EventsPage() {
                 <h2 className="text-2xl font-bold pr-4">{selectedEvent.title}</h2>
                 <button 
                   onClick={closeModal}
-                  className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
+                  className="text-gray-500 hover:text-gray-700 text-2xl font-bold transition-colors duration-200"
                 >
                   ×
                 </button>
@@ -241,7 +265,7 @@ export default function EventsPage() {
             <div className="border-t border-zinc-800 px-6 py-4 bg-zinc-900 flex justify-end">
               <button 
                 onClick={closeModal}
-                className="button-orange"
+                className="button-orange transition-transform duration-200 hover:scale-105"
               >
                 Закрыть
               </button>
