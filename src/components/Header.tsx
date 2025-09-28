@@ -252,7 +252,7 @@ export default function Header() {
                   Достижения
                 </Link>
                 <Link href="/gta-online-weekly" className="block px-4 py-2 text-white hover:text-black hover:bg-rockstar-500 transition-colors duration-300">
-                  2X Бонусы и ивенты
+                  2X Бонусы
                 </Link>
               </div>
             </div>
