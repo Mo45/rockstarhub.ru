@@ -66,8 +66,9 @@ export default function EventsPage() {
         });
         
         if (response.data && response.data.data && response.data.data.length > 0) {
-          // Берем первую статью из списка (последнюю опубликованную)
-          setEventData(response.data.data[0]);
+          // Берем последний элемент массива data (самый свежий)
+          const latestData = response.data.data[0];
+          setEventData(latestData);
         } else {
           setError('События не найдены');
         }
@@ -97,6 +98,8 @@ export default function EventsPage() {
   };
 
   const renderContent = (content: any[]) => {
+    if (!content || !Array.isArray(content)) return null;
+
     return content.map((item, index) => {
       if (item.type === 'paragraph') {
         return (
@@ -112,9 +115,10 @@ export default function EventsPage() {
       }
       
       if (item.type === 'heading' && item.level === 3) {
+        const headingText = item.children.map((child: any) => child.text).join('');
         return (
           <h3 key={index} className="text-xl font-bold mb-3 mt-6">
-            {item.children.map((child: any, childIndex: number) => child.text).join('')}
+            {headingText}
           </h3>
         );
       }
@@ -146,6 +150,7 @@ export default function EventsPage() {
   return (
     <main className="min-h-screen p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
+        {/* Заголовок и даты */}
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-xl md:text-2xl font-bold">
             {loading ? 'Загрузка...' : eventData?.title || 'События'}
@@ -157,6 +162,7 @@ export default function EventsPage() {
           )}
         </div>
 
+        {/* Сетка карточек событий */}
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[...Array(6)].map((_, i) => (
@@ -176,6 +182,7 @@ export default function EventsPage() {
                   className="aspect-square relative rounded-lg overflow-hidden cursor-pointer shadow-lg hover:shadow-xl transition-shadow duration-300 group"
                   onClick={() => openModal(event)}
                 >
+                  {/* Фоновое изображение */}
                   {imageUrl ? (
                     <Image 
                       src={`${process.env.NEXT_PUBLIC_BACKEND}${imageUrl}`}
@@ -190,14 +197,14 @@ export default function EventsPage() {
                     </div>
                   )}
                   
-                  {/* Бейдж для событий с удвоенными наградами */}
+                  {/* Бейдж 2X GTA$ + 2X RP */}
                   {event.is_double && (
                     <div className="absolute top-3 left-3 bg-white text-black px-2 py-1 rounded-md text-xs font-bold z-10">
                       2X GTA$ + 2X RP
                     </div>
                   )}
                   
-                  {/* Оверлей с названием */}
+                  {/* Оверлей с названием внизу */}
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 z-10">
                     <h3 className="text-white font-semibold text-lg line-clamp-2">
                       {event.title}
@@ -210,7 +217,7 @@ export default function EventsPage() {
         )}
       </div>
 
-      {/* Модальное окно */}
+      {/* Модальное окно с содержимым события */}
       {isModalOpen && selectedEvent && (
         <div 
           className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
@@ -232,7 +239,8 @@ export default function EventsPage() {
               </div>
               
               <div className="prose max-w-none">
-                {selectedEvent.content && renderContent(selectedEvent.content)}
+                {selectedEvent.content && Array.isArray(selectedEvent.content) && 
+                 renderContent(selectedEvent.content)}
               </div>
             </div>
             
