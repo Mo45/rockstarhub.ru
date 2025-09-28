@@ -20,12 +20,14 @@ export default function Header() {
   const [suggestions, setSuggestions] = useState<Article[]>([]);
   const [isLoadingSuggestions, setIsLoadingSuggestions] = useState(false);
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [isGTAODropdownOpen, setGTAODropdownOpen] = useState(false);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [searchError, setSearchError] = useState('');
   const searchInputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const gtaoDropdownRef = useRef<HTMLDivElement>(null);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
@@ -61,6 +63,9 @@ export default function Header() {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setDropdownOpen(false);
+      }
+      if (gtaoDropdownRef.current && !gtaoDropdownRef.current.contains(event.target as Node)) {
+        setGTAODropdownOpen(false);
       }
       if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node)) {
         setMobileMenuOpen(false);
@@ -163,6 +168,10 @@ export default function Header() {
     setDropdownOpen(!isDropdownOpen);
   };
 
+  const toggleGTAODropdown = () => {
+    setGTAODropdownOpen(!isGTAODropdownOpen);
+  };
+
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!isMobileMenuOpen);
   };
@@ -176,7 +185,6 @@ export default function Header() {
     setIsAuthenticated(false);
     setDropdownOpen(false);
     
-    // Отправить событие об изменении аутентификации
     window.dispatchEvent(new Event('authChange'));
     
     router.push('/');
@@ -216,11 +224,41 @@ export default function Header() {
             <Link href="/games/gtavi" className="navbar-item">
               GTA 6
             </Link>
+            
+            <div className="relative" ref={gtaoDropdownRef}>
+              <button 
+                onClick={toggleGTAODropdown}
+                className="navbar-item flex items-center space-x-1"
+                aria-expanded={isGTAODropdownOpen}
+              >
+                <span>GTA Online</span>
+                <TbChevronDown className={`transition-transform duration-300 ${isGTAODropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              <div 
+                className={`absolute top-full left-0 mt-2 w-48 bg-black border border-gray-800 rounded-lg shadow-lg py-2 transition-all duration-300 ease-out z-50 ${
+                  isGTAODropdownOpen 
+                    ? 'opacity-100 visible translate-y-0' 
+                    : 'opacity-0 invisible -translate-y-2'
+                }`}
+              >
+                <Link href="/games/gtao" className="block px-4 py-2 text-white hover:text-black hover:bg-rockstar-500 transition-colors duration-300">
+                  Об игре
+                </Link>
+                <Link href="/categories/gta-online" className="block px-4 py-2 text-white hover:text-black hover:bg-rockstar-500 transition-colors duration-300">
+                  Новости
+                </Link>
+                <Link href="/games/gtao/achievements" className="block px-4 py-2 text-white hover:text-black hover:bg-rockstar-500 transition-colors duration-300">
+                  Достижения
+                </Link>
+                <Link href="/gta-online-weekly" className="block px-4 py-2 text-white hover:text-black hover:bg-rockstar-500 transition-colors duration-300">
+                  2X Бонусы и ивенты
+                </Link>
+              </div>
+            </div>
+
             <Link href="/games/gta-v" className="navbar-item">
               GTA 5
-            </Link>
-            <Link href="/games/gtao" className="navbar-item">
-              GTA Online
             </Link>
             <Link href="/games" className="navbar-item">
               Все игры
@@ -269,7 +307,6 @@ export default function Header() {
             </div>
           </nav>
 
-          {/* Кнопка поиска - справа */}
           <div className="flex items-center space-x-4">
             <button 
               onClick={() => setSearchModalOpen(true)}
@@ -318,18 +355,18 @@ export default function Header() {
                 GTA 6
               </Link>
               <Link 
-                href="/games/gta-v" 
-                className="navbar-item text-white py-2"
-                onClick={closeMobileMenu}
-              >
-                GTA 5
-              </Link>
-              <Link 
                 href="/games/gtao" 
                 className="navbar-item text-white py-2"
                 onClick={closeMobileMenu}
               >
                 GTA Online
+              </Link>
+              <Link 
+                href="/gta-online-weekly" 
+                className="navbar-item text-white py-2"
+                onClick={closeMobileMenu}
+              >
+                2X Бонусы GTAO
               </Link>
               <Link 
                 href="/games" 

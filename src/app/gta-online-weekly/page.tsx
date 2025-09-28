@@ -277,7 +277,7 @@ export default function EventsPage() {
                 <TwitterShareButton
                   url="https://rockstarhub.ru/gta-online-weekly"
                   title={selectedEvent.title}
-                  className="transition-transform duration-200 hover:scale-110"
+                  className="transition-transform duration-400 hover:-translate-y-[2px]"
                 >
                   <TwitterIcon size={32} round />
                 </TwitterShareButton>
@@ -285,14 +285,14 @@ export default function EventsPage() {
                   url="https://rockstarhub.ru/gta-online-weekly"
                   title={selectedEvent.title}
                   image={selectedEvent.coverImage ? `${process.env.NEXT_PUBLIC_BACKEND}${selectedEvent.coverImage.url}` : ''}
-                  className="transition-transform duration-200 hover:scale-110"
+                  className="transition-transform duration-400 hover:-translate-y-[2px]"
                 >
                   <VKIcon size={32} round />
                 </VKShareButton>
                 <TelegramShareButton
                   url="https://rockstarhub.ru/gta-online-weekly"
                   title={selectedEvent.title}
-                  className="transition-transform duration-200 hover:scale-110"
+                  className="transition-transform duration-400 hover:-translate-y-[2px]"
                 >
                   <TelegramIcon size={32} round />
                 </TelegramShareButton>
