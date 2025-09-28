@@ -168,8 +168,8 @@ export default function EventsPage() {
 
         {/* Описание страницы */}
         <div className="w-full mb-8">
-          <p className="text-gray-600 text-lg">
-            Актуальные игровые события, скидки на транспорт, оружие и другое. А так-же все доступные бонусы к RP и GTA$ на этой неделе.
+          <p className="text-gray-500 text-medium">
+            Игровые события GTA Online текущей недели: Скидки на транспорт, оружие и недвижимость. Все доступные бонусы к RP и GTA$.
           </p>
         </div>
 
