@@ -6,6 +6,15 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
 
+import { 
+  TwitterShareButton, 
+  VKShareButton, 
+  TelegramShareButton,
+  TwitterIcon,
+  VKIcon,
+  TelegramIcon
+} from 'react-share';
+
 interface Event {
   id: number;
   title: string;
@@ -262,10 +271,36 @@ export default function EventsPage() {
               </div>
             </div>
             
-            <div className="border-t border-zinc-800 px-6 py-4 bg-zinc-900 flex justify-end">
+            <div className="border-t border-zinc-800 px-6 py-4 bg-zinc-900 flex justify-between items-center">
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-gray-400 mr-2">Поделиться:</span>
+                <TwitterShareButton
+                  url="https://rockstarhub.ru/gta-online-weekly"
+                  title={selectedEvent.title}
+                  className="transition-transform duration-200 hover:scale-110"
+                >
+                  <TwitterIcon size={32} round />
+                </TwitterShareButton>
+                <VKShareButton
+                  url="https://rockstarhub.ru/gta-online-weekly"
+                  title={selectedEvent.title}
+                  image={selectedEvent.coverImage ? `${process.env.NEXT_PUBLIC_BACKEND}${selectedEvent.coverImage.url}` : ''}
+                  className="transition-transform duration-200 hover:scale-110"
+                >
+                  <VKIcon size={32} round />
+                </VKShareButton>
+                <TelegramShareButton
+                  url="https://rockstarhub.ru/gta-online-weekly"
+                  title={selectedEvent.title}
+                  hashtags={['GTAOnline']}
+                  className="transition-transform duration-200 hover:scale-110"
+                >
+                  <TelegramIcon size={32} round />
+                </TelegramShareButton>
+              </div>
               <button 
                 onClick={closeModal}
-                className="button-orange transition-transform duration-200 hover:scale-105"
+                className="button-orange"
               >
                 Закрыть
               </button>
