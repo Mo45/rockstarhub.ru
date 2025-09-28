@@ -31,8 +31,8 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/articles" className="gray-to-orange">
-                  Статьи
+                <Link href="/gta-online-weekly" className="gray-to-orange">
+                  2X Бонусы GTA Online
                 </Link>
               </li>
               <li>

@@ -163,13 +163,13 @@ export default function EventsPage() {
     <main className="min-h-screen p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-xl md:text-2xl font-bold">GTA Online: События и бонусы этой недели</h1>
+          <h1 className="text-xl md:text-2xl font-bold">GTA Online — События и бонусы этой недели</h1>
         </div>
 
         {/* Описание страницы */}
         <div className="w-full mb-8">
           <p className="text-gray-500 text-medium">
-            Игровые события GTA Online текущей недели: Скидки на транспорт, оружие и недвижимость. Все доступные бонусы к RP и GTA$.
+            Игровые события GTA Online текущей недели: Скидки на транспорт, оружие и недвижимость. Все доступные бонусы 2X к RP и GTA$.
           </p>
         </div>
 
@@ -180,7 +180,7 @@ export default function EventsPage() {
           </h2>
           {eventData && (
             <div className="font-medium text-sm">
-              С {formatDate(eventData.week_start)} до {formatDate(eventData.week_end)}
+              Активно с {formatDate(eventData.week_start)} до {formatDate(eventData.week_end)}
             </div>
           )}
         </div>
