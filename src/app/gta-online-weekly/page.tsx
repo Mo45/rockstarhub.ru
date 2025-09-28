@@ -182,8 +182,8 @@ export default function EventsPage() {
           </p>
         </div>
 
-        {/* Заголовок и даты */}
-        <div className="flex justify-between items-center mb-6">
+        {/* Заголовок и даты - обновленная версия для мобильных */}
+        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-2">
           <h2 className="text-medium font-bold">
             {loading ? 'Загрузка...' : eventData?.title || 'События'}
           </h2>
@@ -273,7 +273,7 @@ export default function EventsPage() {
             
             <div className="border-t border-zinc-800 px-6 py-4 bg-zinc-900 flex justify-between items-center">
               <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-400 mr-2">Поделиться:</span>
+                <span className="text-sm text-gray-400 mr-2 hidden sm:inline">Поделиться:</span>
                 <TwitterShareButton
                   url="https://rockstarhub.ru/gta-online-weekly"
                   title={selectedEvent.title}
