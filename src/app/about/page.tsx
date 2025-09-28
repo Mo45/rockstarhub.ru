@@ -48,7 +48,17 @@ export default function AboutPage() {
                 Следите за нами в социальных сетях, чтобы быть в курсе всех обновлений GTA Online, 
                 новостей о Red Dead Redemption 2 и первым узнавать о готовящейся GTA 6.
               </p>
-              <Link href="/register" className="button-orange">Зарегистрироваться</Link>
+              <div className="flex gap-4">
+                <Link href="/register" className="button-orange">Регистрация</Link>
+                <a 
+                  href="https://discord.gg/EkfMa3MU" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="button-orange"
+                >
+                  Discord-сервер
+                </a>
+              </div>
             </div>
           </div>
         </div>
