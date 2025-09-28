@@ -161,7 +161,6 @@ export default function EventsPage() {
           )}
         </div>
 
-        {/* Сетка карточек событий */}
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[...Array(6)].map((_, i) => (
@@ -181,7 +180,6 @@ export default function EventsPage() {
                   className="aspect-square relative rounded-lg overflow-hidden cursor-pointer shadow-lg hover:shadow-xl transition-shadow duration-300 group"
                   onClick={() => openModal(event)}
                 >
-                  {/* Фоновое изображение */}
                   {imageUrl ? (
                     <Image 
                       src={`${process.env.NEXT_PUBLIC_BACKEND}${imageUrl}`}
@@ -196,14 +194,12 @@ export default function EventsPage() {
                     </div>
                   )}
                   
-                  {/* Бейдж 2X GTA$ + 2X RP */}
                   {event.is_double && (
-                    <div className="absolute top-3 left-3 bg-white text-black px-2 py-1 rounded-md text-xs font-bold z-10">
+                    <div className="absolute top-3 left-3 bg-zinc-900 text-black px-2 py-1 rounded-md text-xl font-bold z-10">
                       2X GTA$ + 2X RP
                     </div>
                   )}
                   
-                  {/* Оверлей с названием внизу */}
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 z-10">
                     <h3 className="text-white font-semibold text-lg line-clamp-2">
                       {event.title}
@@ -216,14 +212,13 @@ export default function EventsPage() {
         )}
       </div>
 
-      {/* Модальное окно с содержимым события */}
       {isModalOpen && selectedEvent && (
         <div 
           className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
           onClick={closeModal}
         >
           <div 
-            className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-hidden"
+            className="bg-zinc-900 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="p-6 overflow-y-auto max-h-[80vh]">
@@ -243,10 +238,10 @@ export default function EventsPage() {
               </div>
             </div>
             
-            <div className="border-t px-6 py-4 bg-gray-50 flex justify-end">
+            <div className="border-t border-zinc-800 px-6 py-4 bg-zinc-900 flex justify-end">
               <button 
                 onClick={closeModal}
-                className="bg-orange-500 text-white px-6 py-2 rounded hover:bg-orange-600 transition-colors"
+                className="button-orange"
               >
                 Закрыть
               </button>
