@@ -292,7 +292,6 @@ export default function EventsPage() {
                 <TelegramShareButton
                   url="https://rockstarhub.ru/gta-online-weekly"
                   title={selectedEvent.title}
-                  hashtags={['GTAOnline']}
                   className="transition-transform duration-200 hover:scale-110"
                 >
                   <TelegramIcon size={32} round />
