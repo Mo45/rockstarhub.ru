@@ -195,7 +195,7 @@ export default function EventsPage() {
                   )}
                   
                   {event.is_double && (
-                    <div className="absolute top-3 left-3 bg-zinc-900 text-black px-2 py-1 rounded-md text-xl font-bold z-10">
+                    <div className="absolute top-3 left-3 bg-white text-black px-2 py-1 rounded-md text-xl font-bold z-10">
                       2X GTA$ + 2X RP
                     </div>
                   )}
