@@ -174,8 +174,8 @@ export default function GSCachePage() {
             <Image 
               src={`${process.env.NEXT_PUBLIC_BACKEND}${gsCacheData.image.url}`}
               alt={gsCacheData.title}
-              width={gsCacheData.image.width || 1920}
-              height={gsCacheData.image.height || 1080}
+              width={1920}
+              height={1080}
               className="w-full h-auto rounded-lg"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
             />
