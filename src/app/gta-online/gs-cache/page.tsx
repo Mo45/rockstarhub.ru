@@ -35,6 +35,18 @@ interface CacheItem {
   stash_locations: ImageData[];
 }
 
+interface Award {
+  id: number;
+  description: string;
+  bronze: number;
+  silver: number;
+  gold: number;
+  platinum: number;
+  title_en: string;
+  title_ru: string;
+  image: ImageData;
+}
+
 interface GSCacheData {
   id: number;
   title: string;
@@ -43,6 +55,7 @@ interface GSCacheData {
   content: any[];
   cache: CacheItem[];
   image?: ImageData;
+  Award?: Award;
 }
 
 interface ApiResponse {
@@ -182,13 +195,6 @@ export default function GSCachePage() {
           </div>
         )}
 
-        {/* Описание страницы */}
-        <div className="w-full mb-8">
-          <p className="text-gray-500 text-medium">
-            Заначка Джеральда — это ежедневный собираемый предмет в GTA Online. Список всех доступных заначек с возможными местами расположения пакета.
-          </p>
-        </div>
-
         {/* Контент статьи */}
         {gsCacheData?.content && (
           <article className="card rounded-lg p-6 md:p-8 mb-8">
@@ -245,6 +251,60 @@ export default function GSCachePage() {
             })}
           </div>
         )}
+
+        {/* Секция с наградой */}
+        {gsCacheData?.Award && (
+          <section className="mt-12">
+            <h2 className="text-2xl font-bold mb-6">Награда</h2>
+            <div className="card rounded-lg p-6 md:p-8">
+              <div className="flex flex-col md:flex-row items-start gap-6">
+                {/* Изображение награды */}
+                {gsCacheData.Award.image && (
+                  <div className="flex-shrink-0">
+                    <Image 
+                      src={`${process.env.NEXT_PUBLIC_BACKEND}${gsCacheData.Award.image.url}`}
+                      alt={gsCacheData.Award.title_en}
+                      width={128}
+                      height={128}
+                      className="rounded-lg"
+                    />
+                  </div>
+                )}
+                
+                <div className="flex-1">
+                  {/* Названия награды */}
+                  <div className="mb-4">
+                    <h3 className="text-xl font-bold text-white">{gsCacheData.Award.title_en}</h3>
+                    <h4 className="text-lg text-gray-300">{gsCacheData.Award.title_ru}</h4>
+                  </div>
+                  
+                  {/* Описание награды */}
+                  <p className="text-gray-300 mb-6">{gsCacheData.Award.description}</p>
+                  
+                  {/* Требования уровней */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div className="text-center p-4 bg-zinc-800 rounded-lg">
+                      <div className="text-2xl font-bold text-amber-700">{gsCacheData.Award.bronze}</div>
+                      <div className="text-sm text-gray-300 mt-2">Бронза</div>
+                    </div>
+                    <div className="text-center p-4 bg-zinc-800 rounded-lg">
+                      <div className="text-2xl font-bold text-gray-400">{gsCacheData.Award.silver}</div>
+                      <div className="text-sm text-gray-300 mt-2">Серебро</div>
+                    </div>
+                    <div className="text-center p-4 bg-zinc-800 rounded-lg">
+                      <div className="text-2xl font-bold text-yellow-500">{gsCacheData.Award.gold}</div>
+                      <div className="text-sm text-gray-300 mt-2">Золото</div>
+                    </div>
+                    <div className="text-center p-4 bg-zinc-800 rounded-lg">
+                      <div className="text-2xl font-bold text-gray-200">{gsCacheData.Award.platinum}</div>
+                      <div className="text-sm text-gray-300 mt-2">Платина</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
       </div>
 
       {/* Модальное окно с деталями кэша */}
@@ -259,9 +319,17 @@ export default function GSCachePage() {
           >
             <div className="p-6 overflow-y-auto max-h-[80vh]">
               <div className="flex justify-between items-start mb-6">
-                <div>
-                  <h2 className="text-2xl font-bold">{selectedCache.location_ru}</h2>
-                  <p className="text-gray-400">{selectedCache.location_en}</p>
+                <div className="flex items-center gap-4">
+                  <Image 
+                    src="/GTAO_Dead_Drop_Package.webp"
+                    alt="Заначка Джеральда"
+                    width={64}
+                    height={64}
+                  />
+                  <div>
+                    <h2 className="text-2xl font-bold">{selectedCache.location_ru}</h2>
+                    <p className="text-gray-400">{selectedCache.location_en}</p>
+                  </div>
                 </div>
                 <button 
                   onClick={closeModal}
