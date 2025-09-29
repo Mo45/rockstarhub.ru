@@ -1,4 +1,4 @@
-// /src/app/gta-online-weekly/page.tsx
+// /src/app/gta-online/weekly/page.tsx
 
 "use client";
 

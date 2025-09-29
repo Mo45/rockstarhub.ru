@@ -1,4 +1,4 @@
-// /src/app/gta-online-weekly/layout.tsx
+// /src/app/gta-online/weekly/layout.tsx
 
 import type { Metadata } from 'next';
 

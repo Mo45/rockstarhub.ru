@@ -37,7 +37,7 @@ export default function AboutPage() {
                   href="https://discord.gg/EkfMa3MU" 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="button-orange"
+                  className="orange-to-white"
                 >Сообщество</a> единомышленников-фанатов</li>
             </ul>
 
