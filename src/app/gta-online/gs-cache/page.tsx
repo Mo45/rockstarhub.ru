@@ -159,11 +159,11 @@ export default function GSCachePage() {
               alt="Заначка Джеральда"
               width={64}
               height={64}
-              className="mr-4"
+              className="mr-2"
             />
             <div>
-              <h2 className="text-lg text-gray-300 mr-2">{gsCacheData?.title_ru}</h2>/
-              <h2 className="text-lg text-gray-400 ms-2">{gsCacheData?.title_en}</h2>
+              <h2 className="text-lg text-gray-300">{gsCacheData?.title_ru}</h2>
+              <h2 className="text-lg text-gray-400">{gsCacheData?.title_en}</h2>
             </div>
           </div>
         </div>
@@ -182,10 +182,19 @@ export default function GSCachePage() {
           </div>
         )}
 
+        {/* Описание страницы */}
+        <div className="w-full mb-8">
+          <p className="text-gray-500 text-medium">
+            Заначка Джеральда — это ежедневный собираемый предмет в GTA Online. Список всех доступных заначек с возможными местами расположения пакета.
+          </p>
+        </div>
+
         {/* Контент статьи */}
         {gsCacheData?.content && (
           <article className="card rounded-lg p-6 md:p-8 mb-8">
-            <BlocksRenderer content={gsCacheData.content} />
+            <div className="prose prose-lg max-w-none article-content">
+              <BlocksRenderer content={gsCacheData.content} />
+            </div>
           </article>
         )}
 
