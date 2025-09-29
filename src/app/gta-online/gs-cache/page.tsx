@@ -264,8 +264,8 @@ export default function GSCachePage() {
                     <Image 
                       src={`${process.env.NEXT_PUBLIC_BACKEND}${gsCacheData.Award.image.url}`}
                       alt={gsCacheData.Award.title_en}
-                      width={128}
-                      height={128}
+                      width={210}
+                      height={210}
                       className="rounded-lg"
                     />
                   </div>
@@ -284,20 +284,20 @@ export default function GSCachePage() {
                   {/* Требования уровней */}
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div className="text-center p-4 bg-zinc-800 rounded-lg">
-                      <div className="text-2xl font-bold text-amber-700">{gsCacheData.Award.bronze}</div>
-                      <div className="text-sm text-gray-300 mt-2">Бронза</div>
+                      <div className="text-2xl font-bold text-amber-800">{gsCacheData.Award.bronze}</div>
+                      <div className="text-sm text-gray-300 mt-2">Бронза +100 RP</div>
                     </div>
                     <div className="text-center p-4 bg-zinc-800 rounded-lg">
-                      <div className="text-2xl font-bold text-gray-400">{gsCacheData.Award.silver}</div>
-                      <div className="text-sm text-gray-300 mt-2">Серебро</div>
+                      <div className="text-2xl font-bold text-zinc-500">{gsCacheData.Award.silver}</div>
+                      <div className="text-sm text-gray-300 mt-2">Серебро +200 RP</div>
                     </div>
                     <div className="text-center p-4 bg-zinc-800 rounded-lg">
-                      <div className="text-2xl font-bold text-yellow-500">{gsCacheData.Award.gold}</div>
-                      <div className="text-sm text-gray-300 mt-2">Золото</div>
+                      <div className="text-2xl font-bold text-yellow-600">{gsCacheData.Award.gold}</div>
+                      <div className="text-sm text-gray-300 mt-2">Золото +400 RP</div>
                     </div>
                     <div className="text-center p-4 bg-zinc-800 rounded-lg">
-                      <div className="text-2xl font-bold text-gray-200">{gsCacheData.Award.platinum}</div>
-                      <div className="text-sm text-gray-300 mt-2">Платина</div>
+                      <div className="text-2xl font-bold text-emerald-300">{gsCacheData.Award.platinum}</div>
+                      <div className="text-sm text-gray-300 mt-2">Платина +800 RP</div>
                     </div>
                   </div>
                 </div>
