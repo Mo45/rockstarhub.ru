@@ -5,6 +5,15 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
+import { BlocksRenderer } from '@strapi/blocks-react-renderer';
+import { 
+  TwitterShareButton, 
+  VKShareButton, 
+  TelegramShareButton,
+  TwitterIcon,
+  VKIcon,
+  TelegramIcon
+} from 'react-share';
 
 interface ImageData {
   id: number;
@@ -114,50 +123,6 @@ export default function GSCachePage() {
     setLightboxImage(null);
   };
 
-  const renderContent = (content: any[]) => {
-    if (!content || !Array.isArray(content)) return null;
-
-    return content.map((item, index) => {
-      if (item.type === 'paragraph') {
-        return (
-          <p key={index} className="mb-4">
-            {item.children.map((child: any, childIndex: number) => {
-              if (child.type === 'link') {
-                return (
-                  <a 
-                    key={childIndex} 
-                    href={child.url} 
-                    className="text-blue-400 hover:text-blue-300 underline"
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                  >
-                    {child.children[0].text}
-                  </a>
-                );
-              }
-              if (child.bold) {
-                return <strong key={childIndex} className="font-bold">{child.text}</strong>;
-              }
-              return <span key={childIndex}>{child.text}</span>;
-            })}
-          </p>
-        );
-      }
-      
-      if (item.type === 'quote') {
-        return (
-          <blockquote key={index} className="border-l-4 border-gray-500 pl-4 italic my-4">
-            {item.children.map((child: any, childIndex: number) => (
-              <p key={childIndex}>{child.text}</p>
-            ))}
-          </blockquote>
-        );
-      }
-      
-      return null;
-    });
-  };
-
   if (error) {
     return (
       <main className="min-h-screen p-4 md:p-8">
@@ -186,14 +151,41 @@ export default function GSCachePage() {
           <h1 className="text-xl md:text-2xl font-bold mb-4">
             {loading ? 'Загрузка...' : gsCacheData?.title}
           </h1>
-          <h2 className="text-lg text-gray-300 mb-2">{gsCacheData?.title_ru}</h2>
-          <h2 className="text-lg text-gray-400">{gsCacheData?.title_en}</h2>
+          
+          {/* Изображение пакета */}
+          <div className="flex items-center mb-4">
+            <Image 
+              src="/GTAO_Dead_Drop_Package.webp"
+              alt="Заначка Джеральда"
+              width={64}
+              height={64}
+              className="mr-4"
+            />
+            <div>
+              <h2 className="text-lg text-gray-300 mr-2">{gsCacheData?.title_ru}</h2>/
+              <h2 className="text-lg text-gray-400 ms-2">{gsCacheData?.title_en}</h2>
+            </div>
+          </div>
         </div>
+
+        {/* Основное изображение */}
+        {gsCacheData?.image && (
+          <div className="mb-8">
+            <Image 
+              src={`${process.env.NEXT_PUBLIC_BACKEND}${gsCacheData.image.url}`}
+              alt={gsCacheData.title}
+              width={gsCacheData.image.width || 1920}
+              height={gsCacheData.image.height || 1080}
+              className="w-full h-auto rounded-lg"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
+            />
+          </div>
+        )}
 
         {/* Контент статьи */}
         {gsCacheData?.content && (
           <article className="card rounded-lg p-6 md:p-8 mb-8">
-            {renderContent(gsCacheData.content)}
+            <BlocksRenderer content={gsCacheData.content} />
           </article>
         )}
 
@@ -333,7 +325,32 @@ export default function GSCachePage() {
               )}
             </div>
             
-            <div className="border-t border-zinc-800 px-6 py-4 bg-zinc-900 flex justify-end">
+            {/* Кнопки поделиться и закрыть */}
+            <div className="border-t border-zinc-800 px-6 py-4 bg-zinc-900 flex justify-between items-center">
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-gray-400 mr-2 hidden sm:inline">Поделиться:</span>
+                <TwitterShareButton
+                  url="https://rockstarhub.ru/gta-online/gs-cache"
+                  title={`Заначка Джеральда: ${selectedCache.location_ru}`}
+                  className="transition-transform duration-400 hover:-translate-y-[2px]"
+                >
+                  <TwitterIcon size={32} round />
+                </TwitterShareButton>
+                <VKShareButton
+                  url="https://rockstarhub.ru/gta-online/gs-cache"
+                  title={`Заначка Джеральда: ${selectedCache.location_ru}`}
+                  className="transition-transform duration-400 hover:-translate-y-[2px]"
+                >
+                  <VKIcon size={32} round />
+                </VKShareButton>
+                <TelegramShareButton
+                  url="https://rockstarhub.ru/gta-online/gs-cache"
+                  title={`Заначка Джеральда: ${selectedCache.location_ru}`}
+                  className="transition-transform duration-400 hover:-translate-y-[2px]"
+                >
+                  <TelegramIcon size={32} round />
+                </TelegramShareButton>
+              </div>
               <button 
                 onClick={closeModal}
                 className="button-orange"

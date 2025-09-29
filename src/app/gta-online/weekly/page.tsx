@@ -275,14 +275,14 @@ export default function EventsPage() {
               <div className="flex items-center gap-2">
                 <span className="text-sm text-gray-400 mr-2 hidden sm:inline">Поделиться:</span>
                 <TwitterShareButton
-                  url="https://rockstarhub.ru/gta-online-weekly"
+                  url="https://rockstarhub.ru/gta-online/weekly"
                   title={selectedEvent.title}
                   className="transition-transform duration-400 hover:-translate-y-[2px]"
                 >
                   <TwitterIcon size={32} round />
                 </TwitterShareButton>
                 <VKShareButton
-                  url="https://rockstarhub.ru/gta-online-weekly"
+                  url="https://rockstarhub.ru/gta-online/weekly"
                   title={selectedEvent.title}
                   image={selectedEvent.coverImage ? `${process.env.NEXT_PUBLIC_BACKEND}${selectedEvent.coverImage.url}` : ''}
                   className="transition-transform duration-400 hover:-translate-y-[2px]"
@@ -290,7 +290,7 @@ export default function EventsPage() {
                   <VKIcon size={32} round />
                 </VKShareButton>
                 <TelegramShareButton
-                  url="https://rockstarhub.ru/gta-online-weekly"
+                  url="https://rockstarhub.ru/gta-online/weekly"
                   title={selectedEvent.title}
                   className="transition-transform duration-400 hover:-translate-y-[2px]"
                 >
