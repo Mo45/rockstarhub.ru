@@ -31,7 +31,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/gta-online-weekly" className="gray-to-orange">
+                <Link href="/gta-online/weekly" className="gray-to-orange">
                   2X Бонусы GTA Online
                 </Link>
               </li>

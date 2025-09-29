@@ -251,7 +251,7 @@ export default function Header() {
                 <Link href="/games/gtao/achievements" className="block px-4 py-2 text-white hover:text-black hover:bg-rockstar-500 transition-colors duration-300">
                   Достижения
                 </Link>
-                <Link href="/gta-online-weekly" className="block px-4 py-2 text-white hover:text-black hover:bg-rockstar-500 transition-colors duration-300">
+                <Link href="/gta-online/weekly" className="block px-4 py-2 text-white hover:text-black hover:bg-rockstar-500 transition-colors duration-300">
                   2X Бонусы
                 </Link>
               </div>
@@ -362,7 +362,7 @@ export default function Header() {
                 GTA Online
               </Link>
               <Link 
-                href="/gta-online-weekly" 
+                href="/gta-online/weekly" 
                 className="navbar-item text-white py-2"
                 onClick={closeMobileMenu}
               >

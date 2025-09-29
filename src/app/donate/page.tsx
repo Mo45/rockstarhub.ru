@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export const metadata = {
   title: 'Поддержать проект - Rockstar Хаб',
-  description: 'Поддержите Rockstar Хаб и помогите нам развиваться дальше',
+  description: 'Поддержите Rockstar Хаб и помогите сайту развиваться дальше',
 };
 
 export default function DonatePage() {
@@ -16,7 +16,7 @@ export default function DonatePage() {
 
           <div className="prose prose-lg max-w-none text-white">
             <p className="mb-6">
-              Rockstar Хаб создаётся и развивается силами энтузиастов. Ваша поддержка помогает нам оставаться независимыми, 
+              Rockstar Хаб создаётся и развивается благодаря энтузиазму. Ваша поддержка помогает оставаться независимыми, 
               продолжать работу над сайтом и создавать новый контент для сообщества.
             </p>
 
@@ -26,7 +26,7 @@ export default function DonatePage() {
               <div className="p-6 bg-zinc-900 rounded-lg">
                 <h3 className="text-xl font-bold mb-4">Boosty</h3>
                 <p className="mb-4">
-                  Подписка на Boosty — это возможность поддержать нас на регулярной основе с помощью ежемесячных платежей.
+                  Подписка на Boosty — это возможность поддержать Хаб на регулярной основе с помощью ежемесячных платежей.
                 </p>
                 <a 
                   href="https://boosty.to/krasinkirill/donate" 
