@@ -210,7 +210,7 @@ export default function EventsPage() {
               return (
                 <div 
                   key={event.id} 
-                  className="aspect-square relative rounded-lg overflow-hidden cursor-pointer shadow-lg hover:shadow-xl transition-shadow duration-300 group"
+                  className="aspect-square relative rounded-lg overflow-hidden cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300 group outline-2 outline-offset-2 outline-zinc-800 hover:outline-rockstar-500"
                   onClick={() => openModal(event)}
                 >
                   {imageUrl ? (

@@ -345,14 +345,14 @@ export default function GSCachePage() {
                 <div className="mb-6">
                   <h3 className="text-lg font-semibold mb-3">Общий вид на карте</h3>
                   <div 
-                    className="relative w-full h-64 md:h-80 rounded-lg overflow-hidden cursor-pointer"
+                    className="relative w-full h-64 md:h-80 rounded-lg overflow-hidden cursor-pointer outline-2 outline-offset-2 outline-zinc-800 hover:outline-rockstar-500"
                     onClick={() => openLightbox(selectedCache.map_far.url)}
                   >
                     <Image 
                       src={`${process.env.NEXT_PUBLIC_BACKEND}${selectedCache.map_far.url}`}
                       alt={`${selectedCache.location_ru} - общий вид`}
                       fill
-                      className="object-cover hover:scale-105 transition-all duration-300 outline-2 outline-offset-2 outline-zinc-800 hover:outline-rockstar-500"
+                      className="object-cover hover:scale-105 transition-transform duration-300"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
                     />
                   </div>
@@ -364,14 +364,14 @@ export default function GSCachePage() {
                 <div className="mb-6">
                   <h3 className="text-lg font-semibold mb-3">Приближенный вид</h3>
                   <div 
-                    className="relative w-full h-64 md:h-80 rounded-lg overflow-hidden cursor-pointer"
+                    className="relative w-full h-64 md:h-80 rounded-lg overflow-hidden cursor-pointer outline-2 outline-offset-2 outline-zinc-800 hover:outline-rockstar-500"
                     onClick={() => openLightbox(selectedCache.map_close.url)}
                   >
                     <Image 
                       src={`${process.env.NEXT_PUBLIC_BACKEND}${selectedCache.map_close.url}`}
                       alt={`${selectedCache.location_ru} - приближенный вид`}
                       fill
-                      className="object-cover hover:scale-105 transition-all duration-300 outline-2 outline-offset-2 outline-zinc-800 hover:outline-rockstar-500"
+                      className="object-cover hover:scale-105 transition-transform duration-300"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
                     />
                   </div>
