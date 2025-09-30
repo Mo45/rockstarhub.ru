@@ -254,6 +254,9 @@ export default function Header() {
                 <Link href="/gta-online/weekly" className="block px-4 py-2 text-white hover:text-black hover:bg-rockstar-500 transition-colors duration-300">
                   2X Бонусы
                 </Link>
+                <Link href="/gta-online/gs-cache" className="block px-4 py-2 text-white hover:text-black hover:bg-rockstar-500 transition-colors duration-300">
+                  Заначки Дж.
+                </Link>
               </div>
             </div>
 
@@ -367,6 +370,13 @@ export default function Header() {
                 onClick={closeMobileMenu}
               >
                 2X Бонусы GTAO
+              </Link>
+              <Link 
+                href="/gta-online/gs-cache" 
+                className="navbar-item text-white py-2"
+                onClick={closeMobileMenu}
+              >
+                Заначки Дж.
               </Link>
               <Link 
                 href="/games" 
