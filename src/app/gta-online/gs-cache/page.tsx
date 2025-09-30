@@ -258,7 +258,7 @@ export default function GSCachePage() {
           <section className="mt-12">
             <h2 className="text-2xl font-bold mb-6">Награда</h2>
             <div className="card rounded-lg p-6 md:p-8">
-              <div className="flex flex-col md:flex-row items-start gap-6">
+              <div className="flex flex-col md:flex-row items-center gap-6">
                 {/* Изображение награды */}
                 {gsCacheData.Award.image && (
                   <div className="flex-shrink-0">
@@ -286,19 +286,19 @@ export default function GSCachePage() {
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div className="text-center p-4 bg-zinc-800 rounded-lg">
                       <div className="text-2xl font-bold text-amber-800">{gsCacheData.Award.bronze}</div>
-                      <div className="text-sm text-gray-300 mt-2">Бронза +100 RP</div>
+                      <div className="text-sm text-gray-300 mt-2">Бронзовая</div>
                     </div>
                     <div className="text-center p-4 bg-zinc-800 rounded-lg">
                       <div className="text-2xl font-bold text-zinc-500">{gsCacheData.Award.silver}</div>
-                      <div className="text-sm text-gray-300 mt-2">Серебро +200 RP</div>
+                      <div className="text-sm text-gray-300 mt-2">Серебряная</div>
                     </div>
                     <div className="text-center p-4 bg-zinc-800 rounded-lg">
                       <div className="text-2xl font-bold text-yellow-600">{gsCacheData.Award.gold}</div>
-                      <div className="text-sm text-gray-300 mt-2">Золото +400 RP</div>
+                      <div className="text-sm text-gray-300 mt-2">Золотая</div>
                     </div>
                     <div className="text-center p-4 bg-zinc-800 rounded-lg">
                       <div className="text-2xl font-bold text-emerald-300">{gsCacheData.Award.platinum}</div>
-                      <div className="text-sm text-gray-300 mt-2">Платина +800 RP</div>
+                      <div className="text-sm text-gray-300 mt-2">Платиновая</div>
                     </div>
                   </div>
                 </div>
