@@ -222,7 +222,7 @@ export default function GSCachePage() {
               return (
                 <div 
                   key={cache.id} 
-                  className="aspect-square relative rounded-lg overflow-hidden cursor-pointer shadow-lg hover:shadow-xl transition-shadow duration-300 group"
+                  className="aspect-square relative rounded-lg overflow-hidden cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300 group outline-2 outline-offset-2 outline-zinc-800 hover:outline-rockstar-500"
                   onClick={() => openModal(cache)}
                 >
                   {imageUrl ? (
@@ -230,7 +230,7 @@ export default function GSCachePage() {
                       src={`${process.env.NEXT_PUBLIC_BACKEND}${imageUrl}`}
                       alt={`${cache.location_ru} - ${cache.location_en}`}
                       fill
-                      className="object-cover group-hover:scale-105 transition-all duration-300 outline-2 outline-offset-2 outline-zinc-800 group-hover:outline-rockstar-500"
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                   ) : (
@@ -352,7 +352,7 @@ export default function GSCachePage() {
                       src={`${process.env.NEXT_PUBLIC_BACKEND}${selectedCache.map_far.url}`}
                       alt={`${selectedCache.location_ru} - общий вид`}
                       fill
-                      className="object-cover hover:scale-105 transition-transform duration-300"
+                      className="object-cover hover:scale-105 transition-all duration-300 outline-2 outline-offset-2 outline-zinc-800 hover:outline-rockstar-500"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
                     />
                   </div>
@@ -371,7 +371,7 @@ export default function GSCachePage() {
                       src={`${process.env.NEXT_PUBLIC_BACKEND}${selectedCache.map_close.url}`}
                       alt={`${selectedCache.location_ru} - приближенный вид`}
                       fill
-                      className="object-cover hover:scale-105 transition-transform duration-300"
+                      className="object-cover hover:scale-105 transition-all duration-300 outline-2 outline-offset-2 outline-zinc-800 hover:outline-rockstar-500"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
                     />
                   </div>
@@ -386,7 +386,7 @@ export default function GSCachePage() {
                     {selectedCache.stash_locations.map((stashImage, index) => (
                       <div 
                         key={stashImage.id}
-                        className="relative aspect-square rounded-lg overflow-hidden cursor-pointer hover:scale-105 transition-transform duration-300"
+                        className="relative aspect-square rounded-lg overflow-hidden cursor-pointer hover:scale-105 transition-all duration-300 outline-2 outline-offset-2 outline-zinc-800 hover:outline-rockstar-500"
                         onClick={() => openLightbox(stashImage.url)}
                       >
                         <Image 
