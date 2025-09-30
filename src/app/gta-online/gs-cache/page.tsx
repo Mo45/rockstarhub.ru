@@ -5,6 +5,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
+import './styles.css';
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 import { 
   TwitterShareButton, 
@@ -229,7 +230,7 @@ export default function GSCachePage() {
                       src={`${process.env.NEXT_PUBLIC_BACKEND}${imageUrl}`}
                       alt={`${cache.location_ru} - ${cache.location_en}`}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="object-cover group-hover:scale-105 transition-transform duration-300 group-hover:border group-hover:border-rockstar-500"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />
                   ) : (
