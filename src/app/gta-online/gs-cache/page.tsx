@@ -318,7 +318,7 @@ export default function GSCachePage() {
             className="bg-zinc-900 rounded-lg max-w-6xl w-full max-h-[90vh] overflow-hidden transform transition-transform duration-300 ease-out animate-slide-down"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-6 overflow-y-auto max-h-[80vh]">
+            <div className="p-6 overflow-y-auto max-h-[80vh] modal-scroll-container">
               <div className="flex justify-between items-start mb-6">
                 <div className="flex items-center gap-4">
                   <Image 
@@ -345,7 +345,7 @@ export default function GSCachePage() {
                 <div className="mb-6">
                   <h3 className="text-lg font-semibold mb-3">Общий вид на карте</h3>
                   <div 
-                    className="relative w-full h-64 md:h-80 rounded-lg overflow-hidden cursor-pointer outline-2 outline-offset-2 outline-zinc-800 hover:outline-rockstar-500"
+                    className="relative w-full h-64 md:h-80 rounded-lg overflow-hidden cursor-pointer transition-all duration-300 outline-2 outline-offset-2 outline-zinc-800 hover:outline-rockstar-500"
                     onClick={() => openLightbox(selectedCache.map_far.url)}
                   >
                     <Image 
