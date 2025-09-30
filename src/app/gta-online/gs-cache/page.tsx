@@ -362,14 +362,14 @@ export default function GSCachePage() {
               {/* Map Close */}
               {selectedCache.map_close && (
                 <div className="mb-6">
-                  <h3 className="text-lg font-semibold mb-3">Приближенный вид</h3>
+                  <h3 className="text-lg font-semibold mb-3">Зона поиска</h3>
                   <div 
                     className="relative w-full h-64 md:h-80 rounded-lg overflow-hidden cursor-pointer outline-2 outline-offset-2 outline-zinc-800 hover:outline-rockstar-500"
                     onClick={() => openLightbox(selectedCache.map_close.url)}
                   >
                     <Image 
                       src={`${process.env.NEXT_PUBLIC_BACKEND}${selectedCache.map_close.url}`}
-                      alt={`${selectedCache.location_ru} - приближенный вид`}
+                      alt={`${selectedCache.location_ru} - Зона поиска`}
                       fill
                       className="object-cover hover:scale-105 transition-transform duration-300"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
@@ -409,21 +409,21 @@ export default function GSCachePage() {
                 <span className="text-sm text-gray-400 mr-2 hidden sm:inline">Поделиться:</span>
                 <TwitterShareButton
                   url="https://rockstarhub.ru/gta-online/gs-cache"
-                  title={`Заначка Джеральда: ${selectedCache.location_ru}`}
+                  title={`Заначка Джеральда (G's Cache): ${selectedCache.location_ru}`}
                   className="transition-transform duration-400 hover:-translate-y-[2px]"
                 >
                   <TwitterIcon size={32} round />
                 </TwitterShareButton>
                 <VKShareButton
                   url="https://rockstarhub.ru/gta-online/gs-cache"
-                  title={`Заначка Джеральда: ${selectedCache.location_ru}`}
+                  title={`Заначка Джеральда (G's Cache): ${selectedCache.location_ru}`}
                   className="transition-transform duration-400 hover:-translate-y-[2px]"
                 >
                   <VKIcon size={32} round />
                 </VKShareButton>
                 <TelegramShareButton
                   url="https://rockstarhub.ru/gta-online/gs-cache"
-                  title={`Заначка Джеральда: ${selectedCache.location_ru}`}
+                  title={`Заначка Джеральда (G's Cache): ${selectedCache.location_ru}`}
                   className="transition-transform duration-400 hover:-translate-y-[2px]"
                 >
                   <TelegramIcon size={32} round />
