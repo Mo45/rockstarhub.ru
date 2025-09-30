@@ -30,7 +30,7 @@ body {
   color: var(--text-color);
 }
 body:before {
-  background-image: url(https://data.rockstarhub.ru/uploads/bg_repeat_7e32097f13.png);
+  background-image: url(/bg_repeat.png);
   background-repeat: repeat;
   background-size: 256px;
   content: " ";
