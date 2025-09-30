@@ -35,7 +35,7 @@ interface Tag {
 async function getTag(slug: string): Promise<Tag | null> {
   try {
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND}/api/tags?filters[slug][$eq]=${slug}&populate[articles][populate]=*`
+      `${process.env.NEXT_PUBLIC_BACKEND}/api/tags?filters[slug][$eq]=${slug}&populate[articles][populate]=*&sort[0]=createdAt:desc`
     );
     
     if (response.data.data.length === 0) {
