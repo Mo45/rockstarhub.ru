@@ -28,24 +28,3 @@
 .article-content li {
   margin-bottom: 0.5rem;
 }
-
-.modal-scroll-container {
-  scrollbar-width: thin;
-  scrollbar-color: #e19808 #27272a;
-}
-
-.modal-scroll-container::-webkit-scrollbar {
-  @apply w-2;
-}
-
-.modal-scroll-container::-webkit-scrollbar-track {
-  @apply bg-zinc-800 rounded;
-}
-
-.modal-scroll-container::-webkit-scrollbar-thumb {
-  @apply bg-rockstar-500 rounded;
-}
-
-.modal-scroll-container::-webkit-scrollbar-thumb:hover {
-  @apply bg-rockstar-500;
-}

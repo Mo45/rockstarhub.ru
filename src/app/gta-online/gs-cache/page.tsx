@@ -318,7 +318,7 @@ export default function GSCachePage() {
             className="bg-zinc-900 rounded-lg max-w-6xl w-full max-h-[90vh] overflow-hidden transform transition-transform duration-300 ease-out animate-slide-down"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="p-6 overflow-y-auto max-h-[80vh] modal-scroll-container">
+            <div className="p-6 overflow-y-auto max-h-[80vh]">
               <div className="flex justify-between items-start mb-6">
                 <div className="flex items-center gap-4">
                   <Image 
