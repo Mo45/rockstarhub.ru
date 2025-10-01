@@ -7,6 +7,7 @@ import axios from 'axios';
 import Image from 'next/image';
 import './styles.css';
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
+import AwardSection from '@/components/AwardSection';
 import { 
   TwitterShareButton, 
   VKShareButton, 
@@ -255,56 +256,7 @@ export default function GSCachePage() {
 
         {/* Секция с наградой */}
         {gsCacheData?.Award && (
-          <section className="mt-12">
-            <h2 className="text-2xl font-bold mb-6">Награда</h2>
-            <div className="card rounded-lg p-6 md:p-8">
-              <div className="flex flex-col md:flex-row items-center gap-6">
-                {/* Изображение награды */}
-                {gsCacheData.Award.image && (
-                  <div className="flex-shrink-0">
-                    <Image 
-                      src={`${process.env.NEXT_PUBLIC_BACKEND}${gsCacheData.Award.image.url}`}
-                      alt={gsCacheData.Award.title_en}
-                      width={210}
-                      height={210}
-                      className="rounded-lg"
-                    />
-                  </div>
-                )}
-                
-                <div className="flex-1">
-                  {/* Названия награды */}
-                  <div className="mb-4">
-                    <h3 className="text-xl font-bold text-white">{gsCacheData.Award.title_en}</h3>
-                    <h4 className="text-lg text-gray-300">{gsCacheData.Award.title_ru}</h4>
-                  </div>
-                  
-                  {/* Описание награды */}
-                  <p className="text-gray-300 mb-6">{gsCacheData.Award.description}</p>
-                  
-                  {/* Требования уровней */}
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div className="text-center p-4 bg-zinc-800 rounded-lg">
-                      <div className="text-2xl font-bold text-amber-800">{gsCacheData.Award.bronze}</div>
-                      <div className="text-sm text-gray-300 mt-2">Бронзовая</div>
-                    </div>
-                    <div className="text-center p-4 bg-zinc-800 rounded-lg">
-                      <div className="text-2xl font-bold text-zinc-500">{gsCacheData.Award.silver}</div>
-                      <div className="text-sm text-gray-300 mt-2">Серебряная</div>
-                    </div>
-                    <div className="text-center p-4 bg-zinc-800 rounded-lg">
-                      <div className="text-2xl font-bold text-yellow-600">{gsCacheData.Award.gold}</div>
-                      <div className="text-sm text-gray-300 mt-2">Золотая</div>
-                    </div>
-                    <div className="text-center p-4 bg-zinc-800 rounded-lg">
-                      <div className="text-2xl font-bold text-emerald-300">{gsCacheData.Award.platinum}</div>
-                      <div className="text-sm text-gray-300 mt-2">Платиновая</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
+          <AwardSection award={gsCacheData?.Award} />
         )}
       </div>
 
