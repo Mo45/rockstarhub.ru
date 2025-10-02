@@ -79,6 +79,7 @@ export default function EventsPage() {
         
         const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/weeklies`);
         url.searchParams.set('populate[event][populate][0]', 'coverImage');
+        url.searchParams.set('sort[0]', 'createdAt:desc');
         
         const response = await axios.get<ApiResponse>(url.toString(), {
           headers: {
