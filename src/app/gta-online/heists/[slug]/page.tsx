@@ -195,11 +195,11 @@ export default async function SingleHeistPage(props: { params: Promise<{ slug: s
               href="https://discord.gg/EkfMa3MU"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 bg-[#5865F2] text-[#E0E3FF] px-4 py-3 rounded-lg hover:bg-[#4752c4] transition-colors duration-200 w-full md:w-auto justify-center"
+              className="flex items-center gap-3 bg-[#5865F2] text-[#E0E3FF] px-4 py-3 rounded-lg hover:bg-[#4752c4] hover:text-[#FFFFFF] transition-colors duration-200 w-full md:w-auto justify-center"
             >
               <FaDiscord className="w-6 h-6" />
               <div className="flex flex-col text-left">
-                <span className="font-bold text-sm">Найти напарников</span>
+                <span className="font-bold text-sm">Найти напарников для</span>
                 <span className="text-xs">На нашем Discord-сервере</span>
               </div>
             </a>
@@ -223,7 +223,7 @@ export default async function SingleHeistPage(props: { params: Promise<{ slug: s
           )}
           
           {/* Карточка с информацией об ограблении - на мобильном снизу, на десктопе справа */}
-          <div className="card rounded-lg p-6 md:p-8 h-fit">
+          <div className="card rounded-lg p-6 md:p-8 h-full">
             <h3 className="text-xl font-bold text-center mb-6">{heistData.title_ru} / {heistData.title_en}</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Левая колонка */}
@@ -264,7 +264,7 @@ export default async function SingleHeistPage(props: { params: Promise<{ slug: s
         {/* Элитные испытания */}
         {heistData.elite_challenges && heistData.elite_challenges.length > 0 && (
           <article className="card rounded-lg p-6 md:p-8 mb-8">
-            <h3 className="text-xl font-bold mb-6">Элитные испытания</h3>
+            <h3 className="text-xl font-bold mb-6">Элитные испытания ограбления {heistData.title_ru}</h3>
             <div className="prose prose-lg max-w-none">
               <p className="text-gray-500 text-medium mb-6">
                 В каждом завершающем этапе ограбления есть набор бонусных заданий, называемых «Элитными испытаниями», которые требуют от игроков либо завершить финал ограбления за ограниченное время, либо выполнить определённые задания в ходе миссии. Использование «Пропуска поездки» или «Быстрого перезапуска» в любом ограблении аннулирует элитные бонусы.
