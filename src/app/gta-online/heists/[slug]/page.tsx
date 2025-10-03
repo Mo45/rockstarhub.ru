@@ -189,7 +189,7 @@ export default function SingleHeistPage() {
         {/* Карточка с информацией об ограблении */}
         {heistData && (
           <div className="card rounded-lg p-6 md:p-8 mb-8">
-            <h3 className="text-xl font-bold text-center mb-6">{heistData.title_en}</h3>
+            <h3 className="text-xl font-bold text-center mb-6">{heistData.title_ru} / {heistData.title_en}</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Левая колонка */}
               <div className="space-y-4">

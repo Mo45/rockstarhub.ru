@@ -41,7 +41,7 @@ export default function AwardSection({ award, className = '' }: AwardSectionProp
 
   return (
     <section className={`mt-12 ${className}`}>
-      <h2 className="text-2xl font-bold mb-6">Награда</h2>
+      <h2 className="text-2xl font-bold mb-6">Награды</h2>
       <div className="card rounded-lg p-6 md:p-8">
         <div className="flex flex-col md:flex-row items-center gap-6">
 
