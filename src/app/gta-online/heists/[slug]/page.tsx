@@ -66,7 +66,7 @@ async function getHeist(slug: string): Promise<HeistData | null> {
     const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/heists`);
     url.searchParams.set('filters[slug][$eq]', slug);
     url.searchParams.set('populate[0]', 'cover_image');
-    url.searchParams.set('populate[1]', 'awards');
+    url.searchParams.set('populate[1]', 'awards.image');
     
     const response = await axios.get<ApiResponse>(url.toString(), {
       headers: {
@@ -172,7 +172,7 @@ export default async function SingleHeistPage(props: { params: Promise<{ slug: s
         {/* Заголовок страницы */}
         <div className="mb-8">
           <h1 className="text-xl md:text-2xl font-bold mb-4">
-            {`${heistData.title_ru} описание ограбления ${heistData.title_en} в GTA Online`}
+            {`GTA Online — ${heistData?.title_ru} (${heistData?.title_en}): Описание, испытания и награды`}
           </h1>
           
           {/* Изображение ограбления */}
@@ -207,7 +207,7 @@ export default async function SingleHeistPage(props: { params: Promise<{ slug: s
 
         {/* Карточка с информацией об ограблении */}
         <div className="card rounded-lg p-6 md:p-8 mb-8">
-          <h3 className="text-xl font-bold text-center mb-6">{heistData.title_en}</h3>
+          <h3 className="text-xl font-bold text-center mb-6">{heistData.title_ru} / {heistData.title_en}</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Левая колонка */}
             <div className="space-y-4">
@@ -228,15 +228,15 @@ export default async function SingleHeistPage(props: { params: Promise<{ slug: s
             {/* Правая колонка */}
             <div className="space-y-4">
               <div>
-                <h4 className="text-sm text-gray-400 mb-1">Куш (Легко):</h4>
+                <h4 className="text-sm text-gray-400 mb-1">Потенциальный куш (Легко):</h4>
                 <p className="text-lg font-semibold">{formatNumber(heistData.reward_easy)} GTA$</p>
               </div>
               <div>
-                <h4 className="text-sm text-gray-400 mb-1">Куш (Нормально):</h4>
+                <h4 className="text-sm text-gray-400 mb-1">Потенциальный куш (Нормально):</h4>
                 <p className="text-lg font-semibold">{formatNumber(heistData.reward_normal)} GTA$</p>
               </div>
               <div>
-                <h4 className="text-sm text-gray-400 mb-1">Куш (Сложно):</h4>
+                <h4 className="text-sm text-gray-400 mb-1">Потенциальный куш (Сложно):</h4>
                 <p className="text-lg font-semibold">{formatNumber(heistData.reward_hard)} GTA$</p>
               </div>
             </div>
@@ -269,7 +269,7 @@ export default async function SingleHeistPage(props: { params: Promise<{ slug: s
         ))}
 
         {/* Кнопки поделиться */}
-        <div className="card rounded-lg p-6 md:p-8 mb-8">
+        <div className="p-6 md:p-8 mb-8">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
             <span className="text-sm text-gray-400">Поделиться ограблением:</span>
             <ShareButtons 
