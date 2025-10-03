@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 import AwardSection from '@/components/AwardSection';
 import ShareButtons from '@/components/ShareButtons';
+import { FaDiscord } from "react-icons/fa";
 import './styles.css';
 
 interface ImageData {
@@ -173,19 +174,35 @@ export default async function SingleHeistPage(props: { params: Promise<{ slug: s
             {`GTA Online — ${heistData?.title_ru} (${heistData?.title_en}): Описание, испытания и награды`}
           </h1>
           
-          {/* Изображение ограбления */}
-          <div className="flex items-center mb-4">
-            <Image 
-              src="/Heist-Green.webp"
-              alt="Ограбление GTA Online"
-              width={64}
-              height={64}
-              className="mr-2"
-            />
-            <div>
-              <h2 className="text-lg text-gray-300">{heistData.title_ru}</h2>
-              <h2 className="text-lg text-gray-400">{heistData.title_en}</h2>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
+            {/* Изображение ограбления */}
+            <div className="flex items-center">
+              <Image 
+                src="/Heist-Green.webp"
+                alt="Ограбление GTA Online"
+                width={64}
+                height={64}
+                className="mr-2"
+              />
+              <div>
+                <h2 className="text-lg text-gray-300">{heistData.title_ru}</h2>
+                <h2 className="text-lg text-gray-400">{heistData.title_en}</h2>
+              </div>
             </div>
+
+            {/* Кнопка Discord */}
+            <a
+              href="https://discord.gg/EkfMa3MU"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 bg-[#5865F2] text-[#E0E3FF] px-4 py-3 rounded-lg hover:bg-[#4752c4] transition-colors duration-200 w-full md:w-auto justify-center"
+            >
+              <FaDiscord className="w-6 h-6" />
+              <div className="flex flex-col text-left">
+                <span className="font-bold text-sm">Найти напарников</span>
+                <span className="text-xs">На нашем Discord-сервере</span>
+              </div>
+            </a>
           </div>
         </div>
 
