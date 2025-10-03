@@ -195,7 +195,7 @@ export default async function SingleHeistPage(props: { params: Promise<{ slug: s
               href="https://discord.gg/EkfMa3MU"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-3 bg-[#5865F2] text-[#E0E3FF] px-4 py-3 rounded-lg hover:bg-[#4752c4] hover:text-white transition-colors duration-200 w-full md:w-auto justify-center"
+              className="discord-button md:w-auto"
             >
               <FaDiscord className="w-6 h-6" />
               <div className="flex flex-col text-left">
