@@ -1,21 +1,12 @@
 // /src/app/gta-online/heists/[slug]/page.tsx
 
-"use client";
-
-import { useState, useEffect } from 'react';
+import { notFound } from 'next/navigation';
 import axios from 'axios';
 import Image from 'next/image';
-import { useParams } from 'next/navigation';
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 import AwardSection from '@/components/AwardSection';
-import { 
-  TwitterShareButton, 
-  VKShareButton, 
-  TelegramShareButton,
-  TwitterIcon,
-  VKIcon,
-  TelegramIcon
-} from 'react-share';
+import ShareButtons from '@/components/ShareButtons';
+import './styles.css';
 
 interface ImageData {
   id: number;
@@ -28,7 +19,6 @@ interface ImageData {
   };
 }
 
-// Интерфейс, совместимый с AwardSection
 interface Award {
   id: number;
   description: string;
@@ -71,53 +61,100 @@ const transformAward = (award: any): Award => ({
   platinum: award.platinum ?? undefined,
 });
 
-export default function SingleHeistPage() {
-  const params = useParams();
-  const slug = params.slug as string;
-  
-  const [heistData, setHeistData] = useState<HeistData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchHeistData = async () => {
-      try {
-        setLoading(true);
-        
-        const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/heists`);
-        url.searchParams.set('filters[slug][$eq]', slug);
-        url.searchParams.set('populate[0]', 'cover_image');
-        url.searchParams.set('populate[1]', 'awards.image');
-        
-        const response = await axios.get<ApiResponse>(url.toString(), {
-          headers: {
-            Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
-          },
-        });
-        
-        if (response.data && response.data.data && response.data.data.length > 0) {
-          const rawData = response.data.data[0];
-          // Преобразуем awards чтобы заменить null на undefined
-          const transformedData = {
-            ...rawData,
-            awards: rawData.awards?.map(transformAward) || []
-          };
-          setHeistData(transformedData);
-        } else {
-          setError('Ограбление не найдено');
-        }
-      } catch (error) {
-        console.error('Ошибка загрузки:', error);
-        setError('Не удалось загрузить данные об ограблении');
-      } finally {
-        setLoading(false);
-      }
-    };
+async function getHeist(slug: string): Promise<HeistData | null> {
+  try {
+    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/heists`);
+    url.searchParams.set('filters[slug][$eq]', slug);
+    url.searchParams.set('populate[0]', 'cover_image');
+    url.searchParams.set('populate[1]', 'awards');
     
-    if (slug) {
-      fetchHeistData();
+    const response = await axios.get<ApiResponse>(url.toString(), {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+      },
+    });
+    
+    if (response.data && response.data.data && response.data.data.length > 0) {
+      const rawData = response.data.data[0];
+      // Преобразуем awards чтобы заменить null на undefined
+      const transformedData = {
+        ...rawData,
+        awards: rawData.awards?.map(transformAward) || []
+      };
+      return transformedData;
+    } else {
+      return null;
     }
-  }, [slug]);
+  } catch (error) {
+    console.error('Ошибка загрузки:', error);
+    return null;
+  }
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const heistData = await getHeist(slug);
+  
+  if (!heistData) {
+    return {
+      title: 'Ограбление не найдено - Rockstar Хаб',
+      description: 'Запрашиваемое ограбление не найдено в базе данных GTA Online.',
+    };
+  }
+  
+  const title = `${heistData.title_ru} - ${heistData.title_en} | Ограбления GTA Online`;
+  const description = `Подробное руководство по ограблению ${heistData.title_ru} в GTA Online. Награды: ${parseInt(heistData.reward_easy).toLocaleString('ru-RU')} - ${parseInt(heistData.reward_hard).toLocaleString('ru-RU')} GTA$. Количество игроков: ${heistData.players}.`;
+  const imageUrl = heistData.cover_image ? `${process.env.NEXT_PUBLIC_BACKEND}${heistData.cover_image.url}` : null;
+  
+  return {
+    title,
+    description,
+    keywords: ['GTA Online', 'ограбления', heistData.title_ru, heistData.title_en, 'награды', 'элитные испытания'],
+    creator: 'Kirill Krasin',
+    publisher: 'Rockstar Хаб',
+    metadataBase: new URL('https://rockstarhub.ru'),
+    alternates: {
+      canonical: `/gta-online/heists/${heistData.slug}`
+    },
+    openGraph: {
+      title,
+      description,
+      type: 'article',
+      url: `https://rockstarhub.ru/gta-online/heists/${heistData.slug}`,
+      siteName: 'Rockstar Хаб',
+      images: imageUrl ? [{ url: imageUrl }] : [],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: imageUrl ? [imageUrl] : [],
+    },
+  };
+}
+
+export async function generateStaticParams() {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND}/api/heists?fields[0]=slug`
+    );
+    
+    return response.data.data.map((heist: HeistData) => ({
+      slug: heist.slug,
+    }));
+  } catch (error) {
+    console.error('Ошибка генерации статических параметров:', error);
+    return [];
+  }
+}
+
+export default async function SingleHeistPage(props: { params: Promise<{ slug: string }> }) {
+  const { slug } = await props.params;
+  const heistData = await getHeist(slug);
+  
+  if (!heistData) {
+    notFound();
+  }
 
   const formatNumber = (num: string) => {
     return parseInt(num).toLocaleString('ru-RU');
@@ -127,25 +164,7 @@ export default function SingleHeistPage() {
     return new Date(dateString).toLocaleDateString('ru-RU');
   };
 
-  if (error) {
-    return (
-      <main className="min-h-screen p-4 md:p-8">
-        <div className="max-w-6xl mx-auto">
-          <div className="p-4 text-red-500 text-center">Ошибка: {error}</div>
-        </div>
-      </main>
-    );
-  }
-
-  if (!heistData && !loading) {
-    return (
-      <main className="min-h-screen p-4 md:p-8">
-        <div className="max-w-6xl mx-auto">
-          <div className="p-4 text-center">Ограбление не найдено</div>
-        </div>
-      </main>
-    );
-  }
+  const articleUrl = `${process.env.NEXT_PUBLIC_FRONTEND}/gta-online/heists/${heistData.slug}`;
 
   return (
     <main className="min-h-screen p-4 md:p-8">
@@ -153,7 +172,7 @@ export default function SingleHeistPage() {
         {/* Заголовок страницы */}
         <div className="mb-8">
           <h1 className="text-xl md:text-2xl font-bold mb-4">
-            {loading ? 'Загрузка...' : `GTA Online — ${heistData?.title_ru} (${heistData?.title_en}): Описание, испытания и награды`}
+            {`${heistData.title_ru} описание ограбления ${heistData.title_en} в GTA Online`}
           </h1>
           
           {/* Изображение ограбления */}
@@ -166,14 +185,14 @@ export default function SingleHeistPage() {
               className="mr-2"
             />
             <div>
-              <h2 className="text-lg text-gray-300">{heistData?.title_ru}</h2>
-              <h2 className="text-lg text-gray-400">{heistData?.title_en}</h2>
+              <h2 className="text-lg text-gray-300">{heistData.title_ru}</h2>
+              <h2 className="text-lg text-gray-400">{heistData.title_en}</h2>
             </div>
           </div>
         </div>
 
         {/* Основное изображение */}
-        {heistData?.cover_image && (
+        {heistData.cover_image && (
           <div className="mb-8">
             <Image 
               src={`${process.env.NEXT_PUBLIC_BACKEND}${heistData.cover_image.url}`}
@@ -187,47 +206,45 @@ export default function SingleHeistPage() {
         )}
 
         {/* Карточка с информацией об ограблении */}
-        {heistData && (
-          <div className="card rounded-lg p-6 md:p-8 mb-8">
-            <h3 className="text-xl font-bold text-center mb-6">{heistData.title_ru} / {heistData.title_en}</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Левая колонка */}
-              <div className="space-y-4">
-                <div>
-                  <h4 className="text-sm text-gray-400 mb-1">Добавлено в игру:</h4>
-                  <p className="text-lg font-semibold">{formatDate(heistData.release_date)}</p>
-                </div>
-                <div>
-                  <h4 className="text-sm text-gray-400 mb-1">Количество игроков:</h4>
-                  <p className="text-lg font-semibold">{heistData.players}</p>
-                </div>
-                <div>
-                  <h4 className="text-sm text-gray-400 mb-1">Стоимость организации:</h4>
-                  <p className="text-lg font-semibold">{formatNumber(heistData.setupcost)} GTA$</p>
-                </div>
+        <div className="card rounded-lg p-6 md:p-8 mb-8">
+          <h3 className="text-xl font-bold text-center mb-6">{heistData.title_en}</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Левая колонка */}
+            <div className="space-y-4">
+              <div>
+                <h4 className="text-sm text-gray-400 mb-1">Добавлено в игру:</h4>
+                <p className="text-lg font-semibold">{formatDate(heistData.release_date)}</p>
               </div>
-              
-              {/* Правая колонка */}
-              <div className="space-y-4">
-                <div>
-                  <h4 className="text-sm text-gray-400 mb-1">Потенциальный куш (Легко):</h4>
-                  <p className="text-lg font-semibold">{formatNumber(heistData.reward_easy)} GTA$</p>
-                </div>
-                <div>
-                  <h4 className="text-sm text-gray-400 mb-1">Потенциальный куш (Нормально):</h4>
-                  <p className="text-lg font-semibold">{formatNumber(heistData.reward_normal)} GTA$</p>
-                </div>
-                <div>
-                  <h4 className="text-sm text-gray-400 mb-1">Потенциальный куш (Сложно):</h4>
-                  <p className="text-lg font-semibold">{formatNumber(heistData.reward_hard)} GTA$</p>
-                </div>
+              <div>
+                <h4 className="text-sm text-gray-400 mb-1">Количество игроков:</h4>
+                <p className="text-lg font-semibold">{heistData.players}</p>
+              </div>
+              <div>
+                <h4 className="text-sm text-gray-400 mb-1">Стоимость организации:</h4>
+                <p className="text-lg font-semibold">{formatNumber(heistData.setupcost)} GTA$</p>
+              </div>
+            </div>
+            
+            {/* Правая колонка */}
+            <div className="space-y-4">
+              <div>
+                <h4 className="text-sm text-gray-400 mb-1">Куш (Легко):</h4>
+                <p className="text-lg font-semibold">{formatNumber(heistData.reward_easy)} GTA$</p>
+              </div>
+              <div>
+                <h4 className="text-sm text-gray-400 mb-1">Куш (Нормально):</h4>
+                <p className="text-lg font-semibold">{formatNumber(heistData.reward_normal)} GTA$</p>
+              </div>
+              <div>
+                <h4 className="text-sm text-gray-400 mb-1">Куш (Сложно):</h4>
+                <p className="text-lg font-semibold">{formatNumber(heistData.reward_hard)} GTA$</p>
               </div>
             </div>
           </div>
-        )}
+        </div>
 
         {/* Элитные испытания */}
-        {heistData?.elite_challenges && heistData.elite_challenges.length > 0 && (
+        {heistData.elite_challenges && heistData.elite_challenges.length > 0 && (
           <article className="card rounded-lg p-6 md:p-8 mb-8">
             <h3 className="text-xl font-bold mb-6">Элитные испытания</h3>
             <div className="prose prose-lg max-w-none article-content">
@@ -237,7 +254,7 @@ export default function SingleHeistPage() {
         )}
 
         {/* Описание ограбления */}
-        {heistData?.content && heistData.content.length > 0 && (
+        {heistData.content && heistData.content.length > 0 && (
           <article className="card rounded-lg p-6 md:p-8 mb-8">
             <h3 className="text-xl font-bold mb-6">Описание ограбления</h3>
             <div className="prose prose-lg max-w-none article-content">
@@ -247,42 +264,20 @@ export default function SingleHeistPage() {
         )}
 
         {/* Секции с наградами */}
-        {heistData?.awards && heistData.awards.map((award) => (
+        {heistData.awards && heistData.awards.map((award) => (
           <AwardSection key={award.id} award={award} />
         ))}
 
         {/* Кнопки поделиться */}
-        {heistData && (
-          <div className="p-6 md:p-8 mb-8">
-            <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-              <span className="text-sm text-gray-400">Поделиться ограблением:</span>
-              <div className="flex items-center gap-2">
-                <TwitterShareButton
-                  url={`https://rockstarhub.ru/gta-online/heists/${heistData.slug}`}
-                  title={`${heistData.title_ru} - ${heistData.title_en} в GTA Online`}
-                  className="transition-transform duration-400 hover:-translate-y-[2px]"
-                >
-                  <TwitterIcon size={32} round />
-                </TwitterShareButton>
-                <VKShareButton
-                  url={`https://rockstarhub.ru/gta-online/heists/${heistData.slug}`}
-                  title={`${heistData.title_ru} - ${heistData.title_en} в GTA Online`}
-                  image={heistData.cover_image ? `${process.env.NEXT_PUBLIC_BACKEND}${heistData.cover_image.url}` : ''}
-                  className="transition-transform duration-400 hover:-translate-y-[2px]"
-                >
-                  <VKIcon size={32} round />
-                </VKShareButton>
-                <TelegramShareButton
-                  url={`https://rockstarhub.ru/gta-online/heists/${heistData.slug}`}
-                  title={`${heistData.title_ru} - ${heistData.title_en} в GTA Online`}
-                  className="transition-transform duration-400 hover:-translate-y-[2px]"
-                >
-                  <TelegramIcon size={32} round />
-                </TelegramShareButton>
-              </div>
-            </div>
+        <div className="card rounded-lg p-6 md:p-8 mb-8">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+            <span className="text-sm text-gray-400">Поделиться ограблением:</span>
+            <ShareButtons 
+              url={articleUrl} 
+              title={`${heistData.title_ru} - ${heistData.title_en} в GTA Online`} 
+            />
           </div>
-        )}
+        </div>
       </div>
     </main>
   );
