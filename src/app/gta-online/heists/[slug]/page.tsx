@@ -282,7 +282,7 @@ export default async function SingleHeistPage(props: { params: Promise<{ slug: s
 
         {/* Кнопки поделиться */}
         <div className="p-6 md:p-8 mb-8">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div className="flex justify-end-safe items-center gap-4">
             <ShareButtons 
               url={articleUrl} 
               title={`${heistData.title_ru} - ${heistData.title_en} в GTA Online`} 
