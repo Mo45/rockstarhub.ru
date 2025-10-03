@@ -28,13 +28,14 @@ interface ImageData {
   };
 }
 
+// Интерфейс, совместимый с AwardSection
 interface Award {
   id: number;
   description: string;
-  bronze: number | null;
-  silver: number | null;
-  gold: number | null;
-  platinum: number | null;
+  bronze?: number;
+  silver?: number;
+  gold?: number;
+  platinum?: number;
   title_en: string;
   title_ru: string;
 }
@@ -61,6 +62,15 @@ interface ApiResponse {
   data: HeistData[];
 }
 
+// Функция для преобразования null в undefined
+const transformAward = (award: any): Award => ({
+  ...award,
+  bronze: award.bronze ?? undefined,
+  silver: award.silver ?? undefined,
+  gold: award.gold ?? undefined,
+  platinum: award.platinum ?? undefined,
+});
+
 export default function SingleHeistPage() {
   const params = useParams();
   const slug = params.slug as string;
@@ -86,7 +96,13 @@ export default function SingleHeistPage() {
         });
         
         if (response.data && response.data.data && response.data.data.length > 0) {
-          setHeistData(response.data.data[0]);
+          const rawData = response.data.data[0];
+          // Преобразуем awards чтобы заменить null на undefined
+          const transformedData = {
+            ...rawData,
+            awards: rawData.awards?.map(transformAward) || []
+          };
+          setHeistData(transformedData);
         } else {
           setError('Ограбление не найдено');
         }
