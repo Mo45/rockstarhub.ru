@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
+import { FaUsers } from "react-icons/fa";
 
 interface Heist {
   id: number;
@@ -51,7 +52,7 @@ export default function HeistsPage() {
         
         const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/heists`);
         url.searchParams.set('populate[0]', 'cover_image');
-        url.searchParams.set('sort[0]', 'createdAt:desc');
+        url.searchParams.set('sort[0]', 'order:desc');
         
         const response = await axios.get<ApiResponse>(url.toString(), {
           headers: {
@@ -138,12 +139,12 @@ export default function HeistsPage() {
                   
                   {/* Плашка с наградой */}
                   <div className="absolute top-3 left-3 bg-white text-black px-2 py-1 rounded-md text-sm font-bold z-10">
-                    {formatReward(heist.reward_easy)} - {formatReward(heist.reward_hard)} GTA$
+                    Куш: {formatReward(heist.reward_easy)} - {formatReward(heist.reward_hard)} GTA$
                   </div>
                   
                   {/* Плашка с количеством игроков */}
                   <div className="absolute top-3 right-3 bg-white text-black px-2 py-1 rounded-md text-sm font-bold z-10">
-                    {heist.players} игроков
+                    <FaUsers /> {heist.players}
                   </div>
                   
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 z-10">
