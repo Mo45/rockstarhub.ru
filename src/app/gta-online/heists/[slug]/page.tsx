@@ -245,6 +245,11 @@ export default async function SingleHeistPage(props: { params: Promise<{ slug: s
         {heistData.elite_challenges && heistData.elite_challenges.length > 0 && (
           <article className="card rounded-lg p-6 md:p-8 mb-8">
             <h3 className="text-xl font-bold mb-6">Элитные испытания</h3>
+            <div className="prose prose-lg max-w-none">
+              <p className="text-gray-500 text-medium">
+                В каждом завершающем этапе ограбления есть набор бонусных заданий, называемых «Элитными испытаниями», которые требуют от игроков либо завершить финал ограбления за ограниченное время, либо выполнить определённые задания в ходе миссии. Использование «Пропуска поездки» или «Быстрого перезапуска» в любом ограблении аннулирует элитные бонусы.
+              </p>
+            </div>
             <div className="prose prose-lg max-w-none article-content">
               <BlocksRenderer content={heistData.elite_challenges} />
             </div>
