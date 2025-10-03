@@ -189,53 +189,56 @@ export default async function SingleHeistPage(props: { params: Promise<{ slug: s
           </div>
         </div>
 
-        {/* Основное изображение */}
-        {heistData.cover_image && (
-          <div className="mb-8">
-            <Image 
-              src={`${process.env.NEXT_PUBLIC_BACKEND}${heistData.cover_image.url}`}
-              alt={heistData.title_ru}
-              width={1920}
-              height={1080}
-              className="w-full h-auto rounded-lg"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
-            />
-          </div>
-        )}
-
-        {/* Карточка с информацией об ограблении */}
-        <div className="card rounded-lg p-6 md:p-8 mb-8">
-          <h3 className="text-xl font-bold text-center mb-6">{heistData.title_ru} / {heistData.title_en}</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Левая колонка */}
-            <div className="space-y-4">
-              <div>
-                <h4 className="text-sm text-gray-400 mb-1">Добавлено в игру:</h4>
-                <p className="text-lg font-semibold">{formatDate(heistData.release_date)}</p>
-              </div>
-              <div>
-                <h4 className="text-sm text-gray-400 mb-1">Количество игроков:</h4>
-                <p className="text-lg font-semibold">{heistData.players}</p>
-              </div>
-              <div>
-                <h4 className="text-sm text-gray-400 mb-1">Стоимость организации:</h4>
-                <p className="text-lg font-semibold">{formatNumber(heistData.setupcost)} GTA$</p>
-              </div>
+        {/* Объединенный блок: изображение + информация об ограблении */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          {/* Основное изображение - на мобильном сверху, на десктопе слева */}
+          {heistData.cover_image && (
+            <div className="w-full h-full">
+              <Image 
+                src={`${process.env.NEXT_PUBLIC_BACKEND}${heistData.cover_image.url}`}
+                alt={heistData.title_ru}
+                width={1920}
+                height={1080}
+                className="w-full h-full object-cover rounded-lg"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
             </div>
-            
-            {/* Правая колонка */}
-            <div className="space-y-4">
-              <div>
-                <h4 className="text-sm text-gray-400 mb-1">Потенциальный куш (Легко):</h4>
-                <p className="text-lg font-semibold">{formatNumber(heistData.reward_easy)} GTA$</p>
+          )}
+          
+          {/* Карточка с информацией об ограблении - на мобильном снизу, на десктопе справа */}
+          <div className="card rounded-lg p-6 md:p-8 h-fit">
+            <h3 className="text-xl font-bold text-center mb-6">{heistData.title_ru} / {heistData.title_en}</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Левая колонка */}
+              <div className="space-y-4">
+                <div>
+                  <h4 className="text-sm text-gray-400 mb-1">Добавлено в игру:</h4>
+                  <p className="text-lg font-semibold">{formatDate(heistData.release_date)}</p>
+                </div>
+                <div>
+                  <h4 className="text-sm text-gray-400 mb-1">Количество игроков:</h4>
+                  <p className="text-lg font-semibold">{heistData.players}</p>
+                </div>
+                <div>
+                  <h4 className="text-sm text-gray-400 mb-1">Стоимость организации:</h4>
+                  <p className="text-lg font-semibold">{formatNumber(heistData.setupcost)} GTA$</p>
+                </div>
               </div>
-              <div>
-                <h4 className="text-sm text-gray-400 mb-1">Потенциальный куш (Нормально):</h4>
-                <p className="text-lg font-semibold">{formatNumber(heistData.reward_normal)} GTA$</p>
-              </div>
-              <div>
-                <h4 className="text-sm text-gray-400 mb-1">Потенциальный куш (Сложно):</h4>
-                <p className="text-lg font-semibold">{formatNumber(heistData.reward_hard)} GTA$</p>
+              
+              {/* Правая колонка */}
+              <div className="space-y-4">
+                <div>
+                  <h4 className="text-sm text-gray-400 mb-1">Потенциальный куш (Легко):</h4>
+                  <p className="text-lg font-semibold">{formatNumber(heistData.reward_easy)} GTA$</p>
+                </div>
+                <div>
+                  <h4 className="text-sm text-gray-400 mb-1">Потенциальный куш (Нормально):</h4>
+                  <p className="text-lg font-semibold">{formatNumber(heistData.reward_normal)} GTA$</p>
+                </div>
+                <div>
+                  <h4 className="text-sm text-gray-400 mb-1">Потенциальный куш (Сложно):</h4>
+                  <p className="text-lg font-semibold">{formatNumber(heistData.reward_hard)} GTA$</p>
+                </div>
               </div>
             </div>
           </div>
@@ -257,7 +260,7 @@ export default async function SingleHeistPage(props: { params: Promise<{ slug: s
         )}
 
         {heistData.youtube && (
-            <div className="mb-6">
+            <div className="mb-8">
               <div className="aspect-w-16 aspect-h-9">
                 <iframe
                   src={`https://www.youtube.com/embed/${heistData.youtube}`}
