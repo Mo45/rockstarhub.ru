@@ -30,11 +30,3 @@
 .article-content li {
   margin-bottom: 0.5rem;
 }
-
-.discord-button {
-  @apply flex items-center gap-3 px-4 py-3 rounded-lg transition-colors duration-200 w-full justify-center;
-}
-
-.discord-button:hover {
-  @apply text-white transition-colors duration-200;
-}

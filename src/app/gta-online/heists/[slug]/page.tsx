@@ -195,7 +195,7 @@ export default async function SingleHeistPage(props: { params: Promise<{ slug: s
               href="https://discord.gg/EkfMa3MU"
               target="_blank"
               rel="noopener noreferrer"
-              className="discord-button bg-[#5865F2] text-[#E0E3FF] hover:bg-[#4752c4] md:w-auto"
+              className="flex items-center gap-3 bg-[#5865F2] text-[#E0E3FF] px-4 py-3 rounded-lg hover:bg-[#4752c4] transition-colors duration-200 w-full md:w-auto justify-center"
             >
               <FaDiscord className="w-6 h-6" />
               <div className="flex flex-col text-left">
@@ -223,7 +223,7 @@ export default async function SingleHeistPage(props: { params: Promise<{ slug: s
           )}
           
           {/* Карточка с информацией об ограблении - на мобильном снизу, на десктопе справа */}
-          <div className="card h-full rounded-lg p-6 md:p-8 h-fit">
+          <div className="card rounded-lg p-6 md:p-8 h-fit">
             <h3 className="text-xl font-bold text-center mb-6">{heistData.title_ru} / {heistData.title_en}</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Левая колонка */}
