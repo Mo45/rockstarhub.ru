@@ -103,6 +103,14 @@ a.text-white:hover,button.text-white:hover {
   color: #000000;
 }
 
+.discord-button {
+  color: #E0E3FF;
+}
+
+.discord-button:hover {
+  color: #FFFFFF;
+}
+
 .prose > ul {
   list-style: circle;
   margin-left: 1rem;
