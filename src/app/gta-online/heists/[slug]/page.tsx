@@ -101,7 +101,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
   
   const title = `${heistData.title_ru} - ${heistData.title_en} | Ограбления GTA Online - Heists`;
-  const description = `Подробное руководство по ограблению «${heistData.title_ru}» в GTA Online. Награды: ${parseInt(heistData.reward_easy).toLocaleString('ru-RU')} - ${parseInt(heistData.reward_hard).toLocaleString('ru-RU')} GTA$. Количество игроков: ${heistData.players}.`;
+  const description = `Подробное руководство по ограблению «${heistData.title_ru}» в GTA Online. Потенциальный куш: ${parseInt(heistData.reward_easy).toLocaleString('ru-RU')} - ${parseInt(heistData.reward_hard).toLocaleString('ru-RU')} GTA$. Количество игроков: ${heistData.players}`;
   const imageUrl = heistData.cover_image ? `${process.env.NEXT_PUBLIC_BACKEND}${heistData.cover_image.url}` : null;
   
   return {
@@ -252,7 +252,7 @@ export default async function SingleHeistPage(props: { params: Promise<{ slug: s
         )}
 
         {heistData.youtube && (
-            <div className="mt-6">
+            <div className="mb-6">
               <div className="aspect-w-16 aspect-h-9">
                 <iframe
                   src={`https://www.youtube.com/embed/${heistData.youtube}`}
@@ -267,7 +267,7 @@ export default async function SingleHeistPage(props: { params: Promise<{ slug: s
 
         {/* Описание ограбления */}
         {heistData.content && heistData.content.length > 0 && (
-          <article className="card rounded-lg p-6 md:p-8 mb-8">
+          <article className="card rounded-lg p-6 md:p-8">
             <h3 className="text-xl font-bold mb-6">Описание ограбления</h3>
             <div className="prose prose-lg max-w-none article-content">
               <BlocksRenderer content={heistData.content} />
@@ -283,7 +283,6 @@ export default async function SingleHeistPage(props: { params: Promise<{ slug: s
         {/* Кнопки поделиться */}
         <div className="p-6 md:p-8 mb-8">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
-            <span className="text-sm text-gray-400">Поделиться ограблением:</span>
             <ShareButtons 
               url={articleUrl} 
               title={`${heistData.title_ru} - ${heistData.title_en} в GTA Online`} 
