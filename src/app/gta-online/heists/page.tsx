@@ -144,7 +144,7 @@ export default function HeistsPage() {
                   
                   {/* Плашка с количеством игроков */}
                   <div className="absolute top-3 right-3 bg-white text-black px-2 py-1 rounded-md text-sm font-bold z-10">
-                    <FaUsers /> {heist.players}
+                    <FaUsers className="inline"/> {heist.players}
                   </div>
                   
                   <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 z-10">

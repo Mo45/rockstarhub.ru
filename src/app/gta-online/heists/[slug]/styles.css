@@ -1,0 +1,32 @@
+/* /src/app/gta-online/heists/[slug]/styles.css */
+
+.article-content a {
+  color: #e19808;
+  text-decoration: none;
+}
+
+.article-content a:hover {
+  opacity: 0.8;
+  color: #e19808;
+  text-decoration: underline;
+}
+
+.article-content {
+  color: #fff;
+}
+
+.article-content p {
+  margin-bottom: 1.5rem;
+  line-height: 1.75;
+  font-size: 1rem;
+}
+
+.article-content ul, .article-content ol {
+  margin-bottom: 1.5rem;
+  padding-left: 1.5rem;
+  font-size: 1rem;
+}
+
+.article-content li {
+  margin-bottom: 0.5rem;
+}
