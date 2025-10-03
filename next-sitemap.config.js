@@ -2,6 +2,7 @@
 module.exports = {
   siteUrl: process.env.SITE_URL || 'https://rockstarhub.ru',
   generateRobotsTxt: true,
+  exclude: ['/login', '/logout', '/account', '/forgot', '/register', '/reset'],
   robotsTxtOptions: {
     policies: [
       {
