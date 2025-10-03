@@ -10,13 +10,13 @@ export const metadata: Metadata = {
   publisher: 'Rockstar Хаб',
   metadataBase: new URL('https://rockstarhub.ru'),
   alternates: {
-    canonical: '/gta-online-weekly'
+    canonical: '/gta-online/weekly'
   },
   openGraph: {
     title: 'GTA Online — События и бонусы этой недели',
     description: 'Игровые события GTA Online текущей недели: Скидки на транспорт, оружие и недвижимость. Все доступные бонусы 2X к RP и GTA$',
     type: 'website',
-    url: 'https://rockstarhub.ru/gta-online-weekly',
+    url: 'https://rockstarhub.ru/gta-online/weekly',
     siteName: 'Rockstar Хаб',
   },
 };
