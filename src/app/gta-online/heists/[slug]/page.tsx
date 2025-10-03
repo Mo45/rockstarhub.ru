@@ -52,7 +52,6 @@ interface ApiResponse {
   data: HeistData[];
 }
 
-// Функция для преобразования null в undefined
 const transformAward = (award: any): Award => ({
   ...award,
   bronze: award.bronze ?? undefined,
@@ -76,7 +75,6 @@ async function getHeist(slug: string): Promise<HeistData | null> {
     
     if (response.data && response.data.data && response.data.data.length > 0) {
       const rawData = response.data.data[0];
-      // Преобразуем awards чтобы заменить null на undefined
       const transformedData = {
         ...rawData,
         awards: rawData.awards?.map(transformAward) || []
@@ -102,8 +100,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     };
   }
   
-  const title = `${heistData.title_ru} - ${heistData.title_en} | Ограбления GTA Online`;
-  const description = `Подробное руководство по ограблению ${heistData.title_ru} в GTA Online. Награды: ${parseInt(heistData.reward_easy).toLocaleString('ru-RU')} - ${parseInt(heistData.reward_hard).toLocaleString('ru-RU')} GTA$. Количество игроков: ${heistData.players}.`;
+  const title = `${heistData.title_ru} - ${heistData.title_en} | Ограбления GTA Online - Heists`;
+  const description = `Подробное руководство по ограблению «${heistData.title_ru}» в GTA Online. Награды: ${parseInt(heistData.reward_easy).toLocaleString('ru-RU')} - ${parseInt(heistData.reward_hard).toLocaleString('ru-RU')} GTA$. Количество игроков: ${heistData.players}.`;
   const imageUrl = heistData.cover_image ? `${process.env.NEXT_PUBLIC_BACKEND}${heistData.cover_image.url}` : null;
   
   return {
@@ -252,6 +250,20 @@ export default async function SingleHeistPage(props: { params: Promise<{ slug: s
             </div>
           </article>
         )}
+
+        {heistData.youtube && (
+            <div className="mt-6">
+              <div className="aspect-w-16 aspect-h-9">
+                <iframe
+                  src={`https://www.youtube.com/embed/${heistData.youtube}`}
+                  title={`Видео-руководство как завершить ограбление «${heistData.title_ru}»`}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-80 rounded-lg"
+                ></iframe>
+              </div>
+            </div>
+          )}
 
         {/* Описание ограбления */}
         {heistData.content && heistData.content.length > 0 && (
