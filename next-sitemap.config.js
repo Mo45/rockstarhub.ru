@@ -9,6 +9,10 @@ module.exports = {
         userAgent: '*',
         allow: '/',
       },
+      {
+        userAgent: '*',
+        disallow: ['/login', '/logout', '/account', '/forgot', '/register', '/reset'],
+      }
     ],
   },
 
