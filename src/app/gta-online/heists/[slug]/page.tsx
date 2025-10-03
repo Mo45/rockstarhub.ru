@@ -237,7 +237,7 @@ export default async function SingleHeistPage(props: { params: Promise<{ slug: s
                   <p className="text-lg font-semibold">{heistData.players}</p>
                 </div>
                 <div>
-                  <h4 className="text-sm text-gray-400 mb-1">Стоимость организации:</h4>
+                  <h4 className="text-sm text-gray-400 mb-1">Расходы на организацию:</h4>
                   <p className="text-lg font-semibold">{formatNumber(heistData.setupcost)} GTA$</p>
                 </div>
               </div>
