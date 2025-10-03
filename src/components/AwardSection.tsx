@@ -60,8 +60,8 @@ export default function AwardSection({ award, className = '' }: AwardSectionProp
           <div className="flex-1">
 
             <div className="mb-4">
-              <h3 className="text-xl font-bold text-white">{award.title_en}</h3>
-              <h4 className="text-lg text-gray-300">{award.title_ru}</h4>
+              <h3 className="text-xl font-bold text-white">{award.title_ru}</h3>
+              <h4 className="text-lg text-gray-300">{award.title_en}</h4>
             </div>
             
             <p className="text-gray-300 mb-6">{award.description}</p>

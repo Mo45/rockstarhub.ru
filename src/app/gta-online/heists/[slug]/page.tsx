@@ -199,7 +199,7 @@ export default async function SingleHeistPage(props: { params: Promise<{ slug: s
             >
               <FaDiscord className="w-6 h-6" />
               <div className="flex flex-col text-left">
-                <span className="font-bold text-sm">Найти напарников для</span>
+                <span className="font-bold text-sm">Найти напарников</span>
                 <span className="text-xs">На нашем Discord-сервере</span>
               </div>
             </a>
