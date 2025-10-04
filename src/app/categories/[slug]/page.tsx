@@ -34,8 +34,15 @@ interface Category {
 
 async function getCategory(slug: string): Promise<Category | null> {
   try {
+    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/articles`);
+    
+    url.searchParams.set('populate[0]', 'squareImage');
+    url.searchParams.set('populate[1]', 'category');
+    url.searchParams.set('filters[category][slug][$eq]', slug);
+    url.searchParams.set('sort', 'createdAt:desc');
+    
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND}/api/categories?filters[slug][$eq]=${slug}&populate[articles][populate]=*&sort=createdAt:desc`,
+      url.toString(),
       {
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
@@ -72,8 +79,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export async function generateStaticParams() {
   try {
+    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/categories`);
+    url.searchParams.set('fields[0]', 'slug');
+    
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND}/api/categories?fields[0]=slug`,
+      url.toString(),
       {
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
