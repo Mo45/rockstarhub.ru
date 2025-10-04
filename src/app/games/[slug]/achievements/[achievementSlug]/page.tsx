@@ -77,9 +77,20 @@ async function getGame(slug: string): Promise<Game | null> {
   }
 
   try {
+    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/games`);
+    
+    url.searchParams.set('filters[slug][$eq]', slug);
+    url.searchParams.set('populate[0]', 'cover_image');
+    url.searchParams.set('populate[1]', 'game_facts');
+    
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND}/api/games?filters[slug][$eq]=${slug}&populate[0]=cover_image&populate[1]=game_facts`,
-      { timeout: 25000 }
+      url.toString(),
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+        },
+        timeout: 25000
+      }
     );
     
     if (response.data.data.length === 0) {
@@ -103,9 +114,19 @@ async function getAchievementBySlug(achievementSlug: string): Promise<Achievemen
   }
 
   try {
+    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/achievements`);
+    
+    url.searchParams.set('filters[page_url][$eq]', achievementSlug);
+    url.searchParams.set('populate[0]', 'image');
+    
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND}/api/achievements?filters[page_url][$eq]=${achievementSlug}&populate[0]=image`,
-      { timeout: 25000 }
+      url.toString(),
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+        },
+        timeout: 25000
+      }
     );
     
     if (response.data.data.length === 0) {
@@ -129,9 +150,21 @@ async function getAllAchievements(gameName: string): Promise<Achievement[]> {
   }
 
   try {
+    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/achievements`);
+    
+    url.searchParams.set('filters[game_name][$eq]', gameName);
+    url.searchParams.set('populate[0]', 'image');
+    url.searchParams.set('pagination[page]', '1');
+    url.searchParams.set('pagination[pageSize]', '100');
+    
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND}/api/achievements?filters[game_name][$eq]=${gameName}&populate[0]=image&pagination[page]=1&pagination[pageSize]=100`,
-      { timeout: 25000 }
+      url.toString(),
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+        },
+        timeout: 25000
+      }
     );
     
     const achievementsData = response.data.data;
@@ -204,22 +237,37 @@ export default async function AchievementPage(props: { params: Promise<{ slug: s
     <div className="min-h-screen p-8 max-w-6xl mx-auto">
       <OrganizationSchema />
       
-      <nav className="mb-6">
-        <Link 
-          href={`/games/${game.slug}`}
-          className="text-blue-600 hover:text-blue-800"
-        >
-          ← Назад к игре
-        </Link>
-        <span className="mx-2">/</span>
-        <Link 
-          href={`/games/${game.slug}/achievements`}
-          className="text-blue-600 hover:text-blue-800"
-        >
-          Достижения
-        </Link>
-        <span className="mx-2">/</span>
-        <span>{achievement.name_ru}</span>
+      {/* Хлебные крошки */}
+      <nav className="flex mb-4" aria-label="Хлебные крошки">
+        <ol className="flex items-center space-x-2 text-sm text-gray-500">
+          <li>
+            <Link href="/" className="hover:text-gray-700 transition-colors">
+              Главная
+            </Link>
+          </li>
+          <li className="flex items-center">
+            <span className="mx-2">/</span>
+            <Link href="/games" className="hover:text-gray-700 transition-colors">
+              Игры
+            </Link>
+          </li>
+          <li className="flex items-center">
+            <span className="mx-2">/</span>
+            <Link href={`/games/${game.slug}`} className="hover:text-gray-700 transition-colors">
+              {game.full_title}
+            </Link>
+          </li>
+          <li className="flex items-center">
+            <span className="mx-2">/</span>
+            <Link href={`/games/${game.slug}/achievements`} className="hover:text-gray-700 transition-colors">
+              Достижения
+            </Link>
+          </li>
+          <li className="flex items-center">
+            <span className="mx-2">/</span>
+            <span className="text-rockstar-500 font-medium">{achievement.name_ru}</span>
+          </li>
+        </ol>
       </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

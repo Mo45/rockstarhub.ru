@@ -2,6 +2,7 @@
 
 import axios from 'axios';
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import PlatformTag from '@/components/PlatformTag';
 import GameCard from '@/components/GameCard';
 import AchievementsList from '@/components/AchievementsList';
@@ -79,9 +80,20 @@ async function getGame(slug: string): Promise<Game | null> {
   }
 
   try {
+    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/games`);
+    
+    url.searchParams.set('filters[slug][$eq]', slug);
+    url.searchParams.set('populate[0]', 'cover_image');
+    url.searchParams.set('populate[1]', 'game_facts');
+    
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND}/api/games?filters[slug][$eq]=${slug}&populate[0]=cover_image&populate[1]=game_facts`,
-      { timeout: 25000 }
+      url.toString(),
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+        },
+        timeout: 25000
+      }
     );
     
     if (response.data.data.length === 0) {
@@ -107,9 +119,21 @@ async function getAchievements(gameName: string): Promise<Achievement[]> {
   }
 
   try {
+    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/achievements`);
+    
+    url.searchParams.set('filters[game_name][$eq]', gameName);
+    url.searchParams.set('populate[0]', 'image');
+    url.searchParams.set('pagination[page]', '1');
+    url.searchParams.set('pagination[pageSize]', '200');
+    
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND}/api/achievements?filters[game_name][$eq]=${gameName}&populate[0]=image&pagination[page]=1&pagination[pageSize]=200`,
-      { timeout: 25000 }
+      url.toString(),
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+        },
+        timeout: 25000
+      }
     );
     
     const achievementsData = response.data.data;
@@ -205,6 +229,28 @@ export default async function GamePage(props: { params: Promise<{ slug: string }
     <div className="min-h-screen p-8 max-w-6xl mx-auto">
       <GameSchema game={game} />
       <OrganizationSchema />
+      
+      {/* Хлебные крошки */}
+      <nav className="flex mb-4" aria-label="Хлебные крошки">
+        <ol className="flex items-center space-x-2 text-sm text-gray-500">
+          <li>
+            <Link href="/" className="hover:text-gray-700 transition-colors">
+              Главная
+            </Link>
+          </li>
+          <li className="flex items-center">
+            <span className="mx-2">/</span>
+            <Link href="/games" className="hover:text-gray-700 transition-colors">
+              Игры
+            </Link>
+          </li>
+          <li className="flex items-center">
+            <span className="mx-2">/</span>
+            <span className="text-rockstar-500 font-medium">{game.full_title}</span>
+          </li>
+        </ol>
+      </nav>
+      
       <header className="mb-8">
         <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
           {game.full_title}
