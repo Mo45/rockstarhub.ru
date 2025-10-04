@@ -36,13 +36,9 @@ async function getCategory(slug: string): Promise<Category | null> {
   try {
     const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/categories`);
     
-    // Устанавливаем параметры запроса для получения категории со статьями
     url.searchParams.set('filters[slug][$eq]', slug);
-    url.searchParams.set('populate[0]', 'articles');
-    url.searchParams.set('populate[1]', 'articles.squareImage');
-    url.searchParams.set('populate[2]', 'articles.coverImage');
-    url.searchParams.set('populate[3]', 'articles.category');
-    url.searchParams.set('sort[0]', 'articles.createdAt:desc');
+    url.searchParams.set('populate[articles][populate]', 'squareImage');
+    url.searchParams.set('sort', 'createdAt:desc');
     
     const response = await axios.get(
       url.toString(),

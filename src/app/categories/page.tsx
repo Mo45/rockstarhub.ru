@@ -15,8 +15,17 @@ interface Category {
 
 async function getCategories(): Promise<Category[]> {
   try {
+    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/categories`);
+    
+    url.searchParams.set('populate[0]', 'articles');
+    
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND}/api/categories?populate=*`
+      url.toString(),
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+        },
+      }
     );
     
     return response.data.data;
@@ -39,6 +48,21 @@ export default async function CategoriesPage() {
   return (
     <div className="min-h-screen p-8 max-w-6xl mx-auto">
       <header className="mb-8">
+        {/* Хлебные крошки */}
+        <nav className="flex mb-4" aria-label="Хлебные крошки">
+          <ol className="flex items-center space-x-2 text-sm text-gray-500">
+            <li>
+              <Link href="/" className="hover:text-gray-700 transition-colors">
+                Главная
+              </Link>
+            </li>
+            <li className="flex items-center">
+              <span className="mx-2">/</span>
+              <span className="text-gray-800 font-medium">Категории</span>
+            </li>
+          </ol>
+        </nav>
+
         <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
           Все категории
         </h1>
