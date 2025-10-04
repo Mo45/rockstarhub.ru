@@ -34,8 +34,18 @@ interface Tag {
 
 async function getTag(slug: string): Promise<Tag | null> {
   try {
+    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/tags`);
+    
+    url.searchParams.set('filters[slug][$eq]', slug);
+    url.searchParams.set('populate[articles][populate]', '*');
+    
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND}/api/tags?filters[slug][$eq]=${slug}&populate[articles][populate]=*&sort=createdAt:desc`
+      url.toString(),
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+        },
+      }
     );
     
     if (response.data.data.length === 0) {
@@ -67,8 +77,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export async function generateStaticParams() {
   try {
+    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/tags`);
+    url.searchParams.set('fields[0]', 'slug');
+    
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND}/api/tags?fields[0]=slug`
+      url.toString(),
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+        },
+      }
     );
     
     return response.data.data.map((tag: Tag) => ({
@@ -91,6 +109,27 @@ export default async function TagPage(props: { params: Promise<{ slug: string }>
   return (
     <div className="min-h-screen p-8 max-w-6xl mx-auto">
       <header className="mb-8">
+        {/* Хлебные крошки */}
+        <nav className="flex mb-4" aria-label="Хлебные крошки">
+          <ol className="flex items-center space-x-2 text-sm text-gray-500">
+            <li>
+              <Link href="/" className="hover:text-gray-700 transition-colors">
+                Главная
+              </Link>
+            </li>
+            <li className="flex items-center">
+              <span className="mx-2">/</span>
+              <Link href="/tags" className="hover:text-gray-700 transition-colors">
+                Теги
+              </Link>
+            </li>
+            <li className="flex items-center">
+              <span className="mx-2">/</span>
+              <span className="text-rockstar-500 font-medium">{tag.name}</span>
+            </li>
+          </ol>
+        </nav>
+
         <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
           Тег: {tag.name}
         </h1>

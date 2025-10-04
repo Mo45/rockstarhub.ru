@@ -38,7 +38,6 @@ async function getCategory(slug: string): Promise<Category | null> {
     
     url.searchParams.set('filters[slug][$eq]', slug);
     url.searchParams.set('populate[articles][populate]', 'squareImage');
-    url.searchParams.set('sort', 'createdAt:desc');
     
     const response = await axios.get(
       url.toString(),
@@ -126,7 +125,7 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
             </li>
             <li className="flex items-center">
               <span className="mx-2">/</span>
-              <span className="text-gray-800 font-medium">{category.name}</span>
+              <span className="text-rockstar-500 font-medium">{category.name}</span>
             </li>
           </ol>
         </nav>

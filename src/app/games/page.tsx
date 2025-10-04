@@ -1,6 +1,7 @@
 // /src/app/games/page.tsx
 
 import axios from 'axios';
+import Link from 'next/link';
 import GameCardSlim from '@/components/GameCardSlim';
 
 interface Game {
@@ -32,8 +33,18 @@ interface Game {
 
 async function getGames(): Promise<Game[]> {
   try {
+    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/games`);
+    
+    url.searchParams.set('populate', '*');
+    url.searchParams.set('sort[0]', 'position:asc');
+    
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND}/api/games?populate=*&sort[0]=position:asc`
+      url.toString(),
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+        },
+      }
     );
     
     return response.data.data;
@@ -56,6 +67,21 @@ export default async function GamesPage() {
   return (
     <div className="min-h-screen p-8 max-w-6xl mx-auto">
       <header className="mb-8">
+        {/* Хлебные крошки */}
+        <nav className="flex mb-4" aria-label="Хлебные крошки">
+          <ol className="flex items-center space-x-2 text-sm text-gray-500">
+            <li>
+              <Link href="/" className="hover:text-gray-700 transition-colors">
+                Главная
+              </Link>
+            </li>
+            <li className="flex items-center">
+              <span className="mx-2">/</span>
+              <span className="text-rockstar-500 font-medium">Игры</span>
+            </li>
+          </ol>
+        </nav>
+
         <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
           Игры Rockstar Games
         </h1>

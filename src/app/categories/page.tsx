@@ -58,7 +58,7 @@ export default async function CategoriesPage() {
             </li>
             <li className="flex items-center">
               <span className="mx-2">/</span>
-              <span className="text-gray-800 font-medium">Категории</span>
+              <span className="text-rockstar-500 font-medium">Категории</span>
             </li>
           </ol>
         </nav>
