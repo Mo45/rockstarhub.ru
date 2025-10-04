@@ -302,7 +302,7 @@ export default async function AchievementPage(props: { params: Promise<{ slug: s
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               <div className="text-center md:text-left">
                 <div className="text-sm font-medium text-white">Нужна помощь с получением этого достижения?</div>
-                <div className="text-xs text-gray-400">Заходи на наш Discord-сервер, спрашивай советы, помощь, или ищи друзей!</div>
+                <div className="text-xs text-gray-400">Заходи на наш Discord-сервер: Советы, помощь, общение!</div>
               </div>
               <a
                 href="https://discord.gg/EkfMa3MU"
