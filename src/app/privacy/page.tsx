@@ -1,5 +1,7 @@
 // /src/app/privacy/page.tsx
 
+import Link from 'next/link';
+
 export const metadata = {
   title: 'Политика конфиденциальности - Rockstar Хаб',
   description: 'Политика конфиденциальности RockstarHub - как мы собираем, используем и защищаем ваши данные',
@@ -23,7 +25,7 @@ export default function PrivacyPage() {
             </li>
           </ol>
         </nav>
-        
+
         <div className="card rounded-lg p-8">
           <h1 className="text-4xl font-bold mb-6">Политика конфиденциальности</h1>
           

@@ -1,6 +1,7 @@
 // /src/app/contact/page.tsx
 
 import EmailProtection from './EmailProtection';
+import Link from 'next/link';
 
 export const metadata = {
   title: 'Контакты - Rockstar Хаб',
@@ -25,7 +26,7 @@ export default function ContactPage() {
             </li>
           </ol>
         </nav>
-        
+
         <div className="card rounded-lg p-8">
           <h1 className="text-4xl font-bold mb-6">Контакты</h1>
           
