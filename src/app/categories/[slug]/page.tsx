@@ -151,13 +151,12 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
                 {image && (
                   <div className="w-full relative">
                     <Image 
-                      src={`${process.env.NEXT_PUBLIC_BACKEND}${imageFormats.large?.url || imageFormats.medium?.url || imageFormats.small?.url || image.url}`}
+                      src={`${process.env.NEXT_PUBLIC_BACKEND}${imageFormats.large?.url || image.url}`}
                       decoding="async"
                       loading="lazy"
                       alt={image.alternativeText || article.title}
                       className="w-full h-full object-cover"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      fill
                     />
                   </div>
                 )}
