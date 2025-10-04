@@ -11,6 +11,21 @@ export default function RulesPage() {
   return (
     <main className="min-h-screen p-8">
       <div className="max-w-4xl mx-auto">
+        {/* Хлебные крошки */}
+        <nav className="flex mb-4" aria-label="Хлебные крошки">
+          <ol className="flex items-center space-x-2 text-sm text-gray-500">
+            <li>
+              <Link href="/" className="hover:text-gray-700 transition-colors">
+                Главная
+              </Link>
+            </li>
+            <li className="flex items-center">
+              <span className="mx-2">/</span>
+              <span className="text-rockstar-500 font-medium">Правила сайта</span>
+            </li>
+          </ol>
+        </nav>
+        
         <div className="card rounded-lg p-8">
           <h1 className="text-4xl font-bold mb-6">Правила общения на сайте Rockstar Хаб</h1>
           <h2 className="text-2xl text-orange-400 mb-6">Или как не получить бан</h2>

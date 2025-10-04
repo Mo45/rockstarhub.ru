@@ -57,6 +57,16 @@ body:before {
   animation: slideDown 0.3s ease-out forwards;
 }
 
+.breadcrumb-nav {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .breadcrumb-nav {
+    display: flex;
+  }
+}
+
 .modal-fade {
   background: rgba(0, 0, 0, .25);
   -webkit-backdrop-filter: blur(15px);

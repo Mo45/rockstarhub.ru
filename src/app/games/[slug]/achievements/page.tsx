@@ -210,7 +210,7 @@ export default async function AchievementsPage(props: { params: Promise<{ slug: 
       <OrganizationSchema />
       
       {/* Хлебные крошки */}
-      <nav className="flex mb-4" aria-label="Хлебные крошки">
+      <nav className="breadcrumb-nav flex mb-4" aria-label="Хлебные крошки">
         <ol className="flex items-center space-x-2 text-sm text-gray-500">
           <li>
             <Link href="/" className="hover:text-gray-700 transition-colors">
