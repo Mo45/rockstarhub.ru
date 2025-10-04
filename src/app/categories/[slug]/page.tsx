@@ -149,7 +149,7 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
             <div key={article.id} className="card article-list-card">
               <Link href={`/articles/${article.slug}`} className="block h-full">
                 {image && (
-                  <div className="w-full h-48 relative">
+                  <div className="w-full relative">
                     <Image 
                       src={`${process.env.NEXT_PUBLIC_BACKEND}${imageFormats.large?.url || imageFormats.medium?.url || imageFormats.small?.url || image.url}`}
                       decoding="async"
