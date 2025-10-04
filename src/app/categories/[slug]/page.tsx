@@ -34,12 +34,15 @@ interface Category {
 
 async function getCategory(slug: string): Promise<Category | null> {
   try {
-    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/articles`);
+    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/categories`);
     
-    url.searchParams.set('populate[0]', 'squareImage');
-    url.searchParams.set('populate[1]', 'category');
-    url.searchParams.set('filters[category][slug][$eq]', slug);
-    url.searchParams.set('sort', 'createdAt:desc');
+    // Устанавливаем параметры запроса для получения категории со статьями
+    url.searchParams.set('filters[slug][$eq]', slug);
+    url.searchParams.set('populate[0]', 'articles');
+    url.searchParams.set('populate[1]', 'articles.squareImage');
+    url.searchParams.set('populate[2]', 'articles.coverImage');
+    url.searchParams.set('populate[3]', 'articles.category');
+    url.searchParams.set('sort[0]', 'articles.createdAt:desc');
     
     const response = await axios.get(
       url.toString(),
@@ -138,7 +141,7 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
       </header>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {category.articles.map((article) => {
+        {category.articles && category.articles.map((article) => {
           const image = article.squareImage || article.coverImage;
           const imageFormats = image?.formats || {};
           
@@ -146,14 +149,15 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
             <div key={article.id} className="card article-list-card">
               <Link href={`/articles/${article.slug}`} className="block h-full">
                 {image && (
-                  <div className="w-full relative">
+                  <div className="w-full h-48 relative">
                     <Image 
-                      src={`${process.env.NEXT_PUBLIC_BACKEND}${imageFormats.large?.url || image.url}`}
+                      src={`${process.env.NEXT_PUBLIC_BACKEND}${imageFormats.large?.url || imageFormats.medium?.url || imageFormats.small?.url || image.url}`}
                       decoding="async"
                       loading="lazy"
                       alt={image.alternativeText || article.title}
                       className="w-full h-full object-cover"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      fill
                     />
                   </div>
                 )}
@@ -186,7 +190,7 @@ export default async function CategoryPage(props: { params: Promise<{ slug: stri
         })}
       </div>
       
-      {category.articles.length === 0 && (
+      {(!category.articles || category.articles.length === 0) && (
         <div className="text-center py-12">
           <p className="text-gray-500 text-lg">
             В этой категории пока нет статей.
