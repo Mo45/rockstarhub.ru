@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image'
 import { IoLogoXbox, IoLogoPlaystation } from 'react-icons/io5';
-import { FaTrophy, FaEyeSlash } from "react-icons/fa6";
+import { FaTrophy, FaEyeSlash, FaDiscord } from "react-icons/fa6";
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 import GameCard from '@/components/GameCard';
 import PlatformTag from '@/components/PlatformTag';
@@ -295,6 +295,28 @@ export default async function AchievementPage(props: { params: Promise<{ slug: s
                 </div>
               </div>
             )}
+          </div>
+
+          {/* Блок Discord для поиска напарников */}
+          <div className="mt-6 card p-6 rounded-lg">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="text-center md:text-left">
+                <div className="text-sm font-medium text-white">Нужна помощь с получением этого достижения?</div>
+                <div className="text-xs text-gray-400">Заходи на наш Discord-сервер, спрашивай советы, помощь, или ищи друзей!</div>
+              </div>
+              <a
+                href="https://discord.gg/EkfMa3MU"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center discord-button gap-3 bg-[#5865F2] px-4 py-3 rounded-lg hover:bg-[#4752c4] transition-colors duration-200 w-full md:w-auto justify-center"
+              >
+                <FaDiscord className="w-6 h-6" />
+                <div className="flex flex-col text-left">
+                  <span className="font-bold text-sm">Найти напарников</span>
+                  <span className="text-xs">На нашем Discord-сервере</span>
+                </div>
+              </a>
+            </div>
           </div>
 
           {achievement.youtube_howto && (

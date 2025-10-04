@@ -35,7 +35,7 @@ interface Category {
 async function getCategory(slug: string): Promise<Category | null> {
   try {
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND}/api/categories?filters[slug][$eq]=${slug}&populate[articles][populate]=*&sort[0]=createdAt:desc`
+      `${process.env.NEXT_PUBLIC_BACKEND}/api/categories?filters[slug][$eq]=${slug}&populate[articles][populate]=*&sort=createdAt:desc`
     );
     
     if (response.data.data.length === 0) {
