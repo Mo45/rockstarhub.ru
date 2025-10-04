@@ -24,7 +24,7 @@ export default function PurchaseLink({ platformKey, url, className = '' }: Purch
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      className={`block w-full px-4 py-2 rounded-lg transition-all cursor-pointer duration-400 flex items-center justify-center gap-2 ${platformClass} ${className}`}
+      className={`block w-full text-sm px-4 py-2 rounded-lg transition-all cursor-pointer duration-400 hover:-translate-y-[2px] flex items-center justify-center gap-2 ${platformClass} ${className}`}
     >
       {IconComponent}
       {displayText}
