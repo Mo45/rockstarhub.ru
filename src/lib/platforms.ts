@@ -14,7 +14,10 @@ export const getPlatformClass = (platform: string): string => {
     'Nintendo Switch 2': 'nintendoswitch2',
     'PC': 'pc',
     'Android': 'android',
-    'iOS': 'ios'
+    'iOS': 'ios',
+    'xbox': 'xbox-platform',
+    'steam': 'steam-platform',
+    'rockstar': 'rockstar-platform'
   };
 
   return platformMap[platform] || 'default-platform';
@@ -56,7 +59,24 @@ export const formatPlatformKey = (key: string): string => {
     'steam': 'Steam',
     'rockstar': 'Rockstar Launcher',
     'nintendoswitch1': 'Nintendo Switch 1',
-    'nintendoswitch2': 'Nintendo Switch 2'
+    'nintendoswitch2': 'Nintendo Switch 2',
+    'xbox': 'Xbox',
+    // Добавляем поддержку новых форматов ключей
+    'pm_kupikod_1': 'Plati.Market',
+    'pm_kupikod_2': 'Plati.Market',
+    'pm_kupikod_3': 'Plati.Market',
+    'pm_steam_1': 'Steam',
+    'pm_steam_2': 'Steam',
+    'pm_steam_3': 'Steam',
+    'pm_rockstar_1': 'Rockstar',
+    'pm_rockstar_2': 'Rockstar',
+    'pm_rockstar_3': 'Rockstar',
+    'kk_steam_1': 'Steam',
+    'kk_steam_2': 'Steam',
+    'kk_steam_3': 'Steam',
+    'kk_rockstar_1': 'Rockstar',
+    'kk_rockstar_2': 'Rockstar',
+    'kk_rockstar_3': 'Rockstar'
   };
 
   return platformMap[key] || key;

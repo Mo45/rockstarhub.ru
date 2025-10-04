@@ -375,6 +375,24 @@ a.text-white:hover,button.text-white:hover {
   box-shadow: 0 4px 8px rgba(225, 152, 8, .05);
 }
 
+.xbox-platform {
+  color: #fff !important;
+  background-color: #107c10;
+  background-image: linear-gradient(to bottom, #107c10, #0d630d);
+}
+
+.steam-platform {
+  color: #fff !important;
+  background-color: #555553;
+  background-image: linear-gradient(to bottom, #555553, #464645);
+}
+
+.rockstar-platform {
+  color: #fff !important;
+  background-color: #e19808;
+  background-image: linear-gradient(to bottom, #e19808, #e17100);
+}
+
 .xbox360 {
   color: #fff !important;
   background-color: #96d028;
