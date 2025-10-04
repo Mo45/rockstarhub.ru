@@ -375,6 +375,14 @@ a.text-white:hover,button.text-white:hover {
   box-shadow: 0 4px 8px rgba(225, 152, 8, .05);
 }
 
+.buy-button {
+  @apply block w-full text-sm px-4 py-2 rounded-lg transition-all cursor-pointer duration-400 flex items-center justify-center gap-2;
+}
+
+.buy-button:hover {
+  @apply -translate-y-[2px] duration-400;
+}
+
 .xbox-platform {
   color: #fff !important;
   background-color: #107c10;
