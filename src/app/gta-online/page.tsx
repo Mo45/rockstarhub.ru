@@ -19,7 +19,7 @@ const hubCards = [
   {
     id: 3,
     title: 'Ограбления',
-    image: 'https://data.rockstarhub.ru/uploads/large_Heists_Update_GTAO_Artwork_f0e18561a4.webp',
+    image: 'https://data.rockstarhub.ru/uploads/Heists_Update_GTAO_Artwork_f0e18561a4.webp',
     link: '/gta-online/heists'
   }
 ];
@@ -32,12 +32,12 @@ const actionButtons = [
   },
   {
     id: 2,
-    title: 'Новости',
+    title: 'Новости GTA Online',
     href: 'https://rockstarhub.ru/categories/gta-online'
   },
   {
     id: 3,
-    title: 'Достижения',
+    title: 'Достижения GTA Online',
     href: 'https://rockstarhub.ru/games/gtao/achievements'
   }
 ];
@@ -48,7 +48,7 @@ export default function GTAOnlineHub() {
       <div className="max-w-6xl mx-auto">
         {/* Заголовок страницы */}
         <div className="mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold mb-4">GTA Online — Все разделы</h1>
+          <h1 className="text-2xl md:text-3xl font-bold mb-4">GTA Online — Хаб</h1>
           <p className="text-gray-500 text-medium">
             Полный гид по GTA Online: еженедельные события, коллекционные предметы, ограбления и многое другое
           </p>
@@ -60,7 +60,7 @@ export default function GTAOnlineHub() {
             <a
               key={button.id}
               href={button.href}
-              className="button-hub"
+              className="button-orange"
             >
               {button.title}
             </a>
