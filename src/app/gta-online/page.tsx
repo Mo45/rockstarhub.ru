@@ -24,6 +24,24 @@ const hubCards = [
   }
 ];
 
+const actionButtons = [
+  {
+    id: 1,
+    title: 'Об игре',
+    href: 'https://rockstarhub.ru/games/gtao'
+  },
+  {
+    id: 2,
+    title: 'Новости',
+    href: 'https://rockstarhub.ru/categories/gta-online'
+  },
+  {
+    id: 3,
+    title: 'Достижения',
+    href: 'https://rockstarhub.ru/games/gtao/achievements'
+  }
+];
+
 export default function GTAOnlineHub() {
   return (
     <main className="min-h-screen p-4 md:p-8">
@@ -34,6 +52,19 @@ export default function GTAOnlineHub() {
           <p className="text-gray-500 text-medium">
             Полный гид по GTA Online: еженедельные события, коллекционные предметы, ограбления и многое другое
           </p>
+        </div>
+
+        {/* Кнопки действий */}
+        <div className="flex flex-wrap gap-4 mb-8">
+          {actionButtons.map((button) => (
+            <a
+              key={button.id}
+              href={button.href}
+              className="button-orange"
+            >
+              {button.title}
+            </a>
+          ))}
         </div>
 
         {/* Сетка карточек */}
