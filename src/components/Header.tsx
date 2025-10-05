@@ -251,11 +251,8 @@ export default function Header() {
                 <Link href="/games/gtao/achievements" className="block px-4 py-2 text-white hover:text-black hover:bg-rockstar-500 transition-colors duration-300">
                   Достижения
                 </Link>
-                <Link href="/gta-online/weekly" className="block px-4 py-2 text-white hover:text-black hover:bg-rockstar-500 transition-colors duration-300">
-                  2X Бонусы
-                </Link>
-                <Link href="/gta-online/gs-cache" className="block px-4 py-2 text-white hover:text-black hover:bg-rockstar-500 transition-colors duration-300">
-                  Заначки Дж.
+                <Link href="/gta-online" className="block px-4 py-2 text-white hover:text-black hover:bg-rockstar-500 transition-colors duration-300">
+                  Хаб
                 </Link>
               </div>
             </div>
@@ -365,18 +362,11 @@ export default function Header() {
                 GTA Online
               </Link>
               <Link 
-                href="/gta-online/weekly" 
+                href="/gta-online" 
                 className="navbar-item text-white py-2"
                 onClick={closeMobileMenu}
               >
-                2X Бонусы GTAO
-              </Link>
-              <Link 
-                href="/gta-online/gs-cache" 
-                className="navbar-item text-white py-2"
-                onClick={closeMobileMenu}
-              >
-                Заначки Дж.
+                Хаб GTA Online
               </Link>
               <Link 
                 href="/games" 
