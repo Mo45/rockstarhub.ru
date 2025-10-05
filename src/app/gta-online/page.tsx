@@ -60,7 +60,7 @@ export default function GTAOnlineHub() {
             <a
               key={button.id}
               href={button.href}
-              className="button-orange"
+              className="button-hub"
             >
               {button.title}
             </a>
