@@ -3,6 +3,7 @@
 import { notFound } from 'next/navigation';
 import axios from 'axios';
 import Image from 'next/image';
+import Link from 'next/link';
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 import AwardSection from '@/components/AwardSection';
 import ShareButtons from '@/components/ShareButtons';
@@ -168,6 +169,34 @@ export default async function SingleHeistPage(props: { params: Promise<{ slug: s
   return (
     <main className="min-h-screen p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
+
+        {/* Хлебные крошки */}
+        <nav className="flex mb-4" aria-label="Хлебные крошки">
+          <ol className="flex items-center space-x-2 text-sm text-gray-500">
+            <li>
+              <Link href="/" className="hover:text-gray-700 transition-colors">
+                Главная
+              </Link>
+            </li>
+            <li className="flex items-center">
+              <span className="mx-2">/</span>
+              <Link href="/gta-online" className="hover:text-gray-700 transition-colors">
+                Хаб GTA Online
+              </Link>
+            </li>
+            <li className="flex items-center">
+              <span className="mx-2">/</span>
+              <Link href="/gta-online/heists" className="hover:text-gray-700 transition-colors">
+                Ограбления
+              </Link>
+            </li>
+            <li className="flex items-center">
+              <span className="mx-2">/</span>
+              <span className="text-rockstar-500 font-medium">{heistData.title_ru}</span>
+            </li>
+          </ol>
+        </nav>
+
         {/* Заголовок страницы */}
         <div className="mb-8">
           <h1 className="text-xl md:text-2xl font-bold mb-4">

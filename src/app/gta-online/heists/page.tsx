@@ -93,6 +93,28 @@ export default function HeistsPage() {
   return (
     <main className="min-h-screen p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
+
+        {/* Хлебные крошки */}
+        <nav className="flex mb-4" aria-label="Хлебные крошки">
+          <ol className="flex items-center space-x-2 text-sm text-gray-500">
+            <li>
+              <Link href="/" className="hover:text-gray-700 transition-colors">
+                Главная
+              </Link>
+            </li>
+            <li className="flex items-center">
+              <span className="mx-2">/</span>
+              <Link href="/gta-online" className="hover:text-gray-700 transition-colors">
+                Хаб GTA Online
+              </Link>
+            </li>
+            <li className="flex items-center">
+              <span className="mx-2">/</span>
+              <span className="text-rockstar-500 font-medium">Ограбления в GTA Online</span>
+            </li>
+          </ol>
+        </nav>
+
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-xl md:text-2xl font-bold">GTA Online — Все ограбления</h1>
         </div>
