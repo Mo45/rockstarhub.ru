@@ -46,9 +46,25 @@ export default function GTAOnlineHub() {
   return (
     <main className="min-h-screen p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
+
+        {/* Хлебные крошки */}
+        <nav className="flex mb-4" aria-label="Хлебные крошки">
+          <ol className="flex items-center space-x-2 text-sm text-gray-500">
+            <li>
+              <Link href="/" className="hover:text-gray-700 transition-colors">
+                Главная
+              </Link>
+            </li>
+            <li className="flex items-center">
+              <span className="mx-2">/</span>
+              <span className="text-rockstar-500 font-medium">Хаб GTA Online</span>
+            </li>
+          </ol>
+        </nav>
+
         {/* Заголовок страницы */}
         <div className="mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold mb-4">GTA Online — Хаб</h1>
+          <h1 className="text-2xl md:text-3xl font-bold mb-4">Хаб GTA Online</h1>
           <p className="text-gray-500 text-medium">
             Полный гид по GTA Online: еженедельные события, коллекционные предметы, ограбления и многое другое
           </p>
