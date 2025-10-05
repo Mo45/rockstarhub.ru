@@ -5,6 +5,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { 
   TwitterShareButton, 
@@ -193,7 +194,7 @@ export default function EventsPage() {
             </li>
           </ol>
         </nav>
-        
+
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-xl md:text-2xl font-bold">GTA Online — События и бонусы этой недели</h1>
         </div>
