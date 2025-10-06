@@ -1,7 +1,7 @@
 // /src/components/Footer.tsx
 
 import Link from 'next/link';
-import { SiDiscord, SiVk, SiTelegram } from 'react-icons/si';
+import { SiDiscord, SiVk, SiTelegram, SiYoutube } from 'react-icons/si';
 import { useState, useEffect } from 'react';
 
 export default function Footer() {
@@ -83,9 +83,13 @@ export default function Footer() {
             <h4 className="text-lg font-bold mb-4">Соцсети</h4>
             <div className="flex space-x-4">
 
-              <a href="https://discord.gg/EkfMa3MU" className="gray-to-orange" rel="noopener noreferrer" target="_blank">
+              <a href="https://discord.gg/EkfMa3MU" className="gray-to-orange" rel="nofollow noopener noreferrer" target="_blank">
                 <span className="sr-only">Discord</span>
                 <SiDiscord className="w-6 h-6" />
+              </a>
+              <a href="https://www.youtube.com/@rockstarhubru" className="gray-to-orange" rel="nofollow noopener noreferrer" target="_blank">
+                <span className="sr-only">YouTube</span>
+                <SiYoutube className="w-6 h-6" />
               </a>
               <a href="#" className="gray-to-orange">
                 <span className="sr-only">VK</span>
