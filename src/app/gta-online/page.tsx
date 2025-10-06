@@ -7,19 +7,19 @@ const hubCards = [
   {
     id: 1,
     title: 'Заначки Джеральда',
-    image: 'https://data.rockstarhub.ru/uploads/gs_cache_f912aa8e59.jpg',
+    image: '/gs_cache.webp',
     link: '/gta-online/gs-cache'
   },
   {
     id: 2,
     title: 'События и бонусы этой недели',
-    image: 'https://data.rockstarhub.ru/uploads/large_3e513430cff3bae8bbfddee1f5f61274d7832046_925fc0edcc.jpg',
+    image: '/events_gtao.webp',
     link: '/gta-online/weekly'
   },
   {
     id: 3,
     title: 'Ограбления',
-    image: 'https://data.rockstarhub.ru/uploads/Heists_Update_GTAO_Artwork_f0e18561a4.webp',
+    image: '/cayo_perico_square.webp',
     link: '/gta-online/heists'
   }
 ];
