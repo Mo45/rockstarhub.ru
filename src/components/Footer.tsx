@@ -83,7 +83,7 @@ export default function Footer() {
             <h4 className="text-lg font-bold mb-4">Соцсети</h4>
             <div className="flex space-x-4">
 
-              <a href="https://discord.gg/EkfMa3MU" className="gray-to-orange" rel="nofollow noopener noreferrer" target="_blank">
+              <a href="https://discord.gg/ppAAD626vM" className="gray-to-orange" rel="nofollow noopener noreferrer" target="_blank">
                 <span className="sr-only">Discord</span>
                 <SiDiscord className="w-6 h-6" />
               </a>

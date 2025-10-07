@@ -353,7 +353,7 @@ export default async function AchievementPage(props: { params: Promise<{ slug: s
                 <div className="text-xs text-gray-400">Заходи на наш Discord-сервер: Советы, помощь, общение!</div>
               </div>
               <a
-                href="https://discord.gg/EkfMa3MU"
+                href="https://discord.gg/ppAAD626vM"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center discord-button gap-3 bg-[#5865F2] px-4 py-3 rounded-lg hover:bg-[#4752c4] transition-colors duration-200 w-full md:w-auto justify-center"
