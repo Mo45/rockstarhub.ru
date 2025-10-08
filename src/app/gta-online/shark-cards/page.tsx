@@ -96,7 +96,13 @@ export default function SharkCardsPage() {
               className="aspect-square relative rounded-lg overflow-hidden cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300 group outline-2 outline-offset-2 outline-zinc-800 hover:outline-rockstar-500 block"
             >
               <div className="w-full h-full card flex items-center justify-center">
-                <span className="text-gray-500">Изображение Shark Card</span>
+                <Image 
+                      src={`${image}`}
+                      alt={`${title}`}
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
               </div>
               
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 z-10">
