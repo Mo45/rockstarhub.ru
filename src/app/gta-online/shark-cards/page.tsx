@@ -53,7 +53,6 @@ export default function SharkCardsPage() {
     <main className="min-h-screen p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
 
-        {/* Хлебные крошки */}
         <nav className="flex mb-4" aria-label="Хлебные крошки">
           <ol className="flex items-center space-x-2 text-sm text-gray-500">
             <li>
@@ -69,12 +68,11 @@ export default function SharkCardsPage() {
             </li>
             <li className="flex items-center">
               <span className="mx-2">/</span>
-              <span className="text-rockstar-500 font-medium">Shark Cards</span>
+              <span className="text-rockstar-500 font-medium">Купить Shark Cards</span>
             </li>
           </ol>
         </nav>
 
-        {/* Заголовок страницы */}
         <div className="mb-8">
           <h1 className="text-2xl md:text-3xl font-bold">Shark Cards — купить валюту GTA Online</h1>
           <p className="text-gray-500 text-medium">
@@ -82,7 +80,6 @@ export default function SharkCardsPage() {
           </p>
         </div>
 
-        {/* Сетка карточек */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {sharkCards.map((card) => (
             <a 
@@ -111,9 +108,8 @@ export default function SharkCardsPage() {
           ))}
         </div>
 
-        {/* SEO описание */}
         <div className="prose max-w-none card p-6 rounded-lg article-content">
-          <h2>Shark Cards — официальный способ покупки GTA$</h2>
+          <h2 className="mt-0">Shark Cards — официальный способ покупки GTA$</h2>
           
           <p>
             Shark Cash Cards — это полностью легальный и официальный способ приобретения внутриигровой валюты GTA$ 
