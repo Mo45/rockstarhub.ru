@@ -9,7 +9,7 @@ const sharkCards = [
     title: 'Megalodon Shark Cash Card',
     value: '8,000,000$',
     price: '6 899 ₽',
-    image: '/shark-cards/megalodon.webp',
+    image: '/Megalodon.jpg',
     link: 'https://plati.market/itm/gta-online-megalodon-shark-cash-card-8-000-000-pc/3590684?ai=901800'
   },
   {
@@ -17,7 +17,7 @@ const sharkCards = [
     title: 'Whale Shark Cash Card',
     value: '3,500,000$',
     price: '4 595 ₽',
-    image: '/shark-cards/whale.webp',
+    image: '/WhaleShark.jpg',
     link: 'https://plati.market/itm/gta-online-whale-shark-cash-card-3-500-000-pc-key/3590689?ai=901800'
   },
   {
@@ -25,7 +25,7 @@ const sharkCards = [
     title: 'Great White Shark Cash Card',
     value: '1,250,000$',
     price: '1 599 ₽',
-    image: '/shark-cards/great-white.webp',
+    image: '/GreatWhite.jpg',
     link: 'https://plati.market/itm/gta-online-great-white-shark-cash-1-250-000-pc-key/3590685?ai=901800'
   },
   {
@@ -33,7 +33,7 @@ const sharkCards = [
     title: 'Bull Shark Cash Card',
     value: '500,000$',
     price: '899 ₽',
-    image: '/shark-cards/bull.webp',
+    image: '/BullShark.jpg',
     link: 'https://plati.market/itm/gta-online-bull-shark-cash-card-500-000-pc-key/3590687?ai=901800'
   },
   {
@@ -41,7 +41,7 @@ const sharkCards = [
     title: 'Tiger Shark Cash Card',
     value: '200,000$',
     price: '395 ₽',
-    image: '/shark-cards/tiger.webp',
+    image: '/TigerShark.jpg',
     link: 'https://plati.market/itm/gta-online-tiger-shark-cash-card-200-000-pc-key/2451493?ai=901800'
   },
   {
@@ -49,7 +49,7 @@ const sharkCards = [
     title: 'Red Shark Cash Card',
     value: '100,000$',
     price: '195 ₽',
-    image: '/shark-cards/red.webp',
+    image: '/RedShark.jpg',
     link: 'https://plati.market/itm/gta-online-red-shark-cash-card-100-000-pc-key/3590686?ai=901800'
   }
 ];
