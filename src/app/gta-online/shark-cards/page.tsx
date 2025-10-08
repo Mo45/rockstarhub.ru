@@ -76,7 +76,7 @@ export default function SharkCardsPage() {
 
         {/* Заголовок страницы */}
         <div className="mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold mb-4">Shark Cards — купить валюту GTA Online</h1>
+          <h1 className="text-2xl md:text-3xl font-bold">Shark Cards — купить валюту GTA Online</h1>
           <p className="text-gray-500 text-medium">
             Купить Shark Cards для GTA Online. Официальные карты с мгновенной доставкой. Легальный способ получения GTA$. Активация в Rockstar Games Launcher.
           </p>
@@ -112,8 +112,8 @@ export default function SharkCardsPage() {
         </div>
 
         {/* SEO описание */}
-        <div className="prose max-w-none card p-6 rounded-lg">
-          <h2 className="mb-2">Shark Cards — официальный способ покупки GTA$</h2>
+        <div className="prose max-w-none card p-6 rounded-lg article-content">
+          <h2>Shark Cards — официальный способ покупки GTA$</h2>
           
           <p>
             Shark Cash Cards — это полностью легальный и официальный способ приобретения внутриигровой валюты GTA$ 
@@ -137,7 +137,7 @@ export default function SharkCardsPage() {
             </div>
           </div>
 
-          <h3 className="mb-2">Преимущества покупки Shark Cards</h3>
+          <h3>Преимущества покупки Shark Cards</h3>
           <ul className="mb-2">
             <li><strong>Полная легальность</strong> — официальный товар от Rockstar Games</li>
             <li><strong>Мгновенная доставка</strong> — ключ приходит сразу после оплаты</li>
@@ -145,7 +145,7 @@ export default function SharkCardsPage() {
             <li><strong>Простая активация</strong> — через Rockstar Games Launcher или Social Club</li>
           </ul>
 
-          <h3 className="mb-2">Информация о продавце</h3>
+          <h3>Информация о продавце</h3>
           <div className="card p-4 rounded mt-4 mb-4">
             <p><strong>mrakk</strong></p>
             <div className="grid grid-cols-2 gap-2 text-sm mt-2">
@@ -157,7 +157,7 @@ export default function SharkCardsPage() {
             </div>
           </div>
 
-          <h3 className="mb-2">Как активировать Shark Card?</h3>
+          <h3>Как активировать Shark Card?</h3>
           <ul className="mb-2">
             <li>Оплатите выбранную карту</li>
             <li>Получите ключ на email или в браузере</li>
