@@ -160,12 +160,12 @@ export default function HeistsPage() {
                   )}
                   
                   {/* Плашка с наградой */}
-                  <div className="absolute top-3 left-3 bg-white text-black px-2 py-1 rounded-md text-sm font-bold z-10">
+                  <div className="absolute top-3 left-3 bg-rockstar-500 text-black px-2 py-1 rounded-md text-sm font-bold z-10">
                     Куш: {formatReward(heist.reward_easy)} - {formatReward(heist.reward_hard)} GTA$
                   </div>
                   
                   {/* Плашка с количеством игроков */}
-                  <div className="absolute top-3 right-3 bg-white text-black px-2 py-1 rounded-md text-sm font-bold z-10">
+                  <div className="absolute top-3 right-3 bg-rockstar-500 text-black px-2 py-1 rounded-md text-sm font-bold z-10">
                     <FaUsers className="inline"/> {heist.players}
                   </div>
                   
