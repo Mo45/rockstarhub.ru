@@ -6,42 +6,48 @@ import Link from 'next/link';
 const sharkCards = [
   {
     id: 1,
-    title: 'MEGALODON SHARK CASH CARD 8,000,000$',
+    title: 'Megalodon Shark Cash Card',
+    value: '8,000,000$',
     price: '6 899 ₽',
     image: '/shark-cards/megalodon.webp',
     link: 'https://plati.market/itm/gta-online-megalodon-shark-cash-card-8-000-000-pc/3590684?ai=901800'
   },
   {
     id: 2,
-    title: 'WHALE SHARK CASH CARD 3,500,000$',
+    title: 'Whale Shark Cash Card',
+    value: '3,500,000$',
     price: '4 595 ₽',
     image: '/shark-cards/whale.webp',
     link: 'https://plati.market/itm/gta-online-whale-shark-cash-card-3-500-000-pc-key/3590689?ai=901800'
   },
   {
     id: 3,
-    title: 'GREAT WHITE SHARK CASH 1,250,000$',
+    title: 'Great White Shark Cash Card',
+    value: '1,250,000$',
     price: '1 599 ₽',
     image: '/shark-cards/great-white.webp',
     link: 'https://plati.market/itm/gta-online-great-white-shark-cash-1-250-000-pc-key/3590685?ai=901800'
   },
   {
     id: 4,
-    title: 'BULL SHARK CASH CARD 500,000$',
+    title: 'Bull Shark Cash Card',
+    value: '500,000$',
     price: '899 ₽',
     image: '/shark-cards/bull.webp',
     link: 'https://plati.market/itm/gta-online-bull-shark-cash-card-500-000-pc-key/3590687?ai=901800'
   },
   {
     id: 5,
-    title: 'TIGER SHARK CASH CARD 200,000$',
+    title: 'Tiger Shark Cash Card',
+    value: '200,000$',
     price: '395 ₽',
     image: '/shark-cards/tiger.webp',
     link: 'https://plati.market/itm/gta-online-tiger-shark-cash-card-200-000-pc-key/2451493?ai=901800'
   },
   {
     id: 6,
-    title: 'RED SHARK CASH CARD 100,000$',
+    title: 'Red Shark Cash Card',
+    value: '100,000$',
     price: '195 ₽',
     image: '/shark-cards/red.webp',
     link: 'https://plati.market/itm/gta-online-red-shark-cash-card-100-000-pc-key/3590686?ai=901800'
@@ -76,7 +82,7 @@ export default function SharkCardsPage() {
         <div className="mb-8">
           <h1 className="text-2xl md:text-3xl font-bold">Shark Cards — купить валюту GTA Online</h1>
           <p className="text-gray-500 text-medium">
-            Купить Shark Cards для GTA Online. Официальные карты с мгновенной доставкой. Легальный способ получения GTA$. Активация в Rockstar Games Launcher.
+            Купить Shark Cards для GTA Online. Официальные карты с мгновенной доставкой. Легальный и безопасный способ получения GTA$. Активация в Rockstar Games Launcher или на сайте Social Club.
           </p>
         </div>
 
@@ -94,9 +100,12 @@ export default function SharkCardsPage() {
               </div>
               
               <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 z-10">
-                <h3 className="text-white font-semibold text-lg line-clamp-2 mb-2">
-                  {card.title}
+                <h3 className="text-white font-semibold text-lg line-clamp-2 mb-1">
+                  {card.value}
                 </h3>
+                <h4 className="text-gray-300 font-medium text-sm line-clamp-2 mb-2">
+                  {card.title}
+                </h4>
                 <div className="flex justify-between items-center">
                   <span className="text-rockstar-500 font-bold text-xl">{card.price}</span>
                   <span className="bg-rockstar-500 text-white px-3 py-1 rounded text-sm font-medium">
@@ -112,9 +121,9 @@ export default function SharkCardsPage() {
           <h2 className="mt-0">Shark Cards — официальный способ покупки GTA$</h2>
           
           <p>
-            Shark Cash Cards — это полностью легальный и официальный способ приобретения внутриигровой валюты GTA$ 
-            в GTA Online. В отличие от различных серых схем и читерских методов, покупка Shark Cards гарантирует 
-            безопасность вашего аккаунта и сохранность прогресса.
+            Shark Cash Cards — это полностью <strong>легальный</strong> и официальный способ приобретения внутриигровой валюты <strong>GTA$</strong> 
+            в <Link href="https://rockstarhub.ru/games/gtao" className="orange-to-white">GTA Online</Link>. В отличие от различных серых схем и читерских методов, покупка Shark Cards <strong>гарантирует 
+            безопасность</strong> вашего аккаунта и сохранность прогресса.
           </p>
 
           <div className="border-l-4 border-yellow-400 p-4 my-6">
