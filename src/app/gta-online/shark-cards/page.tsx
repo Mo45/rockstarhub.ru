@@ -76,9 +76,9 @@ export default function SharkCardsPage() {
 
         {/* Заголовок страницы */}
         <div className="mb-8">
-          <h1 className="text-2xl md:text-3xl font-bold mb-4">Shark Cards — купить за реальные деньги</h1>
+          <h1 className="text-2xl md:text-3xl font-bold mb-4">Shark Cards — купить валюту GTA Online</h1>
           <p className="text-gray-500 text-medium">
-            Купить Shark Cards для GTA Online. Официальные карты с мгновенной доставкой. Легальный способ получения GTA$.
+            Купить Shark Cards для GTA Online. Официальные карты с мгновенной доставкой. Легальный способ получения GTA$. Активация в Rockstar Games Launcher.
           </p>
         </div>
 
@@ -142,7 +142,7 @@ export default function SharkCardsPage() {
             <li><strong>Полная легальность</strong> — официальный товар от Rockstar Games</li>
             <li><strong>Мгновенная доставка</strong> — ключ приходит сразу после оплаты</li>
             <li><strong>Безопасность аккаунта</strong> — никакого риска блокировки</li>
-            <li><strong>Простая активация</strong> — через Rockstar Games Social Club</li>
+            <li><strong>Простая активация</strong> — через Rockstar Games Launcher или Social Club</li>
           </ul>
 
           <h3 className="mb-2">Информация о продавце</h3>
