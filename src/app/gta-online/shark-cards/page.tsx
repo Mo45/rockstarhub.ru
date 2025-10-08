@@ -82,7 +82,7 @@ export default function SharkCardsPage() {
         <div className="mb-8">
           <h1 className="text-2xl md:text-3xl font-bold">Shark Cards — купить валюту GTA Online</h1>
           <p className="text-gray-500 text-medium">
-            Купить Shark Cards для GTA Online. Официальные карты с мгновенной доставкой. Легальный и безопасный способ получения GTA$. Активация в Rockstar Games Launcher или на сайте Social Club.
+            Купить Shark Cards для GTA Online. Официальные ваучеры с мгновенной доставкой. Легальный и безопасный способ получения GTA$. Активация в Rockstar Games Launcher или на сайте Social Club.
           </p>
         </div>
 
@@ -121,8 +121,7 @@ export default function SharkCardsPage() {
           <h2 className="mt-0">Shark Cards — официальный способ покупки GTA$</h2>
           
           <p>
-            Shark Cash Cards — это полностью <strong>легальный</strong> и официальный способ приобретения внутриигровой валюты <strong>GTA$</strong> 
-            в <Link href="https://rockstarhub.ru/games/gtao" className="orange-to-white">GTA Online</Link>. В отличие от различных серых схем и читерских методов, покупка Shark Cards <strong>гарантирует 
+            Shark Cash Cards — это полностью <strong>легальный</strong> и официальный способ приобретения внутриигровой валюты <strong>GTA$</strong>&nbsp;в <Link href="https://rockstarhub.ru/games/gtao" className="orange-to-white">GTA Online</Link>. В отличие от различных серых схем и читерских методов, покупка Shark Cards <strong>гарантирует 
             безопасность</strong> вашего аккаунта и сохранность прогресса.
           </p>
 
@@ -134,8 +133,8 @@ export default function SharkCardsPage() {
               <div className="ml-3">
                 <p className="text-yellow-700 font-medium">Важное предупреждение</p>
                 <p className="text-yellow-600 text-sm mt-1">
-                  Другие, зачастую более дешевые варианты накрутки валюты GTA$ и опыта — это читы, 
-                  за которые рано или поздно прилетит бан. Не верьте продавцам, которые обещают 
+                  Другие, зачастую более дешевые варианты накрутки валюты GTA$ и опыта — это читы, и нарушение <a href="https://www.rockstargames.com/legal?country=ru" target="_blank" rel="noopener noreferrer" className="orange-to-white">пользовательского соглашения</a>,
+                  за что рано или поздно прилетит бан. Не верьте продавцам, которые обещают 
                   &ldquo;безопасные&rdquo; неофициальные методы пополнения счета.
                 </p>
               </div>
@@ -146,33 +145,33 @@ export default function SharkCardsPage() {
           <ul className="mb-2">
             <li><strong>Полная легальность</strong> — официальный товар от Rockstar Games</li>
             <li><strong>Мгновенная доставка</strong> — ключ приходит сразу после оплаты</li>
-            <li><strong>Безопасность аккаунта</strong> — никакого риска блокировки</li>
+            <li><strong>Безопасность аккаунта</strong> — никакого риска блокировки или потери прогресса</li>
             <li><strong>Простая активация</strong> — через Rockstar Games Launcher или Social Club</li>
           </ul>
 
-          <h3>Информация о продавце</h3>
+          <h3>Надёжный продавец</h3>
           <div className="card p-4 rounded mt-4 mb-4">
-            <p><strong>mrakk</strong></p>
             <div className="grid grid-cols-2 gap-2 text-sm mt-2">
-              <div>Рейтинг: <span className="font-semibold">24 978 отзывов</span></div>
+              <div>Отзывы: <span className="font-semibold">24 978+</span></div>
               <div>На маркетплейсе: <span className="font-semibold">13 лет</span></div>
-              <div>Положительных оценок: <span className="font-semibold">24 974</span></div>
+              <div>Положительных оценок: <span className="font-semibold">24 974+</span></div>
               <div>Негативных оценок: <span className="font-semibold">4</span></div>
-              <div>Количество продаж: <span className="font-semibold">1 025 119</span></div>
+              <div>Количество продаж: <span className="font-semibold">1 025 119+</span></div>
+              <div>Уровень продавца: <span className="font-semibold">Сертифицированный</span></div>
             </div>
           </div>
 
           <h3>Как активировать Shark Card?</h3>
           <ul className="mb-2">
             <li>Оплатите выбранную карту</li>
-            <li>Получите ключ на email или в браузере</li>
-            <li>Активируйте на сайте: https://socialclub.rockstargames.com/activate</li>
+            <li>Получите ключ на email указанный при покупке</li>
+            <li>Активируйте в <strong>Rockstar Games Launcher</strong> на сайте <a href="https://socialclub.rockstargames.com/activate" target="_blank" rel="noopener noreferrer" className="orange-to-white">Social Club</a></li>
             <li>Деньги поступят на счет вашего персонажа в GTA Online</li>
           </ul>
 
           <p className="text-sm text-gray-600 mt-6">
-            <strong>Внимание!</strong> Для использования требуется игра Grand Theft Auto V или Grand Theft Auto Online. 
-            Карты не имеют региональных ограничений и активируются во всех странах.
+            <strong>Внимание!</strong> Для использования требуется игра <strong>Grand Theft Auto Online</strong>. 
+            Ваучеры не имеют региональных ограничений и активируются во всех странах.
           </p>
         </div>
       </div>

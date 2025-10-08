@@ -3,9 +3,9 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Купить Shark Cards для GTA Online — Официальные карты денег',
-  description: 'Купить Shark Cards для GTA Online по лучшим ценам. Официальные карты с мгновенной доставкой. Легальный способ получения GTA$ без риска бана.',
-  keywords: ['купить shark cards', 'shark cards gta online', 'GTA$ карты', 'деньги GTA Online', 'официальные карты'],
+  title: 'Купить Shark Cards для GTA Online — Официальные ваучеры пополнения GTA$',
+  description: 'Купить Shark Cards для GTA Online по лучшим ценам. Официальные ваучеры с мгновенной доставкой. Легальный способ получения GTA$ без риска бана.',
+  keywords: ['купить shark cards', 'shark cards gta online', 'GTA$ ваучеры', 'деньги GTA Online'],
   creator: 'Kirill Krasin',
   publisher: 'Rockstar Хаб',
   metadataBase: new URL('https://rockstarhub.ru'),
@@ -13,8 +13,8 @@ export const metadata: Metadata = {
     canonical: '/gta-online/shark-cards'
   },
   openGraph: {
-    title: 'Купить Shark Cards для GTA Online — Официальные карты денег',
-    description: 'Купить Shark Cards для GTA Online по лучшим ценам. Официальные карты с мгновенной доставкой',
+    title: 'Купить Shark Cards для GTA Online — Официальные ваучеры пополнения GTA$',
+    description: 'Купить Shark Cards для GTA Online по лучшим ценам. Официальные ваучеры с мгновенной доставкой',
     type: 'website',
     url: 'https://rockstarhub.ru/gta-online/shark-cards',
     siteName: 'Rockstar Хаб',
@@ -29,8 +29,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Купить Shark Cards для GTA Online — Официальные карты денег',
-    description: 'Купить Shark Cards для GTA Online по лучшим ценам. Официальные карты с мгновенной доставкой',
+    title: 'Купить Shark Cards для GTA Online — Официальные ваучеры пополнения GTA$',
+    description: 'Купить Shark Cards для GTA Online по лучшим ценам. Официальные ваучеры с мгновенной доставкой',
     images: ['https://data.rockstarhub.ru/uploads/large_GTA_Online_Artwork_83260e1623.webp'],
   },
 };
