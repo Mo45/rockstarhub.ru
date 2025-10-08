@@ -80,27 +80,34 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-lg font-bold mb-4">Соцсети</h4>
-            <div className="flex space-x-4">
-
-              <a href="https://discord.gg/ppAAD626vM" className="gray-to-orange" rel="nofollow noopener noreferrer" target="_blank">
-                <span className="sr-only">Discord</span>
-                <SiDiscord className="w-6 h-6" />
-              </a>
-              <a href="https://www.youtube.com/@rockstarhubru" className="gray-to-orange" rel="nofollow noopener noreferrer" target="_blank">
-                <span className="sr-only">YouTube</span>
-                <SiYoutube className="w-6 h-6" />
-              </a>
-              <a href="#" className="gray-to-orange">
-                <span className="sr-only">VK</span>
-                <SiVk className="w-6 h-6" />
-              </a>
-              <a href="#" className="gray-to-orange">
-                <span className="sr-only">Telegram</span>
-                <SiTelegram className="w-6 h-6" />
-              </a>
-            </div>
-          </div>
+  <h4 className="text-lg font-bold mb-4">Соцсети</h4>
+  <ul className="space-y-3">
+    <li>
+      <a href="https://discord.gg/ppAAD626vM" className="gray-to-orange flex items-center space-x-3" rel="nofollow noopener noreferrer" target="_blank">
+        <SiDiscord className="w-5 h-5" />
+        <span>Discord</span>
+      </a>
+    </li>
+    <li>
+      <a href="https://www.youtube.com/@rockstarhubru" className="gray-to-orange flex items-center space-x-3" rel="nofollow noopener noreferrer" target="_blank">
+        <SiYoutube className="w-5 h-5" />
+        <span>YouTube</span>
+      </a>
+    </li>
+    <li>
+      <a href="#" className="gray-to-orange flex items-center space-x-3">
+        <SiVk className="w-5 h-5" />
+        <span>VK</span>
+      </a>
+    </li>
+    <li>
+      <a href="#" className="gray-to-orange flex items-center space-x-3">
+        <SiTelegram className="w-5 h-5" />
+        <span>Telegram</span>
+      </a>
+    </li>
+  </ul>
+</div>
         </div>
 
         <div className="border-t border-gray-700 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
