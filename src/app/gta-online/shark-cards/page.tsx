@@ -133,13 +133,10 @@ export default function SharkCardsPage() {
 
           <div className="border-l-4 border-yellow-400 p-4 my-6">
             <div className="flex">
-              <div className="flex-shrink-0">
-                <span className="text-yellow-400">⚠️</span>
-              </div>
-              <div className="ml-3">
-                <p className="text-yellow-700 font-medium">Важное предупреждение</p>
+              <div className="ml-1">
+                <p className="text-yellow-700 font-medium">Важно знать!</p>
                 <p className="text-yellow-600 text-sm mt-1">
-                  Другие, зачастую более дешевые варианты накрутки валюты GTA$ и опыта — это читы, и нарушение <a href="https://www.rockstargames.com/legal?country=ru" target="_blank" rel="noopener noreferrer" className="orange-to-white">пользовательского соглашения</a>,
+                  Неофициальные, зачастую более дешевые варианты получения валюты GTA$ и накрутки опыта — это читы, и нарушение <a href="https://www.rockstargames.com/legal?country=ru" target="_blank" rel="noopener noreferrer" className="orange-to-white">пользовательского соглашения</a>,
                   за что рано или поздно прилетит бан. Не верьте продавцам, которые обещают 
                   «безопасные» неофициальные методы пополнения счета.
                 </p>

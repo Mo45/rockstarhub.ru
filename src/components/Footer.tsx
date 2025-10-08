@@ -36,8 +36,8 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/games/gta-v" title="Grand Theft Auto V" className="gray-to-orange">
-                  GTA 5
+                <Link href="/gta-online/shark-cards" title="Купить валюту GTA Online" className="gray-to-orange">
+                  Купить Shark Cards
                 </Link>
               </li>
               <li>

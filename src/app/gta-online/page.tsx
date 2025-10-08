@@ -28,17 +28,22 @@ const actionButtons = [
   {
     id: 1,
     title: 'Об игре',
-    href: 'https://rockstarhub.ru/games/gtao'
+    href: '/games/gtao'
   },
   {
     id: 2,
     title: 'Новости GTA Online',
-    href: 'https://rockstarhub.ru/categories/gta-online'
+    href: '/categories/gta-online'
   },
   {
     id: 3,
     title: 'Достижения GTA Online',
-    href: 'https://rockstarhub.ru/games/gtao/achievements'
+    href: '/games/gtao/achievements'
+  },
+  {
+    id: 4,
+    title: 'Купить Shark Cards',
+    href: '/gta-online/shark-cards'
   }
 ];
 
