@@ -29,7 +29,7 @@ export default function Home() {
         </div>
         <ArticleList limit={12} />
 
-        <div className="card rounded-lg p-6 md:p-8 mb-4 mt-4">
+        <div className="card rounded-lg p-6 md:p-8 mb-2 mt-8">
           <div className="prose max-w-none text-sm">
             <p className="mb-4">
               Являетесь поклонником культовых серий GTA, Red Dead или других проектов Rockstar Games? 
@@ -37,12 +37,12 @@ export default function Home() {
               одной из самых талантливых студий в игровой индустрии.
             </p>
             <p className="mb-4">
-              Мы собрали для вас все доступные данные о грядущей — <strong><Link href="/games/gtavi" className="white-to-orange">Grand Theft Auto 6</Link></strong>.
+              Мы собрали для вас все доступные данные о грядущей — <strong><Link href="/games/gtavi" title="GTA 6" className="white-to-orange">Grand Theft Auto 6</Link></strong>.
               Узнайте первыми о дате выхода, смотрите эксклюзивные геймплейные 
               видео, изучайте увлекательную аналитику и будьте в курсе всех деталей на RockstarHub.ru.
             </p>
             <p className="mb-4">
-              Не забываем мы и о легендарной <strong><Link href="/games/gtao" className="white-to-orange">GTA Online</Link></strong> — одном из самых успешных проектов студии. 
+              Не забываем мы и о легендарной <strong><Link href="/games/gtao" title="Grand Theft Auto Online" className="white-to-orange">GTA Online</Link></strong> — одном из самых успешных проектов студии. 
               Если вы активный игрок или просто следите за развитием многопользовательской вселенной GTA 5, 
               в вашем распоряжении специальный Хаб с множеством полезных материалов.
             </p>
