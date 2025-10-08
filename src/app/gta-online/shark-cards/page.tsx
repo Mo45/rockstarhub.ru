@@ -112,7 +112,7 @@ export default function SharkCardsPage() {
         </div>
 
         {/* SEO описание */}
-        <div className="prose max-w-none bg-gray-50 p-6 rounded-lg">
+        <div className="prose max-w-none card p-6 rounded-lg">
           <h2 className="mb-2">Shark Cards — официальный способ покупки GTA$</h2>
           
           <p>
@@ -121,7 +121,7 @@ export default function SharkCardsPage() {
             безопасность вашего аккаунта и сохранность прогресса.
           </p>
 
-          <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 my-6">
+          <div className="border-l-4 border-yellow-400 p-4 my-6">
             <div className="flex">
               <div className="flex-shrink-0">
                 <span className="text-yellow-400">⚠️</span>
@@ -137,8 +137,8 @@ export default function SharkCardsPage() {
             </div>
           </div>
 
-          <h3>Преимущества покупки Shark Cards</h3>
-          <ul>
+          <h3 className="mb-2">Преимущества покупки Shark Cards</h3>
+          <ul className="mb-2">
             <li><strong>Полная легальность</strong> — официальный товар от Rockstar Games</li>
             <li><strong>Мгновенная доставка</strong> — ключ приходит сразу после оплаты</li>
             <li><strong>Безопасность аккаунта</strong> — никакого риска блокировки</li>
@@ -158,12 +158,12 @@ export default function SharkCardsPage() {
           </div>
 
           <h3 className="mb-2">Как активировать Shark Card?</h3>
-          <ol>
+          <ul className="mb-2">
             <li>Оплатите выбранную карту</li>
             <li>Получите ключ на email или в браузере</li>
             <li>Активируйте на сайте: https://socialclub.rockstargames.com/activate</li>
             <li>Деньги поступят на счет вашего персонажа в GTA Online</li>
-          </ol>
+          </ul>
 
           <p className="text-sm text-gray-600 mt-6">
             <strong>Внимание!</strong> Для использования требуется игра Grand Theft Auto V или Grand Theft Auto Online. 
