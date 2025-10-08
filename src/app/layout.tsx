@@ -12,8 +12,8 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Rockstar Хаб - Новости Rockstar Games',
-  description: 'Всё о твоих любимых играх от компании Rockstar Games',
-  keywords: ['gta 6', 'gta online', 'rdr 2', 'rockstar games'],
+  description: 'Всё о твоих любимых играх от компании Rockstar Games. Новости GTA 6, GTA Online, Red Dead Redemption',
+  keywords: ['GTA 6', 'GTA Online', 'RDR 2', 'Rockstar Games'],
   creator: 'Kirill Krasin',
   publisher: 'Rockstar Хаб',
   openGraph: {

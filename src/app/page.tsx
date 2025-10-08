@@ -2,17 +2,6 @@
 
 import Link from 'next/link';
 import ArticleList from '@/components/ArticleList';
-import { generateSEOMetadata } from '@/components/SEOMetaTags';
-
-export async function generateMetadata() {
-  return generateSEOMetadata({
-    title: 'Новости Rockstar Games',
-    description: 'Всё о твоих любимых играх от компании Rockstar Games. Новости GTA 6, GTA Online, Red Dead Redemption',
-    url: '/',
-    type: 'website',
-    tags: ['Rockstar Games', 'GTA Online', 'GTA 6', 'RDR 2'],
-  });
-}
 
 export default function Home() {
   return (
