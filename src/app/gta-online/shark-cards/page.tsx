@@ -135,7 +135,7 @@ export default function SharkCardsPage() {
                 <p className="text-yellow-600 text-sm mt-1">
                   Другие, зачастую более дешевые варианты накрутки валюты GTA$ и опыта — это читы, и нарушение <a href="https://www.rockstargames.com/legal?country=ru" target="_blank" rel="noopener noreferrer" className="orange-to-white">пользовательского соглашения</a>,
                   за что рано или поздно прилетит бан. Не верьте продавцам, которые обещают 
-                  &ldquo;безопасные&rdquo; неофициальные методы пополнения счета.
+                  «безопасные» неофициальные методы пополнения счета.
                 </p>
               </div>
             </div>
@@ -165,11 +165,14 @@ export default function SharkCardsPage() {
           <ul className="mb-2">
             <li>Оплатите выбранную карту</li>
             <li>Получите ключ на email указанный при покупке</li>
-            <li>Активируйте в <strong>Rockstar Games Launcher</strong> на сайте <a href="https://socialclub.rockstargames.com/activate" target="_blank" rel="noopener noreferrer" className="orange-to-white">Social Club</a></li>
+            <li>Запустите <strong>Rockstar Games Launcher</strong>, и нажмите на аватар справа сверху</li>
+            <li>Выберите пункт «<strong>Использовать код</strong>» и введите код активации</li>
             <li>Деньги поступят на счет вашего персонажа в GTA Online</li>
           </ul>
 
-          <p className="text-sm text-gray-600 mt-6">
+          <p className="mt-6">Если при активации в <strong>RGL</strong> возникли проблемы - активируйте код на сайте <a href="https://socialclub.rockstargames.com/activate" target="_blank" rel="noopener noreferrer" className="orange-to-white">Social Club</a>.</p>
+
+          <p className="text-sm text-gray-600 mt-4">
             <strong>Внимание!</strong> Для использования требуется игра <strong>Grand Theft Auto Online</strong>. 
             Ваучеры не имеют региональных ограничений и активируются во всех странах.
           </p>
