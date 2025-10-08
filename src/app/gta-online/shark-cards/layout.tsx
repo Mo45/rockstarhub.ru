@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     siteName: 'Rockstar Хаб',
     images: [
       {
-        url: 'https://data.rockstarhub.ru/uploads/large_GTA_Online_Artwork_83260e1623.webp',
+        url: 'https://data.rockstarhub.ru/uploads/shark_cards_963abe7968.jpg',
         width: 1000,
         height: 562,
         alt: 'Shark Cards GTA Online',
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Купить Shark Cards для GTA Online — Официальные ваучеры пополнения GTA$',
     description: 'Купить Shark Cards для GTA Online по лучшим ценам. Официальные ваучеры с мгновенной доставкой',
-    images: ['https://data.rockstarhub.ru/uploads/large_GTA_Online_Artwork_83260e1623.webp'],
+    images: ['https://data.rockstarhub.ru/uploads/shark_cards_963abe7968.jpg'],
   },
 };
 
