@@ -92,7 +92,7 @@ export default function SharkCardsPage() {
               rel="noopener noreferrer"
               className="aspect-square relative rounded-lg overflow-hidden cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300 group outline-2 outline-offset-2 outline-zinc-800 hover:outline-rockstar-500 block"
             >
-              <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+              <div className="w-full h-full card flex items-center justify-center">
                 <span className="text-gray-500">Изображение Shark Card</span>
               </div>
               
@@ -113,7 +113,7 @@ export default function SharkCardsPage() {
 
         {/* SEO описание */}
         <div className="prose max-w-none bg-gray-50 p-6 rounded-lg">
-          <h2>Shark Cards — официальный способ покупки GTA$</h2>
+          <h2 className="mb-2">Shark Cards — официальный способ покупки GTA$</h2>
           
           <p>
             Shark Cash Cards — это полностью легальный и официальный способ приобретения внутриигровой валюты GTA$ 
@@ -145,8 +145,8 @@ export default function SharkCardsPage() {
             <li><strong>Простая активация</strong> — через Rockstar Games Social Club</li>
           </ul>
 
-          <h3>Информация о продавце</h3>
-          <div className="bg-white p-4 rounded border">
+          <h3 className="mb-2">Информация о продавце</h3>
+          <div className="card p-4 rounded mt-4 mb-4">
             <p><strong>mrakk</strong></p>
             <div className="grid grid-cols-2 gap-2 text-sm mt-2">
               <div>Рейтинг: <span className="font-semibold">24 978 отзывов</span></div>
@@ -157,7 +157,7 @@ export default function SharkCardsPage() {
             </div>
           </div>
 
-          <h3>Как активировать Shark Card?</h3>
+          <h3 className="mb-2">Как активировать Shark Card?</h3>
           <ol>
             <li>Оплатите выбранную карту</li>
             <li>Получите ключ на email или в браузере</li>
@@ -166,7 +166,7 @@ export default function SharkCardsPage() {
           </ol>
 
           <p className="text-sm text-gray-600 mt-6">
-            <strong>Внимание!</strong> Для использования требуется игра Grand Theft Auto V. 
+            <strong>Внимание!</strong> Для использования требуется игра Grand Theft Auto V или Grand Theft Auto Online. 
             Карты не имеют региональных ограничений и активируются во всех странах.
           </p>
         </div>
