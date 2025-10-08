@@ -30,8 +30,7 @@ export default function Home() {
         <ArticleList limit={12} />
 
         <div className="card rounded-lg p-6 md:p-8 mb-4 mt-4">
-          <div className="prose prose-lg max-w-none">
-            <h2>Добро пожаловать на Rockstar Хаб</h2>
+          <div className="prose prose-lg max-w-none article-content text-sm">
             <p>
               Являетесь поклонником культовых серий GTA, Red Dead или других проектов Rockstar Games? 
               Тогда вы нашли именно то, что искали! Наш портал — это ваш пропуск в захватывающий мир 
