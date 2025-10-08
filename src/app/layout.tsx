@@ -11,13 +11,13 @@ import { Analytics } from "@vercel/analytics/next"
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Rockstar Хаб - Новости Rockstar Games',
-  description: 'Всё о твоих любимых играх от компании Rockstar Games. Новости GTA 6, GTA Online, Red Dead Redemption',
+  title: 'Новости Rockstar Games — Rockstar Хаб',
+  description: 'Всё о твоих любимых играх от компании Rockstar Games. Новости GTA 6, GTA Online, Red Dead Redemption 2',
   keywords: ['GTA 6', 'GTA Online', 'RDR 2', 'Rockstar Games'],
   creator: 'Kirill Krasin',
   publisher: 'Rockstar Хаб',
   openGraph: {
-    title: 'Rockstar Хаб - Новости Rockstar Games',
+    title: 'Rockstar Хаб',
     description: 'Всё о твоих любимых играх от компании Rockstar Games',
     type: 'website',
     url: 'https://rockstarhub.ru/',
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Rockstar Хаб - Новости Rockstar Games',
+    title: 'Rockstar Хаб',
     description: 'Всё о твоих любимых играх от компании Rockstar Games',
     images: ['https://data.rockstarhub.ru/uploads/rockstarhhub_logo_17afc57489.jpg'],
   },
