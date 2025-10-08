@@ -97,8 +97,8 @@ export default function SharkCardsPage() {
             >
               <div className="w-full h-full card flex items-center justify-center">
                 <Image 
-                      src={`${image}`}
-                      alt={`${title}`}
+                      src={card.image}
+                      alt={card.title}
                       fill
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
