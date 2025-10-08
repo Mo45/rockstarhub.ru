@@ -105,11 +105,11 @@ export default function SharkCardsPage() {
                     />
               </div>
               
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 z-10">
-                <h3 className="text-white font-semibold text-lg line-clamp-2 mb-1">
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/70 to-transparent p-4 z-10">
+                <h3 className="text-white font-semibold text-lg line-clamp-2">
                   {card.value}
                 </h3>
-                <h4 className="text-gray-300 font-medium text-sm line-clamp-2 mb-2">
+                <h4 className="text-gray-300 font-medium text-sm line-clamp-2 mb-1">
                   {card.title}
                 </h4>
                 <div className="flex justify-between items-center">
