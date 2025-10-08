@@ -116,13 +116,13 @@ export default function HeistsPage() {
         </nav>
 
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-xl md:text-2xl font-bold">GTA Online — Все ограбления</h1>
+          <h1 className="text-xl md:text-2xl font-bold">Все ограбления в GTA Online: полное прохождение, награды и советы</h1>
         </div>
 
         {/* Описание страницы */}
         <div className="w-full mb-8">
           <p className="text-gray-500 text-medium">
-            Полный список всех ограблений в GTA Online: награды, количество игроков, требования и особенности прохождения.
+            Ограбления (Heists) в GTA Online — это масштабные кооперативные миссии, главный источник дохода и самый сложный вызов в игре. В этом полном руководстве вы найдете список всех ограблений, пошаговое прохождение, требования к запуску, секреты и советы для максимальной награды.
           </p>
         </div>
 

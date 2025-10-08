@@ -3,7 +3,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'GTA Online — Все ограбления (Heists)',
+  title: 'Все ограбления в GTA Online: полное прохождение, награды и советы (Heists)',
   description: 'Полный список всех ограблений в GTA Online: награды, количество игроков, требования и особенности прохождения',
   keywords: ['GTA Online', 'ограбления', 'heists', 'награды'],
   creator: 'Kirill Krasin',
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     canonical: '/gta-online/heists'
   },
   openGraph: {
-    title: 'GTA Online — Все ограбления',
+    title: 'Все ограбления в GTA Online: полное прохождение, награды и советы',
     description: 'Полный список всех ограблений в GTA Online: награды, количество игроков, требования и особенности прохождения',
     type: 'website',
     url: 'https://rockstarhub.ru/gta-online/heists',
