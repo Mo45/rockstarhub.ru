@@ -21,8 +21,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: 'https://data.rockstarhub.ru/uploads/shark_cards_963abe7968.jpg',
-        width: 1000,
-        height: 562,
+        width: 1200,
+        height: 1200,
         alt: 'Shark Cards GTA Online',
       },
     ],

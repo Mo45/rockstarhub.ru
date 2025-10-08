@@ -13,6 +13,30 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'Rockstar Хаб - Новости Rockstar Games',
   description: 'Всё о твоих любимых играх от компании Rockstar Games',
+  keywords: ['gta 6', 'gta online', 'rdr 2', 'rockstar games'],
+  creator: 'Kirill Krasin',
+  publisher: 'Rockstar Хаб',
+  openGraph: {
+    title: 'Rockstar Хаб - Новости Rockstar Games',
+    description: 'Всё о твоих любимых играх от компании Rockstar Games',
+    type: 'website',
+    url: 'https://rockstarhub.ru/',
+    siteName: 'Rockstar Хаб',
+    images: [
+      {
+        url: 'https://data.rockstarhub.ru/uploads/rockstarhhub_logo_17afc57489.jpg',
+        width: 1200,
+        height: 1200,
+        alt: 'RockstarHub',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Rockstar Хаб - Новости Rockstar Games',
+    description: 'Всё о твоих любимых играх от компании Rockstar Games',
+    images: ['https://data.rockstarhub.ru/uploads/rockstarhhub_logo_17afc57489.jpg'],
+  },
   manifest: '/manifest.webmanifest',
   appleWebApp: {
     capable: true,
