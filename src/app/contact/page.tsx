@@ -45,21 +45,6 @@ export default function ContactPage() {
                 </div>
 
                 <div>
-                  <h3 className="font-bold text-lg mb-2">Социальные сети</h3>
-                  <div className="flex space-x-4">
-                    <a href="#" className="text-blue-400 hover:text-blue-300 transition-colors">
-                      VK
-                    </a>
-                    <a href="#" className="text-blue-400 hover:text-blue-300 transition-colors">
-                      Discord
-                    </a>
-                    <a href="#" className="text-blue-400 hover:text-blue-300 transition-colors">
-                      Telegram
-                    </a>
-                  </div>
-                </div>
-
-                <div>
                   <h3 className="font-bold text-lg mb-2">Время ответа</h3>
                   <p>Мы стараемся отвечать на все сообщения в течение 24 часов.</p>
                 </div>

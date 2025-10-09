@@ -78,6 +78,14 @@ export default function AboutPage() {
                 >
                   Discord-сервер
                 </a>
+                <a 
+                  href="https://www.youtube.com/@rockstarhubru" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="button-orange"
+                >
+                  YouTube-канал
+                </a>
               </div>
             </div>
           </div>
