@@ -93,7 +93,7 @@ export default function GameCard({ game, achievements = [], className = '' }: Ga
                     key={label}
                     href={url}
                     className="block w-full button-orange-sm"
-                    target="_blank"
+                    target={isExternal ? '_blank' : undefined}
                     rel={isExternal ? 'noopener' : undefined}
                   >
                     {label}
