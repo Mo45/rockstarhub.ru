@@ -289,7 +289,7 @@ export default async function SingleJobPage(props: { params: Promise<{ slug: str
 
         {jobData.youtube && (
           <div className="mb-8">
-            <h2 className="text-2xl font-bold mb-6">Прохождение {jobData.title_ru}</h2>
+            <h2 className="text-2xl font-bold mb-8">Прохождение {jobData.title_ru}</h2>
             <div className="aspect-w-16 aspect-h-9">
               <iframe
                 src={`https://www.youtube.com/embed/${jobData.youtube}`}
@@ -315,7 +315,7 @@ export default async function SingleJobPage(props: { params: Promise<{ slug: str
         {/* Секции с наградами */}
         {jobData.awards && jobData.awards.length > 0 && (
           <div className="mb-8">
-            <h3 className="text-xl font-bold mb-6">Награды за завершение {jobData.title_ru}</h3>
+            <h3 className="text-xl font-bold mb-6 mt-6">Награды за завершение {jobData.title_ru}</h3>
             {jobData.awards.map((award) => (
               <AwardSection key={award.id} award={award} />
             ))}
