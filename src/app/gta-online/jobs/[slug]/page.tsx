@@ -46,6 +46,9 @@ interface JobData {
   series_title_ru: string;
   series_title_en: string;
   map_icon: string;
+  dlc_name_en: string;
+  dlc_name_ru: string;
+  requirments: string;
 }
 
 interface ApiResponse {
@@ -107,7 +110,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title,
     description,
-    keywords: ['GTA Online', 'дела', jobData.title_ru, jobData.title_en, 'награды'],
+    keywords: ['GTA Online', jobData.title_ru, jobData.title_en, 'награды'],
     creator: 'Kirill Krasin',
     publisher: 'Rockstar Хаб',
     metadataBase: new URL('https://rockstarhub.ru'),
@@ -194,7 +197,7 @@ export default async function SingleJobPage(props: { params: Promise<{ slug: str
         {/* Заголовок страницы */}
         <div className="mb-8">
           <h1 className="text-xl md:text-2xl font-bold mb-4">
-            {`GTA Online — ${jobData?.title_ru} (${jobData?.title_en}): Описание и награды`}
+            {`GTA Online — ${jobData?.title_ru}: Прохождение, описание и награды`}
           </h1>
           
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4">
@@ -237,8 +240,8 @@ export default async function SingleJobPage(props: { params: Promise<{ slug: str
               <Image 
                 src={`${process.env.NEXT_PUBLIC_BACKEND}${jobData.cover_image.url}`}
                 alt={jobData.title_ru}
-                width={1920}
-                height={1080}
+                width={1280}
+                height={720}
                 className="w-full h-full object-cover rounded-lg"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
@@ -257,6 +260,29 @@ export default async function SingleJobPage(props: { params: Promise<{ slug: str
                 <h4 className="text-sm text-gray-400 mb-1">Количество игроков:</h4>
                 <p className="text-lg font-semibold">{jobData.players}</p>
               </div>
+              
+              {/* Обновление DLC */}
+              {(jobData.dlc_name_ru || jobData.dlc_name_en) && (
+                <div>
+                  <h4 className="text-sm text-gray-400 mb-1">Обновление:</h4>
+                  <div>
+                    {jobData.dlc_name_ru && (
+                      <p className="text-lg font-semibold">{jobData.dlc_name_ru}</p>
+                    )}
+                    {jobData.dlc_name_en && jobData.dlc_name_en !== jobData.dlc_name_ru && (
+                      <p className="text-sm text-gray-400">{jobData.dlc_name_en}</p>
+                    )}
+                  </div>
+                </div>
+              )}
+              
+              {/* Требования */}
+              {jobData.requirments && (
+                <div>
+                  <h4 className="text-sm text-gray-400 mb-1">Требования:</h4>
+                  <p className="text-lg font-semibold">{jobData.requirments}</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
