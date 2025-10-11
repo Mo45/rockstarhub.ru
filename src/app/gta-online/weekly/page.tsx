@@ -267,9 +267,8 @@ export default function EventsPage() {
             })}
           </div>
         )}
-      </div>
 
-      <div className="card rounded-lg p-6 md:p-8 mb-2 mt-8">
+        <div className="card rounded-lg p-6 md:p-8 mb-2 mt-8">
           <div className="prose max-w-none text-sm">
             <p className="mb-4">
               Возвращайтесь на эту страницу еженедельно чтобы быть в курсе всех событий в <strong><Link href="/games/gtao" className="white-to-orange">GTA Online</Link></strong>. Удвоенные награды за завершение избранных серий, заданий, и бонусы для различных предприятий.
@@ -282,6 +281,8 @@ export default function EventsPage() {
             </p>
           </div>
         </div>
+
+      </div>
 
       {isModalOpen && selectedEvent && (
         <div 
