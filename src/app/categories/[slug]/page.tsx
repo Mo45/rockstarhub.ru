@@ -70,7 +70,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
   
   return {
-    title: `${category.name} - Rockstar Хаб`,
+    title: `${category.name} - Последние новости - Rockstar Хаб`,
     description: `Новости в категории ${category.name}`,
   };
 }
