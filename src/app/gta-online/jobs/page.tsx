@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -36,10 +36,61 @@ interface ApiResponse {
   };
 }
 
+// Компонент поиска дел
+function SearchJobs({ jobs, searchQuery, setSearchQuery }: { 
+  jobs: Job[]; 
+  searchQuery: string; 
+  setSearchQuery: (query: string) => void;
+}) {
+  const filteredJobs = useMemo(() => {
+    if (!searchQuery) return jobs;
+    
+    const query = searchQuery.toLowerCase();
+    return jobs.filter(job => 
+      job.title_ru.toLowerCase().includes(query) ||
+      job.title_en.toLowerCase().includes(query) ||
+      job.series_title_ru.toLowerCase().includes(query)
+    );
+  }, [jobs, searchQuery]);
+
+  return (
+    <div className="w-full mb-8">
+      <div className="relative">
+        <input
+          type="text"
+          placeholder="Поиск дел по названию или серии..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="card w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rockstar-500"
+        />
+        {searchQuery && (
+          <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-96 overflow-y-auto">
+            {filteredJobs.map(job => (
+              <Link
+                key={job.id}
+                href={`/gta-online/jobs/${job.slug}`}
+                className="block p-3 hover:bg-gray-100 border-b border-gray-200 last:border-b-0"
+              >
+                <div className="font-medium text-rockstar-500 hover:text-rockstar-600">{job.title_ru}</div>
+                <div className="text-sm text-gray-600">{job.title_en}</div>
+                <div className="text-xs text-gray-500 mt-1">{job.series_title_ru}</div>
+              </Link>
+            ))}
+            {filteredJobs.length === 0 && (
+              <div className="p-3 text-gray-500">Дела не найдены</div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function JobsPage() {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     const fetchJobs = async () => {
@@ -70,6 +121,18 @@ export default function JobsPage() {
     
     fetchJobs();
   }, []);
+
+  // Фильтрация дел для основного списка
+  const filteredJobs = useMemo(() => {
+    if (!searchQuery) return jobs;
+    
+    const query = searchQuery.toLowerCase();
+    return jobs.filter(job => 
+      job.title_ru.toLowerCase().includes(query) ||
+      job.title_en.toLowerCase().includes(query) ||
+      job.series_title_ru.toLowerCase().includes(query)
+    );
+  }, [jobs, searchQuery]);
 
   if (error) {
     return (
@@ -107,15 +170,22 @@ export default function JobsPage() {
         </nav>
 
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-xl md:text-2xl font-bold">Все дела в GTA Online: полное прохождение, награды и советы</h1>
+          <h1 className="text-xl md:text-2xl font-bold">Все дела в GTA Online: прохождение, требования, награды и советы</h1>
         </div>
 
         {/* Описание страницы */}
         <div className="w-full mb-8">
           <p className="text-gray-500 text-medium">
-            Дела (Jobs) в GTA Online — это различные миссии, задания и контракты, которые можно выполнять в одиночку или с друзьями. В этом руководстве вы найдете полный список всех дел, пошаговое прохождение, требования и награды за выполнение.
+            Дела (Jobs) в GTA Online — это различные миссии, задания и контракты, которые можно выполнять в одиночку или с друзьями. На этой странице вы найдете полный список всех дел, пошаговое прохождение, требования и награды за выполнение.
           </p>
         </div>
+
+        {/* Поиск дел */}
+        <SearchJobs 
+          jobs={jobs} 
+          searchQuery={searchQuery} 
+          setSearchQuery={setSearchQuery} 
+        />
 
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -124,52 +194,80 @@ export default function JobsPage() {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {jobs.map((job) => {
-              const imageUrl = job.job_image?.formats?.thumbnail?.url || job.job_image?.url;
-
-              return (
-                <Link 
-                  key={job.id} 
-                  href={`/gta-online/jobs/${job.slug}`}
-                  className="aspect-video relative rounded-lg overflow-hidden cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300 group outline-2 outline-offset-2 outline-zinc-800 hover:outline-rockstar-500 block"
-                >
-                  {imageUrl ? (
-                    <Image 
-                      src={`${process.env.NEXT_PUBLIC_BACKEND}${imageUrl}`}
-                      alt={job.title_ru}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                      <span className="text-gray-500">Нет изображения</span>
-                    </div>
+          <>
+            {/* Сообщение о результате поиска */}
+            {searchQuery && (
+              <div className="mb-6">
+                <p className="text-gray-600">
+                  Найдено дел: <span className="font-semibold">{filteredJobs.length}</span>
+                  {searchQuery && (
+                    <> по запросу: "<span className="font-semibold">{searchQuery}</span>"</>
                   )}
-                  
-                  {/* Плашка с названием серии */}
-                  <div className="absolute top-3 left-3 bg-rockstar-500 text-black px-2 py-1 rounded-md text-sm font-bold z-10">
-                    {job.series_title_ru}
-                  </div>
-                  
-                  {/* Плашка с количеством игроков */}
-                  <div className="absolute top-3 right-3 bg-rockstar-500 text-black px-2 py-1 rounded-md text-sm font-bold z-10">
-                    <FaUsers className="inline"/> {job.players}
-                  </div>
-                  
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 z-10">
-                    <h3 className="text-white font-semibold text-lg mb-1">
-                      {job.title_ru}
-                    </h3>
-                    <h4 className="text-gray-300 text-sm">
-                      {job.title_en}
-                    </h4>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
+                </p>
+              </div>
+            )}
+
+            {/* Сетка карточек */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {filteredJobs.map((job) => {
+                const imageUrl = job.job_image?.formats?.thumbnail?.url || job.job_image?.url;
+
+                return (
+                  <Link 
+                    key={job.id} 
+                    href={`/gta-online/jobs/${job.slug}`}
+                    className="aspect-video relative rounded-lg overflow-hidden cursor-pointer shadow-lg hover:shadow-xl transition-all duration-300 group outline-2 outline-offset-2 outline-zinc-800 hover:outline-rockstar-500 block"
+                  >
+                    {imageUrl ? (
+                      <Image 
+                        src={`${process.env.NEXT_PUBLIC_BACKEND}${imageUrl}`}
+                        alt={job.title_ru}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-300"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                        <span className="text-gray-500">Нет изображения</span>
+                      </div>
+                    )}
+                    
+                    {/* Плашка с количеством игроков */}
+                    <div className="absolute top-3 right-3 bg-rockstar-500 text-black px-2 py-1 rounded-md text-sm font-bold z-10">
+                      <FaUsers className="inline"/> {job.players}
+                    </div>
+                    
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 z-10">
+                      <h3 className="text-white font-semibold text-sm mb-1">
+                        {job.title_ru}
+                      </h3>
+                      <h4 className="text-gray-300 text-xs">
+                        {job.title_en}
+                      </h4>
+                      <div className="text-xs text-gray-400 mt-1">
+                        {job.series_title_ru}
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
+            </div>
+
+            {/* Сообщение, если ничего не найдено */}
+            {filteredJobs.length === 0 && !loading && (
+              <div className="text-center py-12">
+                <p className="text-gray-500 text-lg">Дела не найдены</p>
+                {searchQuery && (
+                  <button 
+                    onClick={() => setSearchQuery('')}
+                    className="mt-4 text-rockstar-500 hover:text-rockstar-600 underline"
+                  >
+                    Показать все дела
+                  </button>
+                )}
+              </div>
+            )}
+          </>
         )}
       </div>
     </main>
