@@ -210,7 +210,7 @@ export default function JobsPage() {
             {/* Сетка карточек */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {filteredJobs.map((job) => {
-                const imageUrl = job.job_image?.formats?.thumbnail?.url || job.job_image?.url;
+                const imageUrl = job.job_image?.url;
 
                 return (
                   <Link 
@@ -222,9 +222,9 @@ export default function JobsPage() {
                       <Image 
                         src={`${process.env.NEXT_PUBLIC_BACKEND}${imageUrl}`}
                         alt={job.title_ru}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-300"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                        width={320}
+                        height={180}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                     ) : (
                       <div className="w-full h-full bg-gray-200 flex items-center justify-center">
