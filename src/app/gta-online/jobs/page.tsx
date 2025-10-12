@@ -64,12 +64,12 @@ function SearchJobs({ jobs, searchQuery, setSearchQuery }: {
           className="card w-full p-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-rockstar-500"
         />
         {searchQuery && (
-          <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-96 overflow-y-auto">
+          <div className="absolute z-20 w-full mt-1 bg-zinc-900 border border-zinc-800 rounded-lg shadow-lg max-h-96 overflow-y-auto">
             {filteredJobs.map(job => (
               <Link
                 key={job.id}
                 href={`/gta-online/jobs/${job.slug}`}
-                className="block p-3 hover:bg-gray-100 border-b border-gray-200 last:border-b-0"
+                className="block p-3 hover:bg-zinc-800 border-b border-zinc-800 last:border-b-0"
               >
                 <div className="font-medium text-rockstar-500 hover:text-rockstar-600">{job.title_ru}</div>
                 <div className="text-sm text-gray-600">{job.title_en}</div>
