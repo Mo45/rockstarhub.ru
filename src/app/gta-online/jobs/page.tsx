@@ -201,7 +201,7 @@ export default function JobsPage() {
                 <p className="text-gray-600">
                   Найдено дел: <span className="font-semibold">{filteredJobs.length}</span>
                   {searchQuery && (
-                    <> по запросу: "<span className="font-semibold">{searchQuery}</span>"</>
+                    <> по запросу: «<span className="font-semibold">{searchQuery}</span>»</>
                   )}
                 </p>
               </div>
@@ -244,9 +244,6 @@ export default function JobsPage() {
                       <h4 className="text-gray-300 text-xs">
                         {job.title_en}
                       </h4>
-                      <div className="text-xs text-gray-400 mt-1">
-                        {job.series_title_ru}
-                      </div>
                     </div>
                   </Link>
                 );
