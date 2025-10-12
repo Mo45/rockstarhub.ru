@@ -21,6 +21,12 @@ const hubCards = [
     title: 'Ограбления',
     image: '/cayo_perico_square.webp',
     link: '/gta-online/heists'
+  },
+  {
+    id: 4,
+    title: 'Дела',
+    image: '/gta_online_jobs.webp',
+    link: '/gta-online/jobs'
   }
 ];
 
