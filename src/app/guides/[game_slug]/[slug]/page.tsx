@@ -57,6 +57,17 @@ interface Game {
   };
 }
 
+interface ImageData {
+  id: number;
+  url: string;
+  alternativeText?: string;
+  formats?: {
+    thumbnail: {
+      url: string;
+    };
+  };
+}
+
 interface Award {
   id: number;
   title_ru: string;
@@ -66,15 +77,7 @@ interface Award {
   silver?: number;
   gold?: number;
   platinum?: number;
-  image?: {
-    url: string;
-    alternativeText?: string;
-    formats?: {
-      thumbnail: {
-        url: string;
-      };
-    };
-  };
+  image?: ImageData;
 }
 
 interface Achievement {
@@ -82,15 +85,7 @@ interface Achievement {
   name_ru: string;
   name_en: string;
   description: string;
-  image?: {
-    url: string;
-    alternativeText?: string;
-    formats?: {
-      thumbnail: {
-        url: string;
-      };
-    };
-  };
+  image?: ImageData;
 }
 
 interface Guide {
