@@ -33,28 +33,42 @@ interface Author {
   };
 }
 
+// Используем более совместимый интерфейс Game
 interface Game {
   id: number;
   slug: string;
   full_title: string;
   short_title: string;
-  cover_image?: {
+  description?: any[];
+  youtube_video?: string;
+  cover_image: {
     url: string;
-    alternativeText?: string;
-    formats?: {
-      large: { url: string };
-      thumbnail: { url: string };
+    alternativeText: string | null;
+    formats: {
+      large: {
+        url: string;
+      };
     };
-  };
+  } | null;
   platforms: string[];
   release_dates: {
     [key: string]: string;
   };
   developer: string;
   publisher: string;
+  game_facts?: {
+    id: number;
+    text: string;
+  }[];
   purchase_links?: {
     [key: string]: string;
   };
+  additional_links?: {
+    [key: string]: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
 }
 
 interface ImageData {
