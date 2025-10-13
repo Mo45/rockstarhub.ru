@@ -338,7 +338,11 @@ export default async function GuidePage(props: { params: Promise<{ slug: string 
         {guide.awards && guide.awards.length > 0 && (
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">Награды</h2>
-            <AwardSection awards={guide.awards} />
+            <div className="space-y-6">
+              {guide.awards.map((award) => (
+                <AwardSection key={award.id} award={award} />
+              ))}
+            </div>
           </section>
         )}
 
