@@ -12,20 +12,20 @@ const hubCards = [
   },
   {
     id: 2,
-    title: 'События и бонусы этой недели',
-    image: '/gta_online_2x_events.webp',
+    title: '2X Бонусы и скидки этой недели',
+    image: '/events_bonuses.webp',
     link: '/gta-online/weekly'
   },
   {
     id: 3,
     title: 'Ограбления',
-    image: '/gta_online_all_heists.webp',
+    image: '/heists.webp',
     link: '/gta-online/heists'
   },
   {
     id: 4,
     title: 'Дела',
-    image: '/gta_online_jobs.webp',
+    image: '/jobs.webp',
     link: '/gta-online/jobs'
   }
 ];
@@ -124,6 +124,24 @@ export default function GTAOnlineHub() {
             </Link>
           ))}
         </div>
+
+        <div className="card rounded-lg p-6 md:p-8 mb-2 mt-8">
+          <div className="prose max-w-none text-sm">
+            <p className="mb-4">
+              Хаб <strong><Link href="/games/gtao" className="white-to-orange">GTA Online</Link></strong> на Rockstar Хабе — это всё что нужно активному игроку! Регулярно обновляемый и пополняемый раздел.
+            </p>
+            <p className="mb-4">
+              Подробные руководства по прохождению ограблений: Видео-гайд, советы, описание элитных испытаний и наград.
+            </p>
+            <p className="mb-4">
+              Подробные руководства по прохождению дел (миссий): Как найти нужное дело среди множества других, видео-гайд, требования, советы, описание элитных испытаний и наград.
+            </p>
+            <p>
+              Еженедельные бонусы <strong>2X GTA$</strong> и <strong>2X RP</strong>. Скидки на транспорт, предприятия и улучшения.
+            </p>
+          </div>
+        </div>
+
       </div>
     </main>
   );
