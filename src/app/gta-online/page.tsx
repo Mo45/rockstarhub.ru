@@ -13,13 +13,13 @@ const hubCards = [
   {
     id: 2,
     title: 'События и бонусы этой недели',
-    image: '/events_gtao.webp',
+    image: '/gta_online_events.webp',
     link: '/gta-online/weekly'
   },
   {
     id: 3,
     title: 'Ограбления',
-    image: '/cayo_perico_square.webp',
+    image: '/gta_online_heists.webp',
     link: '/gta-online/heists'
   },
   {
