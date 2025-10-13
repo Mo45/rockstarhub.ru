@@ -34,7 +34,7 @@ interface ApiAward {
   gold: number | null;
   platinum: number | null;
   image: {
-    id: number; // Добавим id из response.txt
+    id: number;
     url: string;
     formats: {
       thumbnail: {
@@ -66,23 +66,51 @@ interface AwardSectionAward {
   };
 }
 
-interface Achievement {
+// Тип для данных достижений из API (соответствует response.txt)
+interface ApiAchievement {
   id: number;
   name_ru: string;
   name_en: string;
   description: string;
+  howtounlock: any[];
   hidden: boolean;
+  psn_only: boolean;
   gscore: number;
   psn_trophy: string;
   page_url: string;
   image: {
+    id: number;
     url: string;
+    alternativeText: string | null;
     formats: {
       thumbnail: {
         url: string;
       };
     };
   } | null;
+}
+
+// Тип для компонента AchievementsList (соответствует AchievementsList.tsx)
+interface AchievementForComponent {
+  id: number;
+  name_ru: string;
+  name_en: string;
+  description: string;
+  howtounlock: any[];
+  hidden: boolean;
+  psn_only: boolean;
+  gscore: number;
+  psn_trophy: string;
+  image: {
+    url: string;
+    alternativeText: string | null;
+    formats: {
+      thumbnail: {
+        url: string;
+      };
+    };
+  } | null;
+  page_url: string;
 }
 
 interface Guide {
@@ -135,7 +163,7 @@ interface Guide {
   } | null;
   author: Author;
   awards: ApiAward[];
-  achievements: Achievement[];
+  achievements: ApiAchievement[];
 }
 
 const CACHE = new Map();
@@ -250,12 +278,37 @@ const transformAward = (apiAward: ApiAward): AwardSectionAward => {
     gold: apiAward.gold ?? undefined,
     platinum: apiAward.platinum ?? undefined,
     image: apiAward.image ? {
-      id: apiAward.image.id, // используем реальный id из API
+      id: apiAward.image.id,
       url: apiAward.image.url,
       formats: apiAward.image.formats ? {
         thumbnail: apiAward.image.formats.thumbnail ? { url: apiAward.image.formats.thumbnail.url } : undefined
       } : undefined
     } : undefined
+  };
+};
+
+// Функция для преобразования ApiAchievement в AchievementForComponent
+const transformAchievement = (apiAchievement: ApiAchievement): AchievementForComponent => {
+  return {
+    id: apiAchievement.id,
+    name_ru: apiAchievement.name_ru,
+    name_en: apiAchievement.name_en,
+    description: apiAchievement.description,
+    howtounlock: apiAchievement.howtounlock,
+    hidden: apiAchievement.hidden,
+    psn_only: apiAchievement.psn_only,
+    gscore: apiAchievement.gscore,
+    psn_trophy: apiAchievement.psn_trophy,
+    image: apiAchievement.image ? {
+      url: apiAchievement.image.url,
+      alternativeText: apiAchievement.image.alternativeText,
+      formats: {
+        thumbnail: {
+          url: apiAchievement.image.formats.thumbnail.url
+        }
+      }
+    } : null,
+    page_url: apiAchievement.page_url
   };
 };
 
@@ -399,7 +452,7 @@ export default async function GuidePage(props: { params: Promise<{ slug: string 
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4">Связанные достижения</h2>
             <AchievementsList 
-              achievements={guide.achievements} 
+              achievements={guide.achievements.map(transformAchievement)} 
               gameSlug={guide.game_url.split('/').pop() || ''} 
               limit={5}
             />
