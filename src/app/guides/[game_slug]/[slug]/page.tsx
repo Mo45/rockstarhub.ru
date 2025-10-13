@@ -13,7 +13,7 @@ import CommentsSection from '@/components/comments/CommentsSection';
 import ShareButtons from '@/components/ShareButtons';
 import GameCard from '@/components/GameCard';
 import AwardSection from '@/components/AwardSection';
-import '../article-styles.css';
+import './article-styles.css';
 
 interface Author {
   id: number;
