@@ -60,10 +60,10 @@ interface Game {
     id: number;
     text: string;
   }[];
-  purchase_links?: {
+  purchase_links: {
     [key: string]: string;
   };
-  additional_links?: {
+  additional_links: {
     [key: string]: string;
   };
   createdAt: string;
