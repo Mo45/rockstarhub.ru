@@ -128,16 +128,16 @@ export default function GTAOnlineHub() {
         <div className="card rounded-lg p-6 md:p-8 mb-2 mt-8">
           <div className="prose max-w-none text-sm">
             <p className="mb-4">
-              Хаб <strong><Link href="/games/gtao" className="white-to-orange">GTA Online</Link></strong> на Rockstar Хабе — это всё что нужно активному игроку! Регулярно обновляемый и пополняемый раздел.
+              Наш <strong><Link href="/gta-online" className="white-to-orange">Хаб GTA Online</Link></strong> — это регулярно обновляемый и пополняемый раздел. Всё что нужно активному игроку!
             </p>
             <p className="mb-4">
-              Подробные руководства по прохождению ограблений: Видео-гайд, советы, описание элитных испытаний и наград.
+              Подробные <strong><Link href="/gta-online/heists" className="white-to-orange">руководства по прохождению ограблений в GTA Online</Link></strong>: Видео-гайд, советы, описание элитных испытаний и наград.
             </p>
             <p className="mb-4">
-              Подробные руководства по прохождению дел (миссий): Как найти нужное дело среди множества других, видео-гайд, требования, советы, описание элитных испытаний и наград.
+              Подробные <strong><Link href="/gta-online/jobs" className="white-to-orange">руководства по прохождению дел (миссий) в GTA Online</Link></strong>: Как найти нужное дело среди множества других, видео-гайд, требования, советы, описание элитных испытаний и наград.
             </p>
             <p>
-              Еженедельные бонусы <strong>2X GTA$</strong> и <strong>2X RP</strong>. Скидки на транспорт, предприятия и улучшения.
+              Еженедельные бонусы <strong>2X GTA$</strong> и <strong>2X RP</strong>. Скидки на транспорт, предприятия и улучшения. Собираемые предметы и другие активности и ивенты в <strong><Link href="/games/gtao" className="white-to-orange">GTA Online</Link></strong>.
             </p>
           </div>
         </div>
