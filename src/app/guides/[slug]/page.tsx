@@ -34,6 +34,7 @@ interface ApiAward {
   gold: number | null;
   platinum: number | null;
   image: {
+    id: number; // Добавим id из response.txt
     url: string;
     formats: {
       thumbnail: {
@@ -249,7 +250,7 @@ const transformAward = (apiAward: ApiAward): AwardSectionAward => {
     gold: apiAward.gold ?? undefined,
     platinum: apiAward.platinum ?? undefined,
     image: apiAward.image ? {
-      id: apiAward.image.url, // используем url как id, так как в ApiAward нет id у image
+      id: apiAward.image.id, // используем реальный id из API
       url: apiAward.image.url,
       formats: apiAward.image.formats ? {
         thumbnail: apiAward.image.formats.thumbnail ? { url: apiAward.image.formats.thumbnail.url } : undefined
