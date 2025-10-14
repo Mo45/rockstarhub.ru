@@ -6,15 +6,15 @@ import Link from 'next/link';
 const hubCards = [
   {
     id: 1,
-    title: 'Заначки Джеральда',
-    image: '/gs_cache.webp',
-    link: '/gta-online/gs-cache'
+    title: 'Ограбления',
+    image: '/heists.webp',
+    link: '/gta-online/heists'
   },
   {
     id: 2,
-    title: 'Сундуки с сокровищами на Кайо-Перико',
-    image: '/treasure_chests_square.webp',
-    link: '/gta-online/cayo-perico-treasure-chests'
+    title: 'Дела',
+    image: '/jobs.webp',
+    link: '/gta-online/jobs'
   },
   {
     id: 3,
@@ -24,15 +24,15 @@ const hubCards = [
   },
   {
     id: 4,
-    title: 'Ограбления',
-    image: '/heists.webp',
-    link: '/gta-online/heists'
+    title: 'Заначки Джеральда',
+    image: '/gs_cache.webp',
+    link: '/gta-online/gs-cache'
   },
   {
     id: 5,
-    title: 'Дела',
-    image: '/jobs.webp',
-    link: '/gta-online/jobs'
+    title: 'Сундуки с сокровищами на Кайо-Перико',
+    image: '/treasure_chests_square.webp',
+    link: '/gta-online/cayo-perico-treasure-chests'
   }
 ];
 

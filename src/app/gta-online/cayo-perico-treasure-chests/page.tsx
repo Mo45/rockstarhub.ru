@@ -322,21 +322,21 @@ export default function TreasureChestPage() {
                 <span className="text-sm text-gray-400 mr-2 hidden sm:inline">Поделиться:</span>
                 <TwitterShareButton
                   url="https://rockstarhub.ru/gta-online/cayo-perico-treasure-chests"
-                  title={`Сундук с сокровищами Кайо-Перико №${selectedChest.num}`}
+                  title={`Сундук с сокровищами Кайо-Перико №${selectedChest.num} — ${selectedChest.location_desc}`}
                   className="transition-transform duration-400 hover:-translate-y-[2px]"
                 >
                   <TwitterIcon size={32} round />
                 </TwitterShareButton>
                 <VKShareButton
                   url="https://rockstarhub.ru/gta-online/cayo-perico-treasure-chests"
-                  title={`Сундук с сокровищами Кайо-Перико №${selectedChest.num}`}
+                  title={`Сундук с сокровищами Кайо-Перико №${selectedChest.num} — ${selectedChest.location_desc}`}
                   className="transition-transform duration-400 hover:-translate-y-[2px]"
                 >
                   <VKIcon size={32} round />
                 </VKShareButton>
                 <TelegramShareButton
                   url="https://rockstarhub.ru/gta-online/cayo-perico-treasure-chests"
-                  title={`Сундук с сокровищами Кайо-Перико №${selectedChest.num}`}
+                  title={`Сундук с сокровищами Кайо-Перико №${selectedChest.num} — ${selectedChest.location_desc}`}
                   className="transition-transform duration-400 hover:-translate-y-[2px]"
                 >
                   <TelegramIcon size={32} round />
