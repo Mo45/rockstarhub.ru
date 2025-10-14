@@ -164,7 +164,7 @@ export default function TreasureChestPage() {
             </li>
             <li className="flex items-center">
               <span className="mx-2">/</span>
-              <span className="text-rockstar-500 font-medium">Сокровища Кайо-Перико</span>
+              <span className="text-rockstar-500 font-medium">Сундуки с сокровищами на Кайо-Перико</span>
             </li>
           </ol>
         </nav>

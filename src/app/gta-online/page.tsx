@@ -12,18 +12,24 @@ const hubCards = [
   },
   {
     id: 2,
+    title: 'Сундуки с сокровищами на Кайо-Перико',
+    image: '/treasure_chests_square.webp',
+    link: '/gta-online/cayo-perico-treasure-chests'
+  },
+  {
+    id: 3,
     title: '2X Бонусы и скидки этой недели',
     image: '/events_bonuses.webp',
     link: '/gta-online/weekly'
   },
   {
-    id: 3,
+    id: 4,
     title: 'Ограбления',
     image: '/heists.webp',
     link: '/gta-online/heists'
   },
   {
-    id: 4,
+    id: 5,
     title: 'Дела',
     image: '/jobs.webp',
     link: '/gta-online/jobs'
