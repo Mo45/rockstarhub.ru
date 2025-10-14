@@ -255,7 +255,7 @@ export default function TreasureChestPage() {
 
         {/* YouTube видео */}
         {treasureChestData?.youtube && (
-          <div className="mb-8">
+          <div className="mb-8 mt-8">
             <h2 className="text-2xl font-bold mb-8">Как найти все Сундуки с Сокровищами на Кайо-Перико</h2>
             <div className="aspect-w-16 aspect-h-9">
               <iframe
@@ -268,7 +268,7 @@ export default function TreasureChestPage() {
             </div>
           </div>
         )}
-        
+
       </div>
 
       {/* Модальное окно с деталями сундука */}
