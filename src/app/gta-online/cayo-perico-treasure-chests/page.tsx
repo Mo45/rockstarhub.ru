@@ -205,22 +205,6 @@ export default function TreasureChestPage() {
           </article>
         )}
 
-        {/* YouTube видео */}
-        {treasureChestData?.youtube && (
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold mb-8">Как найти все Сундуки с Сокровищами на Кайо-Перико</h2>
-            <div className="aspect-w-16 aspect-h-9">
-              <iframe
-                src={`https://www.youtube.com/embed/${treasureChestData.youtube}`}
-                title={`Видео-руководство по поиску сокровищ на Кайо-Перико: ${treasureChestData.title_ru}`}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="w-full h-80 rounded-lg"
-              ></iframe>
-            </div>
-          </div>
-        )}
-
         {/* Сетка карточек с сундуками */}
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -268,6 +252,23 @@ export default function TreasureChestPage() {
             })}
           </div>
         )}
+
+        {/* YouTube видео */}
+        {treasureChestData?.youtube && (
+          <div className="mb-8">
+            <h2 className="text-2xl font-bold mb-8">Как найти все Сундуки с Сокровищами на Кайо-Перико</h2>
+            <div className="aspect-w-16 aspect-h-9">
+              <iframe
+                src={`https://www.youtube.com/embed/${treasureChestData.youtube}`}
+                title={`Видео-руководство по поиску сокровищ на Кайо-Перико: ${treasureChestData.title_ru}`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-80 rounded-lg"
+              ></iframe>
+            </div>
+          </div>
+        )}
+        
       </div>
 
       {/* Модальное окно с деталями сундука */}
