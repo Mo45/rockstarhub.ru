@@ -78,7 +78,7 @@ export default function UfoSightseeingPage() {
       try {
         setLoading(true);
         
-        const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/ufo-sightseeing`);
+        const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/sightseeing`);
         url.searchParams.set('populate[0]', 'image');
         url.searchParams.set('populate[1]', 'location.map');
         url.searchParams.set('populate[2]', 'location.screenshot');
