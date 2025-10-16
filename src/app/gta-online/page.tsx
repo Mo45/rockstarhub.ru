@@ -33,6 +33,12 @@ const hubCards = [
     title: 'Сундуки с сокровищами на Кайо-Перико',
     image: '/treasure_chests_square.webp',
     link: '/gta-online/cayo-perico-treasure-chests'
+  },
+  {
+    id: 6,
+    title: 'Пришельцы в GTA Online / UFO Sightseeing',
+    image: '/ufo.webp',
+    link: '/gta-online/ufo-sightseeing'
   }
 ];
 
