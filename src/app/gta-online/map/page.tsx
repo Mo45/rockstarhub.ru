@@ -76,20 +76,20 @@ export default function MapPage() {
             </li>
             <li className="flex items-center">
               <span className="mx-2">/</span>
-              <span className="text-rockstar-500 font-medium">Карта игральных карт</span>
+              <span className="text-rockstar-500 font-medium">Расположение игральных карт</span>
             </li>
           </ol>
         </nav>
 
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-xl md:text-2xl font-bold">Карта игральных карт в GTA Online</h1>
+          <h1 className="text-xl md:text-2xl font-bold">Расположение игральных карт в GTA Online</h1>
         </div>
 
         {/* Описание страницы */}
         <div className="w-full mb-8">
           <p className="text-gray-500 text-medium">
-            Интерактивная карта всех 54 игральных карт в GTA Online. Найдите все карты, чтобы получить уникальные награды: 
-            костюм высокого стола, специальный пистолет и бонусы в наличных.
+            Интерактивная карта с расположением всех 54 игральных карт в GTA Online. Найдите все карты, чтобы получить уникальные награды: 
+            костюм «Крупный игрок» и бонусные фишки для игры в казино Diamond.
           </p>
         </div>
 
@@ -120,10 +120,9 @@ export default function MapPage() {
         <div className="mt-8 p-6 card rounded-lg">
           <h3 className="text-lg font-semibold mb-3">Награды за сбор всех 54 карт:</h3>
           <ul className="list-disc list-inside text-gray-600 space-y-2">
-            <li>Костюм высокого стола (награда от миссии «Охотник за сокровищами»)</li>
-            <li>Пистолет «Золотая палочка» с уникальным дизайном</li>
-            <li>Бонус в размере 66 000 GTA$ (по 1 000$ за каждую карту + 12 000$ бонус)</li>
-            <li>Достижение «Охотник за сокровищами»</li>
+            <li>Костюм «Крупный игрок»</li>
+            <li><strong>66.650</strong> игральных фишек казино.</li>
+            <li>Первые пять карт дают по <strong>100 фишек</strong>. Каждая последующая даёт на <strong>50 фишек больше</strong> предыдущей.</li>
           </ul>
         </div>
 
