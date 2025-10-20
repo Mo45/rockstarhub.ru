@@ -50,24 +50,10 @@ export default function MapPage() {
             title="Интерактивная карта игральных карт GTA Online"
             allowFullScreen
           />
-          
-          {/* Плашка с информацией */}
-          <div className="absolute top-3 left-3 bg-rockstar-500 text-black px-2 py-1 rounded-md text-sm font-bold z-10">
-            54 игральные карты
-          </div>
-          
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-4 z-10">
-            <h2 className="text-white font-semibold text-lg mb-1">
-              Интерактивная карта игральных карт
-            </h2>
-            <h3 className="text-gray-300 text-sm">
-              Interactive Playing Cards Map
-            </h3>
-          </div>
         </div>
 
         {/* Дополнительная информация */}
-        <div className="mt-8 p-6 bg-gray-50 rounded-lg">
+        <div className="mt-8 p-6 card rounded-lg">
           <h3 className="text-lg font-semibold mb-3">Награды за сбор всех 54 карт:</h3>
           <ul className="list-disc list-inside text-gray-600 space-y-2">
             <li>Костюм высокого стола (награда от миссии «Охотник за сокровищами»)</li>
