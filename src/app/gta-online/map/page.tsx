@@ -2,9 +2,60 @@
 
 "use client";
 
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { FaExpand, FaCompress } from 'react-icons/fa';
 
 export default function MapPage() {
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const toggleFullscreen = () => {
+    if (!isFullscreen) {
+      // Вход в полноэкранный режим
+      const element = containerRef.current;
+      if (element) {
+        if (element.requestFullscreen) {
+          element.requestFullscreen();
+        } else if ((element as any).webkitRequestFullscreen) {
+          (element as any).webkitRequestFullscreen();
+        } else if ((element as any).msRequestFullscreen) {
+          (element as any).msRequestFullscreen();
+        }
+      }
+    } else {
+      // Выход из полноэкранного режима
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if ((document as any).webkitExitFullscreen) {
+        (document as any).webkitExitFullscreen();
+      } else if ((document as any).msExitFullscreen) {
+        (document as any).msExitFullscreen();
+      }
+    }
+  };
+
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(
+        !!document.fullscreenElement ||
+        !!(document as any).webkitFullscreenElement ||
+        !!(document as any).msFullscreenElement
+      );
+    };
+
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('msfullscreenchange', handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('msfullscreenchange', handleFullscreenChange);
+    };
+  }, []);
+
   return (
     <main className="min-h-screen p-4 md:p-8">
       <div className="max-w-6xl mx-auto">
@@ -43,13 +94,26 @@ export default function MapPage() {
         </div>
 
         {/* Карта в iframe */}
-        <div className="relative rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group outline-2 outline-offset-2 outline-zinc-800 hover:outline-rockstar-500">
+        <div 
+          ref={containerRef}
+          className="relative rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group outline-2 outline-offset-2 outline-zinc-800 hover:outline-rockstar-500"
+        >
           <iframe 
+            ref={iframeRef}
             src="https://gtavmap.rockstarhub.ru/"
             className="w-full h-[600px] border-0"
             title="Интерактивная карта игральных карт GTA Online"
             allowFullScreen
           />
+          
+          {/* Кнопка полноэкранного режима */}
+          <button
+            onClick={toggleFullscreen}
+            className="absolute top-3 right-3 bg-rockstar-500 text-black p-2 rounded-md z-10 hover:bg-rockstar-600 transition-colors"
+            aria-label={isFullscreen ? "Выйти из полноэкранного режима" : "Открыть в полноэкранном режиме"}
+          >
+            {isFullscreen ? <FaCompress size={16} /> : <FaExpand size={16} />}
+          </button>
         </div>
 
         {/* Дополнительная информация */}
