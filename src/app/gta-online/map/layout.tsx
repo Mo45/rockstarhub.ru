@@ -3,8 +3,8 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Карта игральных карт в GTA Online: все 54 локации и награды',
-  description: 'Интерактивная карта всех 54 игральных карт в GTA Online. Найдите все карты чтобы получить костюм высокого стола, золотой пистолет и денежные бонусы',
+  title: 'Расположение игральных карт в GTA Online: все 54 локации и награды',
+  description: 'Интерактивная карта с расположением всех 54 игральных карт в GTA Online. Найдите все карты чтобы получить костюм «Крупный игрок» и бонусные фишки для игры в казино Diamond',
   keywords: ['GTA Online', 'игральные карты', 'карта', 'локации', 'награды', '54 карты'],
   creator: 'Kirill Krasin',
   publisher: 'Rockstar Хаб',
@@ -13,8 +13,8 @@ export const metadata: Metadata = {
     canonical: '/gta-online/map'
   },
   openGraph: {
-    title: 'Карта игральных карт в GTA Online: все 54 локации и награды',
-    description: 'Интерактивная карта всех 54 игральных карт в GTA Online. Найдите все карты чтобы получить костюм высокого стола, золотой пистолет и денежные бонусы',
+    title: 'Расположение игральных карт в GTA Online: все 54 локации и награды',
+    description: 'Интерактивная карта с расположением всех 54 игральных карт в GTA Online. Найдите все карты чтобы получить костюм «Крупный игрок» и бонусные фишки для игры в казино Diamond',
     type: 'website',
     url: 'https://rockstarhub.ru/gta-online/map',
     siteName: 'Rockstar Хаб',
