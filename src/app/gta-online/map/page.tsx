@@ -101,7 +101,7 @@ export default function MapPage() {
           <iframe 
             ref={iframeRef}
             src="https://gtavmap.rockstarhub.ru/"
-            className="w-full h-[600px] border-0"
+            className="w-full h-screen border-0"
             title="Интерактивная карта игральных карт GTA Online"
             allowFullScreen
           />
