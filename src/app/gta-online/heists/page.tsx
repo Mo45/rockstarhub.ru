@@ -52,7 +52,7 @@ export default function HeistsPage() {
         
         const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/heists`);
         url.searchParams.set('populate[0]', 'cover_image');
-        url.searchParams.set('sort[0]', 'order:desc');
+        url.searchParams.set('sort[0]', 'order:asc');
         
         const response = await axios.get<ApiResponse>(url.toString(), {
           headers: {
