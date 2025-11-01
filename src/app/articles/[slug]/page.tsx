@@ -47,6 +47,7 @@ interface Article {
   backGroundImg?: any;
   backGroundHex?: string;
   accentHex?: string;
+  youtube?: string;
 }
 
 interface SimilarArticle {
@@ -319,6 +320,20 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
           <div className="prose prose-lg max-w-none article-content">
             <BlocksRenderer content={article.content} />
           </div>
+
+          {article.youtube && (
+            <div className="mt-8">
+              <div className="aspect-w-16 aspect-h-9">
+                <iframe
+                  src={`https://www.youtube.com/embed/${article.youtube}`}
+                  title={`«${article.title}»`}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-96 rounded-lg"
+                ></iframe>
+              </div>
+            </div>
+          )}
 
           <div className="mt-8 flex justify-between">
 
