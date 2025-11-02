@@ -261,7 +261,7 @@ export default async function GuidePage(props: { params: Promise<{ slug: string 
       <OrganizationSchema />
       
       {guide.coverImage && (
-        <div className="max-w-8xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <Image 
             src={`${process.env.NEXT_PUBLIC_BACKEND}${guide.coverImage.formats?.large?.url || guide.coverImage.url}`} 
             alt={guide.coverImage.alternativeText || guide.title}
@@ -272,7 +272,7 @@ export default async function GuidePage(props: { params: Promise<{ slug: string 
         </div>
       )}
       
-      <main className="min-h-screen p-2 md:p-8 max-w-4xl mx-auto">
+      <main className="min-h-screen p-2 md:p-8 max-w-6xl mx-auto">
         <article className="card rounded-lg p-6 md:p-8">
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-6 accent-heading">
             {guide.title}
