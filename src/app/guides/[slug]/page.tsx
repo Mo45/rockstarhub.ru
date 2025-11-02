@@ -12,6 +12,7 @@ import OrganizationSchema from '@/components/OrganizationSchema';
 import { generateSEOMetadata } from '@/components/SEOMetaTags';
 import ShareButtons from '@/components/ShareButtons';
 import AwardSection from '@/components/AwardSection';
+import AchievementsList from '@/components/AchievementsList';
 
 interface Author {
   id: number;
@@ -43,6 +44,28 @@ interface Award {
   image?: any;
 }
 
+interface Achievement {
+  id: number;
+  name_ru: string;
+  name_en: string;
+  description: string;
+  howtounlock: any[];
+  hidden: boolean;
+  psn_only: boolean;
+  gscore: number;
+  psn_trophy: string;
+  image: {
+    url: string;
+    alternativeText: string | null;
+    formats: {
+      thumbnail: {
+        url: string;
+      };
+    };
+  } | null;
+  page_url: string;
+}
+
 interface Guide {
   id: number;
   title: string;
@@ -58,7 +81,7 @@ interface Guide {
   game_name: string;
   game_url: string;
   awards: Award[];
-  achievements: any[];
+  achievements: Achievement[];
   backGroundImg?: any;
   backGroundHex?: string;
   accentHex?: string;
@@ -75,6 +98,28 @@ const transformAward = (award: any): Award => ({
   title_en: award.title_en || '',
   title_ru: award.title_ru || '',
   image: award.image ?? undefined,
+});
+
+const transformAchievement = (achievement: any): Achievement => ({
+  id: achievement.id,
+  name_ru: achievement.name_ru || '',
+  name_en: achievement.name_en || '',
+  description: achievement.description || '',
+  howtounlock: achievement.howtounlock || [],
+  hidden: achievement.hidden || false,
+  psn_only: achievement.psn_only || false,
+  gscore: achievement.gscore || 0,
+  psn_trophy: achievement.psn_trophy || '',
+  image: achievement.image?.[0] ? {
+    url: achievement.image[0].url,
+    alternativeText: achievement.image[0].alternativeText,
+    formats: {
+      thumbnail: {
+        url: achievement.image[0].formats?.thumbnail?.url || achievement.image[0].url
+      }
+    }
+  } : null,
+  page_url: achievement.page_url || ''
 });
 
 async function getAuthor(name: string): Promise<Author | null> {
@@ -107,7 +152,8 @@ async function getGuide(slug: string): Promise<Guide | null> {
     const rawData = response.data.data[0];
     const transformedData = {
       ...rawData,
-      awards: rawData.awards?.map(transformAward) || []
+      awards: rawData.awards?.map(transformAward) || [],
+      achievements: rawData.achievements?.map(transformAchievement) || []
     };
     
     return transformedData;
@@ -252,6 +298,9 @@ export default async function GuidePage(props: { params: Promise<{ slug: string 
     'keywords': ''
   };
 
+  // Извлекаем slug игры из game_url для использования в AchievementsList
+  const gameSlug = guide.game_url.split('/').pop() || '';
+
   return (
     <div style={backgroundStyle} className="guide-background">
       <script
@@ -325,6 +374,17 @@ export default async function GuidePage(props: { params: Promise<{ slug: string 
             <ShareButtons url={guideUrl} title={guide.title} />
           </div>
         </article>
+
+        {/* Секция с достижениями */}
+        {guide.achievements && guide.achievements.length > 0 && (
+          <div className="mt-8">
+            <h2 className="text-2xl font-bold mb-6">Достижения</h2>
+            <AchievementsList 
+              achievements={guide.achievements} 
+              gameSlug={gameSlug}
+            />
+          </div>
+        )}
 
         {/* Секции с наградами */}
         {guide.awards && guide.awards.length > 0 && (
