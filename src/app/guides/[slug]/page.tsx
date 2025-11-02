@@ -328,9 +328,11 @@ export default async function GuidePage(props: { params: Promise<{ slug: string 
 
         {/* Секции с наградами */}
         {guide.awards && guide.awards.length > 0 && (
-          {guide.awards.map((award) => (
-            <AwardSection key={award.id} award={award} />
-          ))}
+          <div>
+            {guide.awards.map((award) => (
+              <AwardSection key={award.id} award={award} />
+            ))}
+          </div>
         )}
 
         {authorWithAvatar && (
