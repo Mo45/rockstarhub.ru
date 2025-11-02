@@ -88,6 +88,10 @@ interface Guide {
   youtube?: string;
 }
 
+interface ApiResponse {
+  data: Guide[];
+}
+
 const transformAward = (award: any): Award => ({
   id: award.id,
   description: award.description || '',
@@ -124,9 +128,15 @@ const transformAchievement = (achievement: any): Achievement => ({
 
 async function getAuthor(name: string): Promise<Author | null> {
   try {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND}/api/authors?filters[name][$eq]=${name}&populate=*`
-    );
+    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/authors`);
+    url.searchParams.set('filters[name][$eq]', name);
+    url.searchParams.set('populate', '*');
+    
+    const response = await axios.get(url.toString(), {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+      },
+    });
     
     if (response.data.data.length === 0) {
       return null;
@@ -141,9 +151,19 @@ async function getAuthor(name: string): Promise<Author | null> {
 
 async function getGuide(slug: string): Promise<Guide | null> {
   try {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND}/api/guides?filters[slug][$eq]=${slug}&populate[0]=coverImage&populate[1]=squareImage&populate[2]=author.avatar&populate[3]=awards.image&populate[4]=achievements.image`
-    );
+    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/guides`);
+    url.searchParams.set('filters[slug][$eq]', slug);
+    url.searchParams.set('populate[0]', 'coverImage');
+    url.searchParams.set('populate[1]', 'squareImage');
+    url.searchParams.set('populate[2]', 'author.avatar');
+    url.searchParams.set('populate[3]', 'awards.image');
+    url.searchParams.set('populate[4]', 'achievements.image');
+    
+    const response = await axios.get<ApiResponse>(url.toString(), {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+      },
+    });
     
     if (response.data.data.length === 0) {
       return null;
@@ -224,9 +244,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export async function generateStaticParams() {
   try {
-    const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND}/api/guides?fields[0]=slug`
-    );
+    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/guides`);
+    url.searchParams.set('fields[0]', 'slug');
+    
+    const response = await axios.get(url.toString(), {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+      },
+    });
     
     return response.data.data.map((guide: Guide) => ({
       slug: guide.slug,
