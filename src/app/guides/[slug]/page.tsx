@@ -301,6 +301,11 @@ export default async function GuidePage(props: { params: Promise<{ slug: string 
   // Извлекаем slug игры из game_url для использования в AchievementsList
   const gameSlug = guide.game_url.split('/').pop() || '';
 
+  // Проверяем наличие достижений или наград
+  const hasAchievements = guide.achievements && guide.achievements.length > 0;
+  const hasAwards = guide.awards && guide.awards.length > 0;
+  const hasAchievementsOrAwards = hasAchievements || hasAwards;
+
   return (
     <div style={backgroundStyle} className="guide-background">
       <script
@@ -331,7 +336,7 @@ export default async function GuidePage(props: { params: Promise<{ slug: string 
             
             {guide.game_name && (
               <div className="flex items-center">
-                <span className="font-medium">Игра:</span>
+                <span className="font-medium">Руководство по игре:</span>
                 <Link 
                   href={guide.game_url}
                   className="white-to-orange ml-1"
@@ -375,19 +380,23 @@ export default async function GuidePage(props: { params: Promise<{ slug: string 
           </div>
         </article>
 
-        {/* Секция с достижениями */}
-        {guide.achievements && guide.achievements.length > 0 && (
+        {/* Отображаем заголовок только если есть достижения или награды */}
+        {hasAchievementsOrAwards && (
           <div className="mt-8">
-            <h2 className="text-2xl font-bold mb-6">Достижения</h2>
-            <AchievementsList 
-              achievements={guide.achievements} 
-              gameSlug={gameSlug}
-            />
+            <h3 className="text-2xl font-bold mb-6">Достижения и награды из этого руководства</h3>
           </div>
         )}
 
+        {/* Секция с достижениями */}
+        {hasAchievements && (
+          <AchievementsList 
+            achievements={guide.achievements} 
+            gameSlug={gameSlug}
+          />
+        )}
+
         {/* Секции с наградами */}
-        {guide.awards && guide.awards.length > 0 && (
+        {hasAwards && (
           <div>
             {guide.awards.map((award) => (
               <AwardSection key={award.id} award={award} />
