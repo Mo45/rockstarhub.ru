@@ -33,13 +33,13 @@ interface Author {
 
 interface Award {
   id: number;
-  description: string | null;
-  bronze?: number | null;
-  silver?: number | null;
-  gold?: number | null;
-  platinum?: number | null;
-  title_en: string | null;
-  title_ru: string | null;
+  description: string;
+  bronze?: number;
+  silver?: number;
+  gold?: number;
+  platinum?: number;
+  title_en: string;
+  title_ru: string;
   image?: any;
 }
 
@@ -66,11 +66,15 @@ interface Guide {
 }
 
 const transformAward = (award: any): Award => ({
-  ...award,
+  id: award.id,
+  description: award.description || '',
   bronze: award.bronze ?? undefined,
   silver: award.silver ?? undefined,
   gold: award.gold ?? undefined,
   platinum: award.platinum ?? undefined,
+  title_en: award.title_en || '',
+  title_ru: award.title_ru || '',
+  image: award.image ?? undefined,
 });
 
 async function getAuthor(name: string): Promise<Author | null> {
