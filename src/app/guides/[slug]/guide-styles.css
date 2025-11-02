@@ -1,9 +1,9 @@
-.article-background {
+.guide-background {
   min-height: 100vh;
   color: #fff;
 }
 
-.article-background {
+.guide-background {
   overflow: hidden;
 }
 
@@ -43,42 +43,42 @@
 }
 
 .accent-heading,
-.article-content h1,
-.article-content h2,
-.article-content h3,
-.article-content h4 {
+.guide-content h1,
+.guide-content h2,
+.guide-content h3,
+.guide-content h4 {
   color: var(--accent-color, #e19808);
   border-bottom: 1px solid rgba(255, 255, 255, .15);
   padding-bottom: .5rem;
 }
 
-.article-content a {
+.guide-content a {
   color: var(--accent-color, #e19808);
   text-decoration: none;
 }
 
-.article-content a:hover {
+.guide-content a:hover {
   opacity: 0.8;
   color: var(--accent-color, #e19808);
   text-decoration: underline;
 }
 
-.article-content {
+.guide-content {
   color: #fff;
 }
 
-.article-content p {
+.guide-content p {
   margin-bottom: 1.5rem;
   line-height: 1.75;
   font-size: 1rem;
 }
 
-.article-content ul, .article-content ol {
+.guide-content ul, .guide-content ol {
   margin-bottom: 1.5rem;
   padding-left: 1.5rem;
   font-size: 1rem;
 }
 
-.article-content li {
+.guide-content li {
   margin-bottom: 0.5rem;
 }
