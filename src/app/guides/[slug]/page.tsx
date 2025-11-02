@@ -11,6 +11,7 @@ import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 import OrganizationSchema from '@/components/OrganizationSchema';
 import { generateSEOMetadata } from '@/components/SEOMetaTags';
 import ShareButtons from '@/components/ShareButtons';
+import AwardSection from '@/components/AwardSection';
 
 interface Author {
   id: number;
@@ -30,6 +31,18 @@ interface Author {
   };
 }
 
+interface Award {
+  id: number;
+  description: string | null;
+  bronze?: number | null;
+  silver?: number | null;
+  gold?: number | null;
+  platinum?: number | null;
+  title_en: string | null;
+  title_ru: string | null;
+  image?: any;
+}
+
 interface Guide {
   id: number;
   title: string;
@@ -44,13 +57,21 @@ interface Guide {
   author: any;
   game_name: string;
   game_url: string;
-  awards: any[];
+  awards: Award[];
   achievements: any[];
   backGroundImg?: any;
   backGroundHex?: string;
   accentHex?: string;
   youtube?: string;
 }
+
+const transformAward = (award: any): Award => ({
+  ...award,
+  bronze: award.bronze ?? undefined,
+  silver: award.silver ?? undefined,
+  gold: award.gold ?? undefined,
+  platinum: award.platinum ?? undefined,
+});
 
 async function getAuthor(name: string): Promise<Author | null> {
   try {
@@ -79,7 +100,13 @@ async function getGuide(slug: string): Promise<Guide | null> {
       return null;
     }
     
-    return response.data.data[0];
+    const rawData = response.data.data[0];
+    const transformedData = {
+      ...rawData,
+      awards: rawData.awards?.map(transformAward) || []
+    };
+    
+    return transformedData;
   } catch (error) {
     console.error('Ошибка загрузки гайда:', error);
     return null;
@@ -294,6 +321,16 @@ export default async function GuidePage(props: { params: Promise<{ slug: string 
             <ShareButtons url={guideUrl} title={guide.title} />
           </div>
         </article>
+
+        {/* Секции с наградами */}
+        {guide.awards && guide.awards.length > 0 && (
+          <div className="card rounded-lg p-6 mt-8">
+            <h3 className="text-xl font-bold mb-6">Награды</h3>
+            {guide.awards.map((award) => (
+              <AwardSection key={award.id} award={award} />
+            ))}
+          </div>
+        )}
 
         {authorWithAvatar && (
           <div className="card rounded-lg p-6 mt-8 mb-6 md:mb-0">
