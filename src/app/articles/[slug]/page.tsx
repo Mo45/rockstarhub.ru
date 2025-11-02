@@ -66,18 +66,9 @@ interface SimilarArticle {
 
 async function getSimilarArticles(categoryId: number, currentArticleId: number, limit: number = 3): Promise<SimilarArticle[]> {
   try {
-    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/articles`);
-    url.searchParams.set('filters[category][id][$eq]', categoryId.toString());
-    url.searchParams.set('filters[id][$ne]', currentArticleId.toString());
-    url.searchParams.set('pagination[limit]', limit.toString());
-    url.searchParams.set('populate[0]', 'coverImage');
-    url.searchParams.set('sort[0]', 'publishedAt:desc');
-
-    const response = await axios.get(url.toString(), {
-      headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
-      },
-    });
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND}/api/articles?filters[category][id][$eq]=${categoryId}&filters[id][$ne]=${currentArticleId}&pagination[limit]=${limit}&populate=coverImage&sort[0]=publishedAt:desc`
+    );
     
     return response.data.data;
   } catch (error) {
@@ -88,15 +79,9 @@ async function getSimilarArticles(categoryId: number, currentArticleId: number, 
 
 async function getAuthor(name: string): Promise<Author | null> {
   try {
-    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/authors`);
-    url.searchParams.set('filters[name][$eq]', name);
-    url.searchParams.set('populate[0]', '*');
-
-    const response = await axios.get(url.toString(), {
-      headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
-      },
-    });
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND}/api/authors?filters[name][$eq]=${name}&populate=*`
+    );
     
     if (response.data.data.length === 0) {
       return null;
@@ -111,15 +96,9 @@ async function getAuthor(name: string): Promise<Author | null> {
 
 async function getArticle(slug: string): Promise<Article | null> {
   try {
-    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/articles`);
-    url.searchParams.set('filters[slug][$eq]', slug);
-    url.searchParams.set('populate[0]', '*');
-
-    const response = await axios.get(url.toString(), {
-      headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
-      },
-    });
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND}/api/articles?filters[slug][$eq]=${slug}&populate=*`
+    );
     
     if (response.data.data.length === 0) {
       return null;
@@ -193,14 +172,9 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export async function generateStaticParams() {
   try {
-    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/articles`);
-    url.searchParams.set('fields[0]', 'slug');
-
-    const response = await axios.get(url.toString(), {
-      headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
-      },
-    });
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND}/api/articles?fields[0]=slug`
+    );
     
     return response.data.data.map((article: Article) => ({
       slug: article.slug,
