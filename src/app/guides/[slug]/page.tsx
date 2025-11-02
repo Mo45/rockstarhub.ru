@@ -261,7 +261,7 @@ export default async function GuidePage(props: { params: Promise<{ slug: string 
       <OrganizationSchema />
       
       {guide.coverImage && (
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-8xl mx-auto">
           <Image 
             src={`${process.env.NEXT_PUBLIC_BACKEND}${guide.coverImage.formats?.large?.url || guide.coverImage.url}`} 
             alt={guide.coverImage.alternativeText || guide.title}
@@ -328,12 +328,9 @@ export default async function GuidePage(props: { params: Promise<{ slug: string 
 
         {/* Секции с наградами */}
         {guide.awards && guide.awards.length > 0 && (
-          <div className="card rounded-lg p-6 mt-8">
-            <h3 className="text-xl font-bold mb-6">Награды</h3>
-            {guide.awards.map((award) => (
-              <AwardSection key={award.id} award={award} />
-            ))}
-          </div>
+          {guide.awards.map((award) => (
+            <AwardSection key={award.id} award={award} />
+          ))}
         )}
 
         {authorWithAvatar && (
