@@ -7,7 +7,7 @@ import Image from 'next/image'
 import './article-styles.css';
 import { SiRockstargames, SiSteam } from 'react-icons/si';
 import { IoLogoXbox } from 'react-icons/io5';
-import { FaDonate, FaYoutube } from 'react-icons/fa';
+import { FaRubleSign, FaYoutube, FaDiscord } from 'react-icons/fa';
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 import OrganizationSchema from '@/components/OrganizationSchema';
 import { generateSEOMetadata } from '@/components/SEOMetaTags';
@@ -361,19 +361,28 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
                   href="https://rockstarhub.ru/donate" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="bg-rockstar-500 text-white px-4 py-2 rounded font-medium hover:bg-amber-600 transition-colors flex items-center justify-center gap-2"
+                  className="bg-rockstar-500 text-black hover:text-white px-4 py-2 rounded font-medium hover:bg-amber-600 transition-all hover:-translate-y-[2px] cursor-pointer duration-400 flex items-center justify-center gap-2"
                 >
-                  <FaDonate className="w-4 h-4" />
-                  Поддержать проект
+                  <FaRubleSign className="w-4 h-4" />
+                  Поддержать донатом
                 </a>
                 <a 
                   href="https://www.youtube.com/@rockstarhubru" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="bg-rockstar-500 text-white px-4 py-2 rounded font-medium hover:bg-amber-600 transition-colors flex items-center justify-center gap-2"
+                  className="bg-rockstar-500 text-black hover:text-white px-4 py-2 rounded font-medium hover:bg-amber-600 transition-all hover:-translate-y-[2px] cursor-pointer duration-400 flex items-center justify-center gap-2"
                 >
                   <FaYoutube className="w-4 h-4" />
-                  Наш YouTube
+                  Подписаться на YouTube
+                </a>
+                <a 
+                  href="https://discord.gg/ppAAD626vM" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-rockstar-500 text-black hover:text-white px-4 py-2 rounded font-medium hover:bg-amber-600 transition-all hover:-translate-y-[2px] cursor-pointer duration-400 flex items-center justify-center gap-2"
+                >
+                  <FaDiscord className="w-4 h-4" />
+                  Присоединится к Discord-серверу
                 </a>
               </div>
             </div>
