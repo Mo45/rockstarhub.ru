@@ -348,7 +348,7 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
         </article>
 
         {/* Блок поддержки проекта */}
-        <div className="bg-rockstar-500 rounded-lg p-6 mt-8 text-white">
+        <div className="card rounded-lg p-6 mt-8 text-white">
           <div className="flex flex-col md:flex-row items-center gap-6">
             <div className="flex-1 text-center md:text-left">
               <h3 className="text-xl font-bold mb-2">Поддержите развитие Rockstar Хаб</h3>
@@ -361,7 +361,7 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
                   href="https://rockstarhub.ru/donate" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="bg-white text-rockstar-500 px-4 py-2 rounded font-medium hover:bg-gray-100 transition-colors flex items-center justify-center gap-2"
+                  className="bg-rockstar-500 text-white px-4 py-2 rounded font-medium hover:bg-amber-600 transition-colors flex items-center justify-center gap-2"
                 >
                   <FaDonate className="w-4 h-4" />
                   Поддержать проект
@@ -370,7 +370,7 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
                   href="https://www.youtube.com/@rockstarhubru" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="bg-white text-rockstar-500 px-4 py-2 rounded font-medium hover:bg-gray-100 transition-colors flex items-center justify-center gap-2"
+                  className="bg-rockstar-500 text-white px-4 py-2 rounded font-medium hover:bg-amber-600 transition-colors flex items-center justify-center gap-2"
                 >
                   <FaYoutube className="w-4 h-4" />
                   Наш YouTube
