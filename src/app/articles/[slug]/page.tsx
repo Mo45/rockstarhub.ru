@@ -358,7 +358,7 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
                 <a 
-                  href="https://rockstarhub.ru/donate" 
+                  href="https://pay.cloudtips.ru/p/34ddb3d5" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="button-donate flex flex-1 items-center justify-center gap-2"
