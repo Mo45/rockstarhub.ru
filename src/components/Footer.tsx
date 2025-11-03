@@ -94,7 +94,6 @@ export default function Footer() {
         <span>YouTube</span>
       </a>
     </li>
-    </li>
   </ul>
 </div>
         </div>
