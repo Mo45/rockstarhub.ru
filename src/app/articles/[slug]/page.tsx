@@ -361,28 +361,28 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
                   href="https://rockstarhub.ru/donate" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="bg-rockstar-500 text-black hover:text-white px-4 py-2 rounded font-medium hover:bg-amber-600 transition-all hover:-translate-y-[2px] cursor-pointer duration-400 flex items-center justify-center gap-2"
+                  className="button-donate flex items-center justify-center gap-2"
                 >
                   <FaRubleSign className="w-4 h-4" />
-                  Поддержать донатом
+                  Донатом
                 </a>
                 <a 
                   href="https://www.youtube.com/@rockstarhubru" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="bg-rockstar-500 text-black hover:text-white px-4 py-2 rounded font-medium hover:bg-amber-600 transition-all hover:-translate-y-[2px] cursor-pointer duration-400 flex items-center justify-center gap-2"
+                  className="button-donate flex items-center justify-center gap-2"
                 >
                   <FaYoutube className="w-4 h-4" />
-                  Подписаться на YouTube
+                  Подпиской
                 </a>
                 <a 
                   href="https://discord.gg/ppAAD626vM" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="bg-rockstar-500 text-black hover:text-white px-4 py-2 rounded font-medium hover:bg-amber-600 transition-all hover:-translate-y-[2px] cursor-pointer duration-400 flex items-center justify-center gap-2"
+                  className="button-donate flex items-center justify-center gap-2"
                 >
                   <FaDiscord className="w-4 h-4" />
-                  Присоединится к Discord-серверу
+                  Присоединившись
                 </a>
               </div>
             </div>
