@@ -7,6 +7,7 @@ import Image from 'next/image'
 import './article-styles.css';
 import { SiRockstargames, SiSteam } from 'react-icons/si';
 import { IoLogoXbox } from 'react-icons/io5';
+import { FaDonate, FaYoutube } from 'react-icons/fa';
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 import OrganizationSchema from '@/components/OrganizationSchema';
 import { generateSEOMetadata } from '@/components/SEOMetaTags';
@@ -345,6 +346,39 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
 
           </div>
         </article>
+
+        {/* Блок поддержки проекта */}
+        <div className="bg-rockstar-500 rounded-lg p-6 mt-8 text-white">
+          <div className="flex flex-col md:flex-row items-center gap-6">
+            <div className="flex-1 text-center md:text-left">
+              <h3 className="text-xl font-bold mb-2">Поддержите развитие Rockstar Хаб</h3>
+              <p className="mb-4 opacity-90">
+                Ваша поддержка помогает нам создавать больше качественного контента о играх Rockstar. 
+                Присоединяйтесь к нашему сообществу!
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
+                <a 
+                  href="https://rockstarhub.ru/donate" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-white text-rockstar-500 px-4 py-2 rounded font-medium hover:bg-gray-100 transition-colors flex items-center justify-center gap-2"
+                >
+                  <FaDonate className="w-4 h-4" />
+                  Поддержать проект
+                </a>
+                <a 
+                  href="https://www.youtube.com/@rockstarhubru" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-white text-rockstar-500 px-4 py-2 rounded font-medium hover:bg-gray-100 transition-colors flex items-center justify-center gap-2"
+                >
+                  <FaYoutube className="w-4 h-4" />
+                  Наш YouTube
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
 
         {authorWithAvatar && (
           <div className="card rounded-lg p-6 mt-8 mb-6 md:mb-0">
