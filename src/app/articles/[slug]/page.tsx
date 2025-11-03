@@ -361,7 +361,7 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
                   href="https://rockstarhub.ru/donate" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="px-4 py-2 rounded-lg text-white bg-[#c00505] transition-all cursor-pointer duration-400 hover:-translate-y-[2px] hover:bg-[#4752c4] flex flex-1 items-center justify-center gap-2"
+                  className="button-donate flex flex-1 items-center justify-center gap-2"
                 >
                   <FaRubleSign className="w-4 h-4" />
                   Донат
@@ -370,7 +370,7 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
                   href="https://www.youtube.com/@rockstarhubru" 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="button-donate flex flex-1 items-center justify-center gap-2"
+                  className="custom-button px-4 py-2 rounded-lg bg-[#c00505] hover:bg-[#c00505] flex flex-1 items-center justify-center gap-2"
                 >
                   <FaYoutube className="w-4 h-4" />
                   Подписка на YouTube

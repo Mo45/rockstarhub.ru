@@ -364,8 +364,16 @@ a.text-white:hover,button.text-white:hover {
   @apply inline-block bg-amber-600 text-white px-6 py-3 rounded-lg transition-all -translate-y-[2px] cursor-pointer duration-400;
 }
 
+.custom-button {
+  @apply text-white transition-all cursor-pointer duration-400 hover:-translate-y-[2px];
+}
+
+.custom-button:hover {
+  @apply text-white transition-all duration-400 hover:-translate-y-[2px];
+}
+
 .button-donate {
-  @apply bg-rockstar-500 text-black px-4 py-2 rounded-lg transition-all cursor-pointer duration-400;
+  @apply bg-rockstar-500 text-white px-4 py-2 rounded-lg transition-all cursor-pointer duration-400;
 }
 
 .button-donate:hover {
