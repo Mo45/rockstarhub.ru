@@ -354,7 +354,7 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
               <h3 className="text-xl font-bold mb-2">Поддержите развитие Rockstar Хаб</h3>
               <p className="mb-4 opacity-90">
                 Ваша поддержка помогает нам создавать больше качественного контента о играх Rockstar. 
-                Присоединяйтесь к нашему сообществу!
+                Присоединяйтесь к нашему сообществу, или поддержите нас финансово!
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
                 <a 
@@ -364,7 +364,7 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
                   className="button-donate flex items-center justify-center gap-2"
                 >
                   <FaRubleSign className="w-4 h-4" />
-                  Донатом
+                  Донат
                 </a>
                 <a 
                   href="https://www.youtube.com/@rockstarhubru" 
@@ -373,7 +373,7 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
                   className="button-donate flex items-center justify-center gap-2"
                 >
                   <FaYoutube className="w-4 h-4" />
-                  Подпиской
+                  Подписка на YouTube
                 </a>
                 <a 
                   href="https://discord.gg/ppAAD626vM" 
@@ -382,7 +382,7 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
                   className="button-donate flex items-center justify-center gap-2"
                 >
                   <FaDiscord className="w-4 h-4" />
-                  Присоединившись
+                  Discord-сервер
                 </a>
               </div>
             </div>
