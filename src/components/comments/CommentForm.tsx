@@ -126,7 +126,6 @@ export default function CommentForm({ contentType, contentId, onCommentAdded }: 
 
   return (
     <div className="card p-6 rounded-lg shadow-md">
-      <h3 className="text-xl font-semibold mb-4">Добавить комментарий</h3>
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">

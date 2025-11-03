@@ -51,7 +51,9 @@
   border-bottom: 1px solid rgba(255, 255, 255, .15);
   padding-bottom: .5rem;
 }
-
+.similar-articles {
+  color: #fff;
+}
 .article-content a {
   color: var(--accent-color, #e19808);
   text-decoration: none;

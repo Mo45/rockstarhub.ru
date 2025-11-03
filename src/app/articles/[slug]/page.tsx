@@ -410,8 +410,8 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
         )}
 
         {similarArticles.length > 0 && (
-        <div className="card rounded-lg p-6 mt-8">
-          <h2 className="text-2xl font-bold mb-6 accent-heading">Похожие статьи</h2>
+        <div className="mt-6">
+          <h3 className="text-xl font-bold mb-6 similar-articles">Похожие статьи</h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {similarArticles.map((similarArticle) => (
               <Link 
