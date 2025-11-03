@@ -94,17 +94,6 @@ export default function Footer() {
         <span>YouTube</span>
       </a>
     </li>
-    <li>
-      <a href="#" className="gray-to-orange flex items-center space-x-3">
-        <SiVk className="w-5 h-5" />
-        <span>VK</span>
-      </a>
-    </li>
-    <li>
-      <a href="#" className="gray-to-orange flex items-center space-x-3">
-        <SiTelegram className="w-5 h-5" />
-        <span>Telegram</span>
-      </a>
     </li>
   </ul>
 </div>
@@ -112,7 +101,7 @@ export default function Footer() {
 
         <div className="border-t border-gray-700 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
           <div className="text-center text-gray-700 md:text-left mb-4 md:mb-0">
-            <p>&copy; MMXXV <Link href="/about" className="gray-to-orange">Rockstar Хаб</Link>. Все права защищены.</p>
+            <p>&copy; 2025 <Link href="/about" className="gray-to-orange">Rockstar Хаб</Link>. Все права защищены.</p>
           </div>
           <div className="text-center md:text-right text-xs text-gray-700">
             <p>R, Rockstar, Red Dead Redemption, GTA, Grand Theft Auto, and related logos are trademarks of Take-Two Interactive Software, Inc.</p>
