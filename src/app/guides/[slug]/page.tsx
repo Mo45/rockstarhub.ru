@@ -7,12 +7,14 @@ import Image from 'next/image'
 import './guide-styles.css';
 import { SiRockstargames, SiSteam } from 'react-icons/si';
 import { IoLogoXbox } from 'react-icons/io5';
+import { FaRubleSign, FaYoutube, FaDiscord } from 'react-icons/fa';
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 import OrganizationSchema from '@/components/OrganizationSchema';
 import { generateSEOMetadata } from '@/components/SEOMetaTags';
 import ShareButtons from '@/components/ShareButtons';
 import AwardSection from '@/components/AwardSection';
 import AchievementsList from '@/components/AchievementsList';
+import SupportProjectBlock from '@/components/SupportProjectBlock';
 
 interface Author {
   id: number;
@@ -428,6 +430,9 @@ export default async function GuidePage(props: { params: Promise<{ slug: string 
             ))}
           </div>
         )}
+
+        {/* Блок поддержки проекта */}
+        <SupportProjectBlock />
 
         {authorWithAvatar && (
           <div className="card rounded-lg p-6 mt-8 mb-6 md:mb-0">
