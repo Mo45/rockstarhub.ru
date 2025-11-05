@@ -24,7 +24,7 @@ const sharkCards = [
     id: 3,
     title: 'Great White Shark Cash Card',
     value: '1,250,000$',
-    price: '1 599 ₽',
+    price: '1 545 ₽',
     image: '/GreatWhite.jpg',
     link: 'https://plati.market/itm/gta-online-great-white-shark-cash-1-250-000-pc-key/3590685?ai=901800'
   },
@@ -32,7 +32,7 @@ const sharkCards = [
     id: 4,
     title: 'Bull Shark Cash Card',
     value: '500,000$',
-    price: '899 ₽',
+    price: '1 099 ₽',
     image: '/BullShark.jpg',
     link: 'https://plati.market/itm/gta-online-bull-shark-cash-card-500-000-pc-key/3590687?ai=901800'
   },
@@ -155,11 +155,11 @@ export default function SharkCardsPage() {
           <h3>Надёжный продавец</h3>
           <div className="card p-4 rounded mt-4 mb-4">
             <div className="grid grid-cols-2 gap-2 text-sm mt-2">
-              <div>Отзывы: <span className="font-semibold">24 978+</span></div>
+              <div>Отзывы: <span className="font-semibold">24 332+</span></div>
               <div>На маркетплейсе: <span className="font-semibold">13 лет</span></div>
-              <div>Положительных оценок: <span className="font-semibold">24 974+</span></div>
-              <div>Негативных оценок: <span className="font-semibold">4</span></div>
-              <div>Количество продаж: <span className="font-semibold">1 025 119+</span></div>
+              <div>Положительных оценок: <span className="font-semibold">24 323+</span></div>
+              <div>Негативных оценок: <span className="font-semibold">9</span></div>
+              <div>Количество продаж: <span className="font-semibold">1 035 396+</span></div>
               <div>Уровень продавца: <span className="font-semibold">Сертифицированный</span></div>
             </div>
           </div>

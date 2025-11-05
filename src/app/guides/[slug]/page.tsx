@@ -407,6 +407,9 @@ export default async function GuidePage(props: { params: Promise<{ slug: string 
           </div>
         </article>
 
+        {/* Блок поддержки проекта */}
+        <SupportProjectBlock />
+
         {/* Отображаем заголовок только если есть достижения или награды */}
         {hasAchievementsOrAwards && (
           <div className="mt-8">
@@ -430,9 +433,6 @@ export default async function GuidePage(props: { params: Promise<{ slug: string 
             ))}
           </div>
         )}
-
-        {/* Блок поддержки проекта */}
-        <SupportProjectBlock />
 
         {authorWithAvatar && (
           <div className="card rounded-lg p-6 mt-8 mb-6 md:mb-0">
