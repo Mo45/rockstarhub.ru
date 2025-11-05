@@ -62,13 +62,13 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="gray-to-orange">
-                  О сайте
+                <Link href="/rules" className="gray-to-orange">
+                  Правила
                 </Link>
               </li>
               <li>
-                <Link href="/rules" className="gray-to-orange">
-                  Правила
+                <Link href="/about" className="gray-to-orange">
+                  О сайте
                 </Link>
               </li>
               <li>
@@ -83,15 +83,15 @@ export default function Footer() {
   <h4 className="text-lg font-bold mb-4">Соцсети</h4>
   <ul className="space-y-3">
     <li>
-      <a href="https://discord.gg/ppAAD626vM" className="gray-to-orange flex items-center space-x-3" rel="nofollow noopener noreferrer" target="_blank">
-        <SiDiscord className="w-5 h-5" />
-        <span>Discord</span>
-      </a>
-    </li>
-    <li>
       <a href="https://www.youtube.com/@rockstarhubru" className="gray-to-orange flex items-center space-x-3" rel="nofollow noopener noreferrer" target="_blank">
         <SiYoutube className="w-5 h-5" />
         <span>YouTube</span>
+      </a>
+    </li>
+    <li>
+      <a href="https://discord.gg/ppAAD626vM" className="gray-to-orange flex items-center space-x-3" rel="nofollow noopener noreferrer" target="_blank">
+        <SiDiscord className="w-5 h-5" />
+        <span>Discord</span>
       </a>
     </li>
   </ul>
