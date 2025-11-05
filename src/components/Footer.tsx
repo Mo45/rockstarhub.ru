@@ -49,7 +49,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-lg font-bold mb-4">Полезное</h4>
+            <h4 className="text-lg font-bold mb-4">Информация</h4>
             <ul className="space-y-2">
               <li>
                 <Link href="/privacy" className="gray-to-orange">
