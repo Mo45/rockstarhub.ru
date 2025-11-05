@@ -21,13 +21,13 @@ export default function Footer() {
             <h4 className="text-lg font-bold mb-4">Быстрые ссылки</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/games" className="gray-to-orange">
-                  База данных игр
+                <Link href="/gta-online/shark-cards" title="Купить валюту GTA Online" className="gray-to-orange">
+                  Купить Shark Cards
                 </Link>
               </li>
               <li>
-                <Link href="/categories" className="gray-to-orange">
-                  Категории
+                <Link href="/games" className="gray-to-orange">
+                  База данных игр
                 </Link>
               </li>
               <li>
@@ -36,8 +36,8 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/gta-online/shark-cards" title="Купить валюту GTA Online" className="gray-to-orange">
-                  Купить Shark Cards
+                <Link href="/categories" className="gray-to-orange">
+                  Категории
                 </Link>
               </li>
               <li>

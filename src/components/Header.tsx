@@ -218,9 +218,15 @@ export default function Header() {
 
           {/* Навигация для десктопа */}
           <nav className="hidden md:flex space-x-6">
+
             <Link href="/articles" className="navbar-item">
               Статьи
             </Link>
+
+            <Link href="/guides" className="navbar-item">
+              Руководства
+            </Link>
+
             <Link href="/games/gtavi" className="navbar-item">
               GTA 6
             </Link>
@@ -257,9 +263,6 @@ export default function Header() {
               </div>
             </div>
 
-            <Link href="/games/gta-v" className="navbar-item">
-              GTA 5
-            </Link>
             <Link href="/games" className="navbar-item">
               Все игры
             </Link>
@@ -347,6 +350,15 @@ export default function Header() {
               >
                 Статьи
               </Link>
+
+              <Link 
+                href="/guides" 
+                className="navbar-item text-white py-2"
+                onClick={closeMobileMenu}
+              >
+                Руководства
+              </Link>
+
               <Link 
                 href="/games/gtavi" 
                 className="navbar-item text-white py-2"

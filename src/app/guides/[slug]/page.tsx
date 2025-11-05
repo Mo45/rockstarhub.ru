@@ -156,7 +156,6 @@ async function getGuide(slug: string): Promise<Guide | null> {
     const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/guides`);
     url.searchParams.set('filters[slug][$eq]', slug);
     url.searchParams.set('populate[0]', 'coverImage');
-    url.searchParams.set('populate[1]', 'squareImage');
     url.searchParams.set('populate[2]', 'author.avatar');
     url.searchParams.set('populate[3]', 'awards.image');
     url.searchParams.set('populate[4]', 'achievements.image');
