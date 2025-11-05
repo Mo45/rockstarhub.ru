@@ -87,13 +87,13 @@ export default function GuidesList({ limit = 12 }: GuidesListProps) {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {loading ? (
         [...Array(Math.min(limit, 12))].map((_, i) => (
-          <div key={i} className="card guides-list-card animate-pulse">
+          <div key={i} className="card article-list-card animate-pulse">
             <div className="w-full h-48 bg-gray-200"></div>
             <div className="p-4 h-full flex flex-col">
               <div className="h-6 bg-gray-200 rounded-md mb-2"></div>
               <div className="h-4 bg-gray-200 rounded-md mb-2"></div>
               <div className="h-4 bg-gray-200 rounded-md mb-4 w-2/3"></div>
-              <div className="guides-meta flex justify-between items-center">
+              <div className="article-meta flex justify-between items-center">
                 <div className="h-3 bg-gray-200 rounded-md w-1/3"></div>
                 <div className="h-3 bg-gray-200 rounded-md w-1/4"></div>
               </div>
@@ -106,7 +106,7 @@ export default function GuidesList({ limit = 12 }: GuidesListProps) {
           const imageFormats = image?.formats || {};
           
           return (
-            <div key={guide.id} className="card guides-list-card">
+            <div key={guide.id} className="card article-list-card">
               <Link href={`/guides/${guide.slug}`} className="block h-full">
                 {image && (
                   <div className="w-full relative">
@@ -125,10 +125,10 @@ export default function GuidesList({ limit = 12 }: GuidesListProps) {
                   <h2 className="text-2xl font-bold mb-2 line-clamp-3">
                     {guide.title || 'Без названия'}
                   </h2>
-                  <p className="guide-excerpt text-sm text-gray-600 mb-4 line-clamp-3">
+                  <p className="article-excerpt text-sm text-gray-600 mb-4 line-clamp-3">
                     {guide.excerpt || ''}
                   </p>
-                  <div className="guide-meta flex justify-between items-center text-xs text-gray-500">
+                  <div className="article-meta flex justify-between items-center text-xs text-gray-500">
                     <div className="flex items-center gap-1">
                       <TbCalendarWeek className="w-3 h-3" />
                       <span>{new Date(guide.publishedAt).toLocaleDateString('ru-RU')}</span>
