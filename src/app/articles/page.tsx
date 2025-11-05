@@ -1,5 +1,6 @@
 // /src/app/articles/page.tsx
 
+import Link from 'next/link';
 import ArticleList from '@/components/ArticleList';
 
 export const metadata = {
@@ -17,7 +18,7 @@ export default function ArticlesPage() {
         <div className="card rounded-lg p-6 md:p-8 mb-2 mt-8">
           <div className="prose max-w-none text-sm">
             <p className="mb-4">
-              Самые последние официальные новости, слухи и утечки о твоих любимых сериях <strong>Grand Theft Auto</strong>, <strong>Red Dead Redemption</strong> и других играх компании Rockstar Games 
+              Самые последние официальные новости, слухи и утечки о твоих любимых сериях <strong>Grand Theft Auto</strong>, <strong>Red Dead Redemption</strong> и других играх компании Rockstar Games.
             </p>
             <p className="mb-4">
               Например, мы можем рассказать тебе о грядущей <strong><Link href="/categories/gtavi" title="GTA 6" className="white-to-orange">Grand Theft Auto 6</Link></strong>, или нестареющей <strong><Link href="/categories/gta-online" title="GTA Online" className="white-to-orange">GTA Online</Link></strong>.
