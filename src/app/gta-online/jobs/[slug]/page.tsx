@@ -74,6 +74,7 @@ async function getJob(slug: string): Promise<JobData | null> {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
       },
+        timeout: 25000
     });
     
     if (response.data && response.data.data && response.data.data.length > 0) {

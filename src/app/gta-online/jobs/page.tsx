@@ -104,6 +104,7 @@ export default function JobsPage() {
           headers: {
             Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
           },
+          timeout: 25000
         });
         
         if (response.data && response.data.data) {
