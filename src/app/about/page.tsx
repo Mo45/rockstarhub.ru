@@ -31,7 +31,7 @@ export default function AboutPage() {
 
           <div className="prose prose-lg max-w-none text-white">
             <p className="mb-6">
-              Добро пожаловать в Rockstar Хаб — ваш главный источник информации о играх Rockstar Games: <Link href="/games/gta-v" className="orange-to-white">GTA 5</Link>, <Link href="/games/gtao" className="orange-to-white">GTA Online</Link>, <Link href="/games/rdr2" className="orange-to-white">Red Dead Redemption 2</Link> и грядущей <Link href="/games/gtavi" className="orange-to-white">GTA 6</Link>. Мы предоставляем самые свежие новости, эксклюзивные материалы и детальные руководства по самым популярным проектам легендарной студии.
+              Добро пожаловать на Рокстар Хаб — ваш главный источник информации о играх Rockstar Games: <Link href="/games/gta-v" className="orange-to-white">GTA 5</Link>, <Link href="/games/gtao" className="orange-to-white">GTA Online</Link>, <Link href="/games/rdr2" className="orange-to-white">Red Dead Redemption 2</Link> и грядущей <Link href="/games/gtavi" className="orange-to-white">GTA 6</Link>. Мы предоставляем самые свежие новости, эксклюзивные материалы и детальные руководства по самым популярным проектам легендарной студии.
             </p>
 
             <h2 className="text-2xl font-bold mb-4 mt-8">Зачем?</h2>
@@ -58,14 +58,14 @@ export default function AboutPage() {
 
             <h2 className="text-2xl font-bold mb-4 mt-8">Кто мы</h2>
             <p className="mb-6">
-              Rockstar Хаб создан и поддерживается одним энтузиастом и давним поклонником творчества Rockstar Games. Всё для того, чтобы делиться 
+              Рокстар Хаб создан и поддерживается одним энтузиастом и давним поклонником творчества Rockstar Games. Всё для того, чтобы делиться 
               своей страстью к вселенной GTA и Red Dead с другими фанатами и игроками.
             </p>
 
             <div className="mt-8 p-6 bg-zinc-900 rounded-lg">
               <h3 className="text-xl font-bold mb-4">Присоединяйтесь к нашему сообществу</h3>
               <p className="mb-4">
-                Следите за Rockstar Хаб в социальных сетях, чтобы быть в курсе всех обновлений GTA Online, 
+                Следите за Рокстар Хаб в социальных сетях, чтобы быть в курсе всех обновлений GTA Online, 
                 новостей о Red Dead Redemption 2 и первым узнавать новые подробности о готовящейся GTA 6.
               </p>
               <div className="flex gap-4">

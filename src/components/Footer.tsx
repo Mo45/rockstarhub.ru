@@ -11,7 +11,7 @@ export default function Footer() {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-lg font-bold mb-4">Rockstar Хаб</h3>
+            <h3 className="text-lg font-bold mb-4">Рокстар Хаб</h3>
             <p className="text-gray-500">
               Всё о твоих любимых играх от компании Rockstar Games. Новости, Аналитика, Слухи, Руководства, База данных игр и достижений.
             </p>
@@ -100,7 +100,7 @@ export default function Footer() {
 
         <div className="border-t border-gray-700 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
           <div className="text-center text-gray-700 md:text-left mb-4 md:mb-0">
-            <p>&copy; 2025 <Link href="/about" className="gray-to-orange">Rockstar Хаб</Link>. Все права защищены.</p>
+            <p>&copy; 2025 <Link href="/about" className="gray-to-orange">Рокстар Хаб</Link>. Все права защищены.</p>
           </div>
           <div className="text-center md:text-right text-xs text-gray-700">
             <p>R, Rockstar, Red Dead Redemption, GTA, Grand Theft Auto, and related logos are trademarks of Take-Two Interactive Software, Inc.</p>
