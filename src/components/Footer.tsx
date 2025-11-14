@@ -13,7 +13,7 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-bold mb-4">Рокстар Хаб</h3>
             <p className="text-gray-500">
-              Всё о твоих любимых играх от компании Rockstar Games. Новости, Аналитика, Слухи, Руководства, База данных игр и достижений.
+              Всё о твоих любимых играх от компании Rockstar Games. Новости, Аналитика, Слухи, Руководства, База данных игр, и достижений.
             </p>
           </div>
 
@@ -49,7 +49,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h4 className="text-lg font-bold mb-4">Информация</h4>
+            <h4 className="text-lg font-bold mb-4">Информация о Хабе</h4>
             <ul className="space-y-2">
               <li>
                 <Link href="/privacy" className="gray-to-orange">
