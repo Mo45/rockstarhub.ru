@@ -297,7 +297,7 @@ export default async function SingleJobPage(props: { params: Promise<{ slug: str
                 title={`Видео-руководство как завершить дело «${jobData.title_ru}»`}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
-                className="w-full h-80 rounded-lg"
+                className="w-full h-96 rounded-lg"
               ></iframe>
             </div>
           </div>
