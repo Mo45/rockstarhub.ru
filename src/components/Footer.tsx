@@ -101,7 +101,7 @@ export default function Footer() {
         <div className="border-t border-gray-700 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
           <div className="text-center text-gray-700 md:text-left mb-4 md:mb-0">
             <p>&copy; 2025 <Link href="/about" className="gray-to-orange">Рокстар Хаб</Link>. Все права защищены.</p>
-            <p class="text-xs">Копирование материалов разрешено только только с обязательной установкой активной гиперссылки на <Link href="https://rockstarhub.ru/" className="gray-to-orange">rockstarhub.ru</Link></p>
+            <p className="text-xs">Копирование материалов разрешено только только с обязательной установкой активной гиперссылки на <Link href="https://rockstarhub.ru/" className="gray-to-orange">rockstarhub.ru</Link></p>
           </div>
           <div className="text-center md:text-right text-xs text-gray-700">
             <p>R, Rockstar, Red Dead Redemption, GTA, Grand Theft Auto, and related logos are trademarks of Take-Two Interactive Software, Inc.</p>
