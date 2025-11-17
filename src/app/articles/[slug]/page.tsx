@@ -14,7 +14,6 @@ import { generateSEOMetadata } from '@/components/SEOMetaTags';
 import CommentsSection from '@/components/comments/CommentsSection';
 import ShareButtons from '@/components/ShareButtons';
 import SupportProjectBlock from '@/components/SupportProjectBlock';
-import GTAForumsIcon from '@/components/GTAForumsIcon';
 
 interface Author {
   id: number;
@@ -23,7 +22,6 @@ interface Author {
   rockstarSocialClub?: string;
   steamID?: string;
   xboxGamerTag?: string;
-  gtaforums?: string;
   avatar?: {
     url: string;
     alternativeText?: string;
@@ -408,17 +406,6 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
                       title="Xbox"
                     >
                       <IoLogoXbox className="w-6 h-6" />
-                    </a>
-                  )}
-                  {authorWithAvatar.gtaforums && (
-                    <a
-                      href={`${authorWithAvatar.gtaforums}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="social-icon"
-                      title="GTAForums"
-                    >
-                      <GTAForumsIcon />
                     </a>
                   )}
                 </div>
