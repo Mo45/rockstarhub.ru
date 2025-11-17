@@ -48,7 +48,7 @@ const sharkCards = [
     id: 6,
     title: 'Red Shark Cash Card',
     value: '100,000$',
-    price: '195 ₽',
+    price: '275 ₽',
     image: '/RedShark.jpg',
     link: 'https://plati.market/itm/gta-online-red-shark-cash-card-100-000-pc-key/3590686?ai=901800'
   }
