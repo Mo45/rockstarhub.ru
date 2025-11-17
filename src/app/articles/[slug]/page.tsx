@@ -14,7 +14,7 @@ import { generateSEOMetadata } from '@/components/SEOMetaTags';
 import CommentsSection from '@/components/comments/CommentsSection';
 import ShareButtons from '@/components/ShareButtons';
 import SupportProjectBlock from '@/components/SupportProjectBlock';
-import GTAForumsIcon from './GTAForumsIcon';
+import GTAForumsIcon from '@/components/GTAForumsIcon';
 
 interface Author {
   id: number;
