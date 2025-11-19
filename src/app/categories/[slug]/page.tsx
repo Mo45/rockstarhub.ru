@@ -38,6 +38,7 @@ async function getCategory(slug: string): Promise<Category | null> {
     
     url.searchParams.set('filters[slug][$eq]', slug);
     url.searchParams.set('populate[articles][populate]', 'squareImage');
+    url.searchParams.set('populate[articles][sort]', 'publishedAt:desc');
     
     const response = await axios.get(
       url.toString(),

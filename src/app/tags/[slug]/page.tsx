@@ -38,6 +38,7 @@ async function getTag(slug: string): Promise<Tag | null> {
     
     url.searchParams.set('filters[slug][$eq]', slug);
     url.searchParams.set('populate[articles][populate]', '*');
+    url.searchParams.set('populate[articles][sort]', 'publishedAt:desc');
     
     const response = await axios.get(
       url.toString(),
