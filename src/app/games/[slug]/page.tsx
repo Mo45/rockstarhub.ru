@@ -3,12 +3,14 @@
 import axios from 'axios';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import PlatformTag from '@/components/PlatformTag';
 import GameCard from '@/components/GameCard';
 import AchievementsList from '@/components/AchievementsList';
 import OrganizationSchema from '@/components/OrganizationSchema';
 import { generateSEOMetadata } from '@/components/SEOMetaTags';
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
+import { TbCalendarWeek } from 'react-icons/tb';
 
 interface Game {
   id: number;
@@ -69,7 +71,33 @@ interface Achievement {
   page_url: string;
 }
 
+interface Article {
+  id: number;
+  title: string;
+  slug: string;
+  excerpt: string;
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+  coverImage: any;
+  squareImage: any;
+  backGroundHex?: string | null;
+  accentHex?: string | null;
+  category: any;
+}
+
 const CACHE = new Map();
+
+// Mapping соответствия игр и категорий
+const gameCategoryMap: { [key: string]: string } = {
+  'gtavi': 'gtavi',
+  'gtao': 'gta-online',
+  'gta-v': 'gtav',
+  'rdo': 'red-dead-online',
+  'rdr2': 'red-dead-redemption-2',
+  'rdr': 'red-dead-redemption',
+  'lanoire': 'lanoire'
+};
 
 async function getGame(slug: string): Promise<Game | null> {
   const cacheKey = `game:${slug}`;
@@ -146,6 +174,39 @@ async function getAchievements(gameName: string): Promise<Achievement[]> {
   }
 }
 
+async function getLatestArticlesByCategory(categorySlug: string, limit: number = 3): Promise<Article[]> {
+  const cacheKey = `articles:${categorySlug}:${limit}`;
+  
+  if (CACHE.has(cacheKey)) {
+    return CACHE.get(cacheKey);
+  }
+
+  try {
+    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/articles`);
+    
+    url.searchParams.set('filters[category][slug][$eq]', categorySlug);
+    url.searchParams.set('populate', 'squareImage,coverImage');
+    url.searchParams.set('sort', 'publishedAt:desc');
+    url.searchParams.set('pagination[pageSize]', limit.toString());
+    
+    const response = await axios.get(
+      url.toString(),
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+        },
+      }
+    );
+    
+    const articlesData = response.data.data;
+    CACHE.set(cacheKey, articlesData);
+    return articlesData;
+  } catch (error) {
+    console.error('Ошибка загрузки статей:', error);
+    return [];
+  }
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const game = await getGame(slug);
@@ -215,10 +276,14 @@ function GameSchema({ game }: { game: Game }) {
 export default async function GamePage(props: { params: Promise<{ slug: string }> }) {
   const { slug } = await props.params;
   
-  // Параллельная загрузка игры и достижений
-  const [game, achievements] = await Promise.all([
+  // Получаем slug категории для текущей игры
+  const categorySlug = gameCategoryMap[slug];
+  
+  // Параллельная загрузка игры, достижений и последних новостей
+  const [game, achievements, latestArticles] = await Promise.all([
     getGame(slug),
-    getAchievements(slug)
+    getAchievements(slug),
+    categorySlug ? getLatestArticlesByCategory(categorySlug, 3) : Promise.resolve([])
   ]);
   
   if (!game) {
@@ -310,6 +375,53 @@ export default async function GamePage(props: { params: Promise<{ slug: string }
           )}
 
           <AchievementsList achievements={achievements} gameSlug={slug} limit={3}/>
+
+          {/* Блок последних новостей */}
+          {latestArticles.length > 0 && (
+            <section className="mt-12">
+              <h2 className="text-2xl font-semibold mb-6">Последние новости</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {latestArticles.map((article) => {
+                  const image = article.squareImage || article.coverImage;
+                  const imageFormats = image?.formats || {};
+                  
+                  return (
+                    <div key={article.id} className="card article-list-card border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                      <Link href={`/articles/${article.slug}`} className="block h-full">
+                        {image && (
+                          <div className="w-full aspect-video relative">
+                            <Image 
+                              src={`${process.env.NEXT_PUBLIC_BACKEND}${imageFormats.large?.url || image.url}`}
+                              decoding="async"
+                              loading="lazy"
+                              alt={image.alternativeText || article.title}
+                              className="w-full h-full object-cover"
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                              fill
+                            />
+                          </div>
+                        )}
+                        <div className="p-4 h-full flex flex-col">
+                          <h3 className="text-lg font-bold mb-2 line-clamp-3" style={{
+                            backgroundColor: article.backGroundHex || 'transparent',
+                            color: article.accentHex || 'inherit'
+                          }}>
+                            {article.title || 'Без названия'}
+                          </h3>
+                          <div className="article-meta flex justify-between items-center text-xs text-gray-500 mt-auto">
+                            <div className="flex items-center gap-1">
+                              <TbCalendarWeek className="w-3 h-3" />
+                              <span>{new Date(article.publishedAt).toLocaleDateString('ru-RU')}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </Link>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+          )}
         </div>
         
         <div className="lg:col-span-1">
