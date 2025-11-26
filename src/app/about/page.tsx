@@ -46,6 +46,7 @@ export default function AboutPage() {
               <li>Первые подробности о готовящейся <Link href="/games/gtavi" className="orange-to-white">GTA 6</Link></li>
               <li>Глубокие <Link href="/tags/analytics" className="orange-to-white">аналитические статьи</Link> и обзоры обновлений</li>
               <li>Подробные гайды и советы по прохождению</li>
+              <li>Регулярно поплняемый YouTube-канал с геймплеем и прохождениями</li>
               <li>Профессиональные переводы статей и интервью</li>
               <li><Link href="/games" className="orange-to-white">База данных игр</Link> и достижений</li>
               <li><a 
