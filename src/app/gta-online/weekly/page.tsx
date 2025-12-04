@@ -190,7 +190,7 @@ export default function EventsPage() {
             </li>
             <li className="flex items-center">
               <span className="mx-2">/</span>
-              <span className="text-rockstar-500 font-medium">Еженедельные события и бонусы</span>
+              <span className="text-rockstar-500 font-medium">Новая неделя скидок и бонусов</span>
             </li>
           </ol>
         </nav>
@@ -202,7 +202,7 @@ export default function EventsPage() {
         {/* Описание страницы */}
         <div className="w-full mb-8">
           <p className="text-gray-500 text-medium">
-            Игровые события GTA Online текущей недели: Скидки на транспорт, оружие и недвижимость. Все доступные бонусы 2X к RP и GTA$.
+            Новая неделя в GTA Online: Бонусы этой недели, скидки на транспорт, оружие и недвижимость. Все доступные бонусы 2X к RP и GTA$.
           </p>
         </div>
 
@@ -271,7 +271,7 @@ export default function EventsPage() {
         <div className="card rounded-lg p-6 md:p-8 mb-2 mt-8">
           <div className="prose max-w-none text-sm">
             <p className="mb-4">
-              Возвращайтесь на эту страницу еженедельно чтобы быть в курсе всех событий в <strong><Link href="/games/gtao" className="white-to-orange">GTA Online</Link></strong>. Удвоенные награды за завершение избранных серий, заданий, и бонусы для различных предприятий.
+              Возвращайтесь на эту страницу еженедельно чтобы быть в курсе всех событий в <strong><Link href="/games/gtao" className="white-to-orange">GTA Online</Link></strong>. Каждую неделю в ГТА Онлайн нас ждут новые скидки и бонусы, удвоенные награды за завершение избранных серий, заданий, и бонусы для различных предприятий.
             </p>
             <p className="mb-4">
               Кроме того, наиболее интересные скидки на покупку недвижимости, транспорта, предприятий или улучшений. Не нужно читать огромные статьи обновления, просто заходи к нам и будь в курсе!
