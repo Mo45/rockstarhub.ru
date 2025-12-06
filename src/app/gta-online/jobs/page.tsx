@@ -267,6 +267,21 @@ export default function JobsPage() {
             )}
           </>
         )}
+
+        <div className="card rounded-lg p-6 md:p-8 mb-2 mt-8">
+          <div className="prose max-w-none text-sm">
+            <p className="mb-4">
+              Наш <strong><Link href="/gta-online" className="white-to-orange">Хаб GTA Online</Link></strong> — это регулярно обновляемый и пополняемый раздел. Всё что нужно активному игроку!
+            </p>
+            <p className="mb-4">
+              Подробные <strong><Link href="/gta-online/jobs" className="white-to-orange">руководства по прохождению миссий в GTA Online</Link></strong>: Как найти нужное дело среди множества других, видео-гайд, требования, советы, описание элитных испытаний и наград.
+            </p>
+            <p>
+              Как заработать в ГТА Онлайн, пройти миссии и получить все доступные награды. Всё это можно найти на странице интересущего вас дела — описание каждой миссии и видео-гайд с прохождением на максимальной сложности. Будьте готовы к неожиданным поворотам и заранее знайте что и как вам необходимо делать!
+            </p>
+          </div>
+        </div>
+
       </div>
     </main>
   );
