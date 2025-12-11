@@ -99,6 +99,7 @@ export default function JobsPage() {
         
         const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/jobs`);
         url.searchParams.set('populate[0]', 'job_image');
+        url.searchParams.set('pagination[pageSize]', '100');
         
         const response = await axios.get<ApiResponse>(url.toString(), {
           headers: {
