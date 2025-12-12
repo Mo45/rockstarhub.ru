@@ -446,7 +446,7 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
       {article.coverImage && (
         <div className="max-w-6xl mx-auto">
           <Image 
-            src={`${process.env.NEXT_PUBLIC_BACKEND}${article.coverImage.formats?.large?.url || guide.coverImage.url}`}
+            src={`${process.env.NEXT_PUBLIC_BACKEND}${article.coverImage.formats?.large?.url || article.coverImage.url}`}
             alt={article.coverImage.alternativeText || article.title}
             width={1200}
             height={630}
