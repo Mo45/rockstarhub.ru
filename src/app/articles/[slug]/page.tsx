@@ -359,16 +359,28 @@ export async function generateStaticParams() {
 }
 
 // Оптимизация изображений
-function getImageUrl(image: any): string {
+function getImageUrl(image: any, useFormat?: 'large' | 'small' | 'thumbnail' | 'medium'): string {
   if (!image?.url) return '';
   
-  // Strapi обычно возвращает полные URL, но если это относительный путь:
-  if (image.url.startsWith('http')) {
-    return image.url;
+  let url = image.url;
+  
+  // Если есть формат и он существует, используем его
+  if (useFormat && image.formats?.[useFormat]?.url) {
+    url = image.formats[useFormat].url;
   }
   
-  // Если вдруг относительный путь
-  return `${process.env.NEXT_PUBLIC_BACKEND || ''}${image.url}`;
+  // Если URL уже абсолютный, возвращаем как есть
+  if (url.startsWith('http')) {
+    return url;
+  }
+  
+  // Если URL начинается с /, добавляем домен
+  if (url.startsWith('/')) {
+    return `https://data.rockstarhub.ru${url}`;
+  }
+  
+  // В крайнем случае добавляем baseUrl
+  return `${process.env.NEXT_PUBLIC_BACKEND || 'https://data.rockstarhub.ru'}${url}`;
 }
 
 export default async function ArticlePage(props: { params: Promise<{ slug: string }> }) {
