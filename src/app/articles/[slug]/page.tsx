@@ -359,25 +359,16 @@ export async function generateStaticParams() {
 }
 
 // Оптимизация изображений
-function getOptimizedImageUrl(
-  image: any, 
-  format: 'large' | 'small' | 'thumbnail' | 'medium' = 'large'
-): string {
+function getImageUrl(image: any): string {
   if (!image?.url) return '';
   
-  const baseUrl = process.env.NEXT_PUBLIC_BACKEND;
-  const formats = image.formats || {};
-  
-  // Возвращаем оптимизированный размер если есть, иначе оригинал
-  if (formats[format]?.url) {
-    return `${baseUrl}${formats[format].url}`;
-  } else if (formats.large?.url) {
-    return `${baseUrl}${formats.large.url}`;
-  } else if (formats.medium?.url) {
-    return `${baseUrl}${formats.medium.url}`;
+  // Strapi обычно возвращает полные URL, но если это относительный путь:
+  if (image.url.startsWith('http')) {
+    return image.url;
   }
   
-  return `${baseUrl}${image.url}`;
+  // Если вдруг относительный путь
+  return `${process.env.NEXT_PUBLIC_BACKEND || ''}${image.url}`;
 }
 
 export default async function ArticlePage(props: { params: Promise<{ slug: string }> }) {
@@ -414,7 +405,7 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
   const backgroundStyle: React.CSSProperties & { [key: `--${string}`]: string } = {};
   
   if (article.backGroundImg?.url) {
-    backgroundStyle.backgroundImage = `url(${getOptimizedImageUrl(article.backGroundImg, 'medium')})`;
+    backgroundStyle.backgroundImage = `url(${getImageUrl(article.backGroundImg, 'medium')})`;
     backgroundStyle.backgroundRepeat = 'repeat';
     backgroundStyle.backgroundSize = 'cover';
     backgroundStyle.backgroundPosition = 'center';
@@ -431,14 +422,14 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
     '@type': 'Article',
     'headline': article.title,
     'description': article.excerpt,
-    'image': article.coverImage?.url ? getOptimizedImageUrl(article.coverImage, 'large') : undefined,
+    'image': article.coverImage?.url ? getImageUrl(article.coverImage, 'large') : undefined,
     'datePublished': article.publishedAt,
     'dateModified': article.updatedAt,
     'author': authorWithAvatar ? {
       '@type': 'Person',
       'name': authorWithAvatar.name,
       'description': authorWithAvatar.bio,
-      'image': authorWithAvatar.avatar?.url ? getOptimizedImageUrl(authorWithAvatar.avatar, 'thumbnail') : undefined
+      'image': authorWithAvatar.avatar?.url ? getImageUrl(authorWithAvatar.avatar, 'thumbnail') : undefined
     } : undefined,
     'publisher': {
       '@type': 'Organization',
@@ -468,7 +459,7 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
       {article.coverImage && (
         <div className="max-w-6xl mx-auto">
           <Image 
-            src={getOptimizedImageUrl(article.coverImage, 'large')}
+            src={getImageUrl(article.coverImage, 'large')}
             alt={article.coverImage.alternativeText || article.title}
             width={1200}
             height={630}
@@ -567,7 +558,7 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
               {authorWithAvatar.avatar && (
                 <div className="flex-shrink-0">
                   <Image
-                    src={getOptimizedImageUrl(authorWithAvatar.avatar, 'thumbnail')}
+                    src={getImageUrl(authorWithAvatar.avatar, 'thumbnail')}
                     alt={authorWithAvatar.avatar.alternativeText || authorWithAvatar.name}
                     width={130}
                     height={130}
@@ -640,7 +631,7 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
                 <div className="card similar-card">
                   {similarArticle.coverImage && (
                     <Image 
-                      src={getOptimizedImageUrl(similarArticle.coverImage, 'small')}
+                      src={getImageUrl(similarArticle.coverImage, 'small')}
                       alt={similarArticle.coverImage.alternativeText || similarArticle.title}
                       width={400}
                       height={225}
