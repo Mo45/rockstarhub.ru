@@ -98,7 +98,7 @@ async function getAuthor(name: string): Promise<Author | null> {
     const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/authors`);
     
     url.searchParams.set('filters[name][$eq]', name);
-    url.searchParams.set('populate[0]', '*');
+    url.searchParams.set('populate', '*');
     
     const response = await axios.get(
       url.toString(),
@@ -126,7 +126,7 @@ async function getArticle(slug: string): Promise<Article | null> {
     const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/articles`);
     
     url.searchParams.set('filters[slug][$eq]', slug);
-    url.searchParams.set('populate[0]', '*');
+    url.searchParams.set('populate', '*');
     
     const response = await axios.get(
       url.toString(),
