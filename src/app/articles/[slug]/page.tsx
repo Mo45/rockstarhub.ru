@@ -15,9 +15,15 @@ import CommentsSection from '@/components/comments/CommentsSection';
 import ShareButtons from '@/components/ShareButtons';
 import SupportProjectBlock from '@/components/SupportProjectBlock';
 
-// Добавляем кэш
-const CACHE = new Map();
+// Настройки кэширования для разных типов данных
+const CACHE_CONFIG = {
+  article: 86400, // 24 часа в секундах
+  author: 604800, // 7 дней в секундах (7 * 24 * 3600)
+  similar: 3600, // 1 час в секундах
+  metadata: 86400, // 24 часа для метаданных
+} as const;
 
+// Интерфейсы остаются без изменений
 interface Author {
   id: number;
   name: string;
@@ -69,11 +75,24 @@ interface SimilarArticle {
   };
 }
 
+// Функция для получения заголовков Cache-Control
+function getCacheHeaders(type: 'article' | 'author' | 'similar' | 'metadata') {
+  const maxAge = CACHE_CONFIG[type];
+  return {
+    'Cache-Control': `public, s-maxage=${maxAge}, stale-while-revalidate=${maxAge * 2}`,
+    'CDN-Cache-Control': `public, s-maxage=${maxAge}`,
+    'Vercel-CDN-Cache-Control': `public, s-maxage=${maxAge}`
+  };
+}
+
 async function getSimilarArticles(categoryId: number, currentArticleId: number, limit: number = 3): Promise<SimilarArticle[]> {
   const cacheKey = `similar:${categoryId}:${currentArticleId}:${limit}`;
   
-  if (CACHE.has(cacheKey)) {
-    return CACHE.get(cacheKey);
+  if (process.env.NODE_ENV !== 'development') {
+    const cached = await caches.match(cacheKey);
+    if (cached) {
+      return cached.json();
+    }
   }
   
   try {
@@ -90,13 +109,26 @@ async function getSimilarArticles(categoryId: number, currentArticleId: number, 
       {
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+          ...getCacheHeaders('similar'),
         },
-        timeout: 10000 // Уменьшаем таймаут для похожих статей
+        timeout: 10000
       }
     );
     
     const data = response.data.data;
-    CACHE.set(cacheKey, data);
+    
+    // Кэшируем в браузерном кэше (если доступно)
+    if (process.env.NODE_ENV !== 'development' && typeof caches !== 'undefined') {
+      const cache = await caches.open('similar-articles');
+      const cacheResponse = new Response(JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': `max-age=${CACHE_CONFIG.similar}`,
+        },
+      });
+      await cache.put(cacheKey, cacheResponse);
+    }
+    
     return data;
   } catch (error) {
     console.error('Ошибка загрузки похожих статей:', error);
@@ -107,8 +139,11 @@ async function getSimilarArticles(categoryId: number, currentArticleId: number, 
 async function getAuthor(name: string): Promise<Author | null> {
   const cacheKey = `author:${name}`;
   
-  if (CACHE.has(cacheKey)) {
-    return CACHE.get(cacheKey);
+  if (process.env.NODE_ENV !== 'development') {
+    const cached = await caches.match(cacheKey);
+    if (cached) {
+      return cached.json();
+    }
   }
   
   try {
@@ -122,18 +157,41 @@ async function getAuthor(name: string): Promise<Author | null> {
       {
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+          ...getCacheHeaders('author'),
         },
-        timeout: 10000 // Уменьшаем таймаут
+        timeout: 10000
       }
     );
     
     if (response.data.data.length === 0) {
-      CACHE.set(cacheKey, null);
+      // Кэшируем null-ответ тоже, но на более короткое время
+      if (process.env.NODE_ENV !== 'development' && typeof caches !== 'undefined') {
+        const cache = await caches.open('authors');
+        const cacheResponse = new Response(JSON.stringify(null), {
+          headers: {
+            'Content-Type': 'application/json',
+            'Cache-Control': 'max-age=300', // 5 минут для null-ответов
+          },
+        });
+        await cache.put(cacheKey, cacheResponse);
+      }
       return null;
     }
     
     const authorData = response.data.data[0];
-    CACHE.set(cacheKey, authorData);
+    
+    // Кэшируем в браузерном кэше
+    if (process.env.NODE_ENV !== 'development' && typeof caches !== 'undefined') {
+      const cache = await caches.open('authors');
+      const cacheResponse = new Response(JSON.stringify(authorData), {
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': `max-age=${CACHE_CONFIG.author}`,
+        },
+      });
+      await cache.put(cacheKey, cacheResponse);
+    }
+    
     return authorData;
   } catch (error) {
     console.error('Ошибка загрузки автора:', error);
@@ -144,8 +202,11 @@ async function getAuthor(name: string): Promise<Author | null> {
 async function getArticle(slug: string): Promise<Article | null> {
   const cacheKey = `article:${slug}`;
   
-  if (CACHE.has(cacheKey)) {
-    return CACHE.get(cacheKey);
+  if (process.env.NODE_ENV !== 'development') {
+    const cached = await caches.match(cacheKey);
+    if (cached) {
+      return cached.json();
+    }
   }
   
   try {
@@ -164,18 +225,41 @@ async function getArticle(slug: string): Promise<Article | null> {
       {
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+          ...getCacheHeaders('article'),
         },
-        timeout: 15000 // Уменьшаем таймаут для основного запроса
+        timeout: 15000
       }
     );
     
     if (response.data.data.length === 0) {
-      CACHE.set(cacheKey, null);
+      // Кэшируем 404 на короткое время
+      if (process.env.NODE_ENV !== 'development' && typeof caches !== 'undefined') {
+        const cache = await caches.open('articles');
+        const cacheResponse = new Response(JSON.stringify(null), {
+          headers: {
+            'Content-Type': 'application/json',
+            'Cache-Control': 'max-age=300', // 5 минут для 404
+          },
+        });
+        await cache.put(cacheKey, cacheResponse);
+      }
       return null;
     }
     
     const articleData = response.data.data[0];
-    CACHE.set(cacheKey, articleData);
+    
+    // Кэшируем в браузерном кэше
+    if (process.env.NODE_ENV !== 'development' && typeof caches !== 'undefined') {
+      const cache = await caches.open('articles');
+      const cacheResponse = new Response(JSON.stringify(articleData), {
+        headers: {
+          'Content-Type': 'application/json',
+          'Cache-Control': `max-age=${CACHE_CONFIG.article}`,
+        },
+      });
+      await cache.put(cacheKey, cacheResponse);
+    }
+    
     return articleData;
   } catch (error) {
     console.error('Ошибка загрузки статьи:', error);
@@ -214,28 +298,62 @@ function calculateReadingTime(content: any[]): number {
   return Math.max(1, readingTime);
 }
 
+// Экспортируем revalidate для ISR
+export const revalidate = 3600; // Ревалидировать страницу каждые 1 час
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const article = await getArticle(slug);
   
-  if (!article) {
+  try {
+    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/articles`);
+    
+    url.searchParams.set('filters[slug][$eq]', slug);
+    url.searchParams.set('fields[0]', 'title');
+    url.searchParams.set('fields[1]', 'excerpt');
+    url.searchParams.set('fields[2]', 'publishedAt');
+    url.searchParams.set('fields[3]', 'updatedAt');
+    url.searchParams.set('populate[0]', 'coverImage');
+    url.searchParams.set('populate[1]', 'author');
+    url.searchParams.set('populate[2]', 'category');
+    url.searchParams.set('populate[3]', 'tags');
+    
+    const response = await axios.get(
+      url.toString(),
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+          ...getCacheHeaders('metadata'),
+        },
+        timeout: 10000
+      }
+    );
+    
+    if (response.data.data.length === 0) {
+      return {
+        title: 'Статья не найдена - Rockstar Хаб',
+      };
+    }
+    
+    const article = response.data.data[0];
+    
+    return generateSEOMetadata({
+      title: article.title,
+      description: article.excerpt,
+      imageUrl: article.coverImage?.url,
+      url: `/articles/${slug}`,
+      type: 'article',
+      publishedTime: article.publishedAt,
+      modifiedTime: article.updatedAt,
+      author: article.author?.name,
+      section: article.category?.name,
+      tags: article.tags?.map((tag: any) => tag.name),
+    });
+  } catch (error) {
+    console.error('Ошибка загрузки метаданных статьи:', error);
     return {
-      title: 'Статья не найдена - Rockstar Хаб',
+      title: 'Статья - Rockstar Хаб',
     };
   }
-  
-  return generateSEOMetadata({
-    title: article.title,
-    description: article.excerpt,
-    imageUrl: article.coverImage?.url,
-    url: `/articles/${article.slug}`,
-    type: 'article',
-    publishedTime: article.publishedAt,
-    modifiedTime: article.updatedAt,
-    author: article.author?.name,
-    section: article.category?.name,
-    tags: article.tags?.map(tag => tag.name),
-  });
 }
 
 export async function generateStaticParams() {
@@ -243,15 +361,18 @@ export async function generateStaticParams() {
     const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/articles`);
     
     url.searchParams.set('fields[0]', 'slug');
-    url.searchParams.set('pagination[pageSize]', '50'); // Ограничиваем количество статей для генерации
+    url.searchParams.set('pagination[pageSize]', '50');
+    url.searchParams.set('filters[publishedAt][$notNull]', 'true');
+    url.searchParams.set('sort[0]', 'publishedAt:desc');
     
     const response = await axios.get(
       url.toString(),
       {
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+          'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=172800',
         },
-        timeout: 10000 // Уменьшаем таймаут
+        timeout: 15000
       }
     );
     
@@ -262,6 +383,28 @@ export async function generateStaticParams() {
     console.error('Ошибка генерации статических параметров:', error);
     return [];
   }
+}
+
+// Оптимизация изображений
+function getOptimizedImageUrl(
+  image: any, 
+  format: 'large' | 'small' | 'thumbnail' | 'medium' = 'large'
+): string {
+  if (!image?.url) return '';
+  
+  const baseUrl = process.env.NEXT_PUBLIC_BACKEND;
+  const formats = image.formats || {};
+  
+  // Возвращаем оптимизированный размер если есть, иначе оригинал
+  if (formats[format]?.url) {
+    return `${baseUrl}${formats[format].url}`;
+  } else if (formats.large?.url) {
+    return `${baseUrl}${formats.large.url}`;
+  } else if (formats.medium?.url) {
+    return `${baseUrl}${formats.medium.url}`;
+  }
+  
+  return `${baseUrl}${image.url}`;
 }
 
 export default async function ArticlePage(props: { params: Promise<{ slug: string }> }) {
@@ -279,13 +422,17 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
   let similarArticles: SimilarArticle[] = [];
   
   try {
-    [authorWithAvatar, similarArticles] = await Promise.all([
+    [authorWithAvatar, similarArticles] = await Promise.allSettled([
       article.author && article.author.name ? getAuthor(article.author.name) : Promise.resolve(null),
       article.category && article.category.id ? getSimilarArticles(article.category.id, article.id, 3) : Promise.resolve([])
-    ]);
+    ]).then((results) => {
+      return [
+        results[0].status === 'fulfilled' ? results[0].value : null,
+        results[1].status === 'fulfilled' ? results[1].value : []
+      ];
+    });
   } catch (error) {
     console.error('Ошибка загрузки дополнительных данных:', error);
-    // Если не удалось загрузить дополнительные данные, продолжаем рендеринг без них
   }
   
   const readingTime = calculateReadingTime(article.content);
@@ -294,8 +441,10 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
   const backgroundStyle: React.CSSProperties & { [key: `--${string}`]: string } = {};
   
   if (article.backGroundImg?.url) {
-    backgroundStyle.backgroundImage = `url(${process.env.NEXT_PUBLIC_BACKEND}${article.backGroundImg.url})`;
+    backgroundStyle.backgroundImage = `url(${getOptimizedImageUrl(article.backGroundImg, 'medium')})`;
     backgroundStyle.backgroundRepeat = 'repeat';
+    backgroundStyle.backgroundSize = 'cover';
+    backgroundStyle.backgroundPosition = 'center';
   } else if (article.backGroundHex) {
     backgroundStyle.backgroundColor = article.backGroundHex;
   }
@@ -309,14 +458,14 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
     '@type': 'Article',
     'headline': article.title,
     'description': article.excerpt,
-    'image': article.coverImage?.url ? `${process.env.NEXT_PUBLIC_BACKEND}${article.coverImage.url}` : undefined,
+    'image': article.coverImage?.url ? getOptimizedImageUrl(article.coverImage, 'large') : undefined,
     'datePublished': article.publishedAt,
     'dateModified': article.updatedAt,
     'author': authorWithAvatar ? {
       '@type': 'Person',
       'name': authorWithAvatar.name,
       'description': authorWithAvatar.bio,
-      'image': authorWithAvatar.avatar?.url ? `${process.env.NEXT_PUBLIC_BACKEND}${authorWithAvatar.avatar.url}` : undefined
+      'image': authorWithAvatar.avatar?.url ? getOptimizedImageUrl(authorWithAvatar.avatar, 'thumbnail') : undefined
     } : undefined,
     'publisher': {
       '@type': 'Organization',
@@ -346,10 +495,15 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
       {article.coverImage && (
         <div className="max-w-6xl mx-auto">
           <Image 
-            src={`${process.env.NEXT_PUBLIC_BACKEND}${article.coverImage.formats?.large?.url || article.coverImage.url}`} 
+            src={getOptimizedImageUrl(article.coverImage, 'large')}
             alt={article.coverImage.alternativeText || article.title}
+            width={1200}
+            height={630}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 1200px"
+            priority={true}
+            loading="eager"
+            quality={85}
             decoding="async"
-            loading="lazy"
             className="rounded-lg mt-2 md:mt-6 w-full h-auto object-cover"
           />
         </div>
@@ -414,6 +568,7 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                   className="w-full h-96 rounded-lg"
+                  loading="lazy"
                 ></iframe>
               </div>
             </div>
@@ -439,12 +594,14 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
               {authorWithAvatar.avatar && (
                 <div className="flex-shrink-0">
                   <Image
-                    src={`${process.env.NEXT_PUBLIC_BACKEND}${authorWithAvatar.avatar.formats?.thumbnail?.url || authorWithAvatar.avatar.url}`} 
+                    src={getOptimizedImageUrl(authorWithAvatar.avatar, 'thumbnail')}
                     alt={authorWithAvatar.avatar.alternativeText || authorWithAvatar.name}
                     width={130}
                     height={130}
-                    decoding="async"
+                    sizes="130px"
                     loading="lazy"
+                    decoding="async"
+                    quality={75}
                     className="rounded-full mx-auto md:mx-0"
                   />
                 </div>
@@ -505,14 +662,19 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
                 key={similarArticle.id} 
                 href={`/articles/${similarArticle.slug}`}
                 className="block hover:no-underline"
+                prefetch={false}
               >
                 <div className="card similar-card">
                   {similarArticle.coverImage && (
                     <Image 
-                      src={`${process.env.NEXT_PUBLIC_BACKEND}${similarArticle.coverImage.formats?.small?.url || similarArticle.coverImage.formats?.thumbnail?.url || similarArticle.coverImage.url}`} 
+                      src={getOptimizedImageUrl(similarArticle.coverImage, 'small')}
                       alt={similarArticle.coverImage.alternativeText || similarArticle.title}
-                      decoding="async"
+                      width={400}
+                      height={225}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px"
                       loading="lazy"
+                      decoding="async"
+                      quality={70}
                       className="w-full h-40 object-cover"
                     />
                   )}
