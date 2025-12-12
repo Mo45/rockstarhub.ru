@@ -15,6 +15,9 @@ import CommentsSection from '@/components/comments/CommentsSection';
 import ShareButtons from '@/components/ShareButtons';
 import SupportProjectBlock from '@/components/SupportProjectBlock';
 
+// Добавляем кэш
+const CACHE = new Map();
+
 interface Author {
   id: number;
   name: string;
@@ -52,12 +55,35 @@ interface Article {
   youtube?: string;
 }
 
-async function getAuthor(name: string): Promise<Author | null> {
+interface SimilarArticle {
+  id: number;
+  title: string;
+  slug: string;
+  coverImage?: {
+    url: string;
+    alternativeText?: string;
+    formats?: {
+      small: { url: string };
+      thumbnail: { url: string };
+    };
+  };
+}
+
+async function getSimilarArticles(categoryId: number, currentArticleId: number, limit: number = 3): Promise<SimilarArticle[]> {
+  const cacheKey = `similar:${categoryId}:${currentArticleId}:${limit}`;
+  
+  if (CACHE.has(cacheKey)) {
+    return CACHE.get(cacheKey);
+  }
+  
   try {
-    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/authors`);
+    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/articles`);
     
-    url.searchParams.set('filters[name][$eq]', name);
-    url.searchParams.set('populate', '*');
+    url.searchParams.set('filters[category][id][$eq]', categoryId.toString());
+    url.searchParams.set('filters[id][$ne]', currentArticleId.toString());
+    url.searchParams.set('pagination[limit]', limit.toString());
+    url.searchParams.set('populate[0]', 'coverImage');
+    url.searchParams.set('sort[0]', 'publishedAt:desc');
     
     const response = await axios.get(
       url.toString(),
@@ -65,15 +91,50 @@ async function getAuthor(name: string): Promise<Author | null> {
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
         },
-        timeout: 25000
+        timeout: 10000 // Уменьшаем таймаут для похожих статей
+      }
+    );
+    
+    const data = response.data.data;
+    CACHE.set(cacheKey, data);
+    return data;
+  } catch (error) {
+    console.error('Ошибка загрузки похожих статей:', error);
+    return [];
+  }
+}
+
+async function getAuthor(name: string): Promise<Author | null> {
+  const cacheKey = `author:${name}`;
+  
+  if (CACHE.has(cacheKey)) {
+    return CACHE.get(cacheKey);
+  }
+  
+  try {
+    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/authors`);
+    
+    url.searchParams.set('filters[name][$eq]', name);
+    url.searchParams.set('populate[0]', 'avatar');
+    
+    const response = await axios.get(
+      url.toString(),
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+        },
+        timeout: 10000 // Уменьшаем таймаут
       }
     );
     
     if (response.data.data.length === 0) {
+      CACHE.set(cacheKey, null);
       return null;
     }
     
-    return response.data.data[0];
+    const authorData = response.data.data[0];
+    CACHE.set(cacheKey, authorData);
+    return authorData;
   } catch (error) {
     console.error('Ошибка загрузки автора:', error);
     return null;
@@ -81,11 +142,22 @@ async function getAuthor(name: string): Promise<Author | null> {
 }
 
 async function getArticle(slug: string): Promise<Article | null> {
+  const cacheKey = `article:${slug}`;
+  
+  if (CACHE.has(cacheKey)) {
+    return CACHE.get(cacheKey);
+  }
+  
   try {
     const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/articles`);
     
     url.searchParams.set('filters[slug][$eq]', slug);
-    url.searchParams.set('populate', '*');
+    // Оптимизируем populate - запрашиваем только необходимые поля
+    url.searchParams.set('populate[0]', 'coverImage');
+    url.searchParams.set('populate[1]', 'author');
+    url.searchParams.set('populate[2]', 'category');
+    url.searchParams.set('populate[3]', 'tags');
+    url.searchParams.set('populate[4]', 'backGroundImg');
     
     const response = await axios.get(
       url.toString(),
@@ -93,15 +165,18 @@ async function getArticle(slug: string): Promise<Article | null> {
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
         },
-        timeout: 25000
+        timeout: 15000 // Уменьшаем таймаут для основного запроса
       }
     );
     
     if (response.data.data.length === 0) {
+      CACHE.set(cacheKey, null);
       return null;
     }
     
-    return response.data.data[0];
+    const articleData = response.data.data[0];
+    CACHE.set(cacheKey, articleData);
+    return articleData;
   } catch (error) {
     console.error('Ошибка загрузки статьи:', error);
     return null;
@@ -134,12 +209,8 @@ function countCharacters(content: any[]): number {
 
 function calculateReadingTime(content: any[]): number {
   const charactersCount = countCharacters(content);
-  // Средняя скорость чтения: 140 слов в минуту
-  // Средняя длина слова: 5 символов (для русского языка)
   const wordsCount = charactersCount / 5;
   const readingTime = Math.ceil(wordsCount / 140);
-  
-  // Гарантируем минимум 1 минуту
   return Math.max(1, readingTime);
 }
 
@@ -172,6 +243,7 @@ export async function generateStaticParams() {
     const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/articles`);
     
     url.searchParams.set('fields[0]', 'slug');
+    url.searchParams.set('pagination[pageSize]', '50'); // Ограничиваем количество статей для генерации
     
     const response = await axios.get(
       url.toString(),
@@ -179,7 +251,7 @@ export async function generateStaticParams() {
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
         },
-        timeout: 25000
+        timeout: 10000 // Уменьшаем таймаут
       }
     );
     
@@ -194,19 +266,29 @@ export async function generateStaticParams() {
 
 export default async function ArticlePage(props: { params: Promise<{ slug: string }> }) {
   const { slug } = await props.params;
+  
+  // Загружаем статью с кэшированием
   const article = await getArticle(slug);
   
   if (!article) {
     notFound();
   }
   
+  // Параллельно загружаем автора и похожие статьи
   let authorWithAvatar: Author | null = null;
-  if (article.author && article.author.name) {
-    authorWithAvatar = await getAuthor(article.author.name);
+  let similarArticles: SimilarArticle[] = [];
+  
+  try {
+    [authorWithAvatar, similarArticles] = await Promise.all([
+      article.author && article.author.name ? getAuthor(article.author.name) : Promise.resolve(null),
+      article.category && article.category.id ? getSimilarArticles(article.category.id, article.id, 3) : Promise.resolve([])
+    ]);
+  } catch (error) {
+    console.error('Ошибка загрузки дополнительных данных:', error);
+    // Если не удалось загрузить дополнительные данные, продолжаем рендеринг без них
   }
   
   const readingTime = calculateReadingTime(article.content);
-
   const articleUrl = `${process.env.NEXT_PUBLIC_FRONTEND}/articles/${article.slug}`;
 
   const backgroundStyle: React.CSSProperties & { [key: `--${string}`]: string } = {};
@@ -413,6 +495,38 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
             </div>
           </div>
         )}
+
+        {similarArticles.length > 0 && (
+        <div className="mt-6">
+          <h3 className="text-xl font-bold mb-6 similar-articles">Похожие статьи</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {similarArticles.map((similarArticle) => (
+              <Link 
+                key={similarArticle.id} 
+                href={`/articles/${similarArticle.slug}`}
+                className="block hover:no-underline"
+              >
+                <div className="card similar-card">
+                  {similarArticle.coverImage && (
+                    <Image 
+                      src={`${process.env.NEXT_PUBLIC_BACKEND}${similarArticle.coverImage.formats?.small?.url || similarArticle.coverImage.formats?.thumbnail?.url || similarArticle.coverImage.url}`} 
+                      alt={similarArticle.coverImage.alternativeText || similarArticle.title}
+                      decoding="async"
+                      loading="lazy"
+                      className="w-full h-40 object-cover"
+                    />
+                  )}
+                  <div className="p-4">
+                    <h3 className="font-semibold text-lg mb-2 line-clamp-2 hover:text-orange-500 transition-colors">
+                      {similarArticle.title}
+                    </h3>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
         <CommentsSection contentType="articles" contentSlug={slug} />
         
