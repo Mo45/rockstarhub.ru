@@ -52,47 +52,6 @@ interface Article {
   youtube?: string;
 }
 
-interface SimilarArticle {
-  id: number;
-  title: string;
-  slug: string;
-  coverImage?: {
-    url: string;
-    alternativeText?: string;
-    formats?: {
-      small: { url: string };
-      thumbnail: { url: string };
-    };
-  };
-}
-
-async function getSimilarArticles(categoryId: number, currentArticleId: number, limit: number = 3): Promise<SimilarArticle[]> {
-  try {
-    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/articles`);
-    
-    url.searchParams.set('filters[category][id][$eq]', categoryId.toString());
-    url.searchParams.set('filters[id][$ne]', currentArticleId.toString());
-    url.searchParams.set('pagination[limit]', limit.toString());
-    url.searchParams.set('populate[0]', 'coverImage');
-    url.searchParams.set('sort[0]', 'publishedAt:desc');
-    
-    const response = await axios.get(
-      url.toString(),
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
-        },
-        timeout: 25000
-      }
-    );
-    
-    return response.data.data;
-  } catch (error) {
-    console.error('Ошибка загрузки похожих статей:', error);
-    return [];
-  }
-}
-
 async function getAuthor(name: string): Promise<Author | null> {
   try {
     const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/authors`);
@@ -244,11 +203,6 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
   let authorWithAvatar: Author | null = null;
   if (article.author && article.author.name) {
     authorWithAvatar = await getAuthor(article.author.name);
-  }
-
-  let similarArticles: SimilarArticle[] = [];
-  if (article.category && article.category.id) {
-    similarArticles = await getSimilarArticles(article.category.id, article.id, 3);
   }
   
   const readingTime = calculateReadingTime(article.content);
@@ -459,38 +413,6 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
             </div>
           </div>
         )}
-
-        {similarArticles.length > 0 && (
-        <div className="mt-6">
-          <h3 className="text-xl font-bold mb-6 similar-articles">Похожие статьи</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {similarArticles.map((similarArticle) => (
-              <Link 
-                key={similarArticle.id} 
-                href={`/articles/${similarArticle.slug}`}
-                className="block hover:no-underline"
-              >
-                <div className="card similar-card">
-                  {similarArticle.coverImage && (
-                    <Image 
-                      src={`${process.env.NEXT_PUBLIC_BACKEND}${similarArticle.coverImage.formats?.small?.url || similarArticle.coverImage.formats?.thumbnail?.url || similarArticle.coverImage.url}`} 
-                      alt={similarArticle.coverImage.alternativeText || similarArticle.title}
-                      decoding="async"
-                      loading="lazy"
-                      className="w-full h-40 object-cover"
-                    />
-                  )}
-                  <div className="p-4">
-                    <h3 className="font-semibold text-lg mb-2 line-clamp-2 hover:text-orange-500 transition-colors">
-                      {similarArticle.title}
-                    </h3>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
 
         <CommentsSection contentType="articles" contentSlug={slug} />
         
