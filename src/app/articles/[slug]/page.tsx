@@ -15,6 +15,9 @@ import CommentsSection from '@/components/comments/CommentsSection';
 import ShareButtons from '@/components/ShareButtons';
 import SupportProjectBlock from '@/components/SupportProjectBlock';
 
+// Серверный In-Memory кэш (работает только во время выполнения)
+const CACHE = new Map<string, { data: any; timestamp: number }>();
+
 // Настройки кэширования для разных типов данных
 const CACHE_CONFIG = {
   article: 86400, // 24 часа в секундах
@@ -23,7 +26,20 @@ const CACHE_CONFIG = {
   metadata: 86400, // 24 часа для метаданных
 } as const;
 
-// Интерфейсы остаются без изменений
+// Функция для получения заголовков Cache-Control
+function getCacheHeaders(type: 'article' | 'author' | 'similar' | 'metadata') {
+  const maxAge = CACHE_CONFIG[type];
+  return {
+    'Cache-Control': `public, s-maxage=${maxAge}, stale-while-revalidate=${maxAge * 2}`,
+    'CDN-Cache-Control': `public, s-maxage=${maxAge}`,
+  };
+}
+
+// Проверяем, не истек ли кэш
+function isCacheValid(cacheEntry: { timestamp: number }, ttl: number): boolean {
+  return Date.now() - cacheEntry.timestamp < ttl * 1000;
+}
+
 interface Author {
   id: number;
   name: string;
@@ -75,24 +91,13 @@ interface SimilarArticle {
   };
 }
 
-// Функция для получения заголовков Cache-Control
-function getCacheHeaders(type: 'article' | 'author' | 'similar' | 'metadata') {
-  const maxAge = CACHE_CONFIG[type];
-  return {
-    'Cache-Control': `public, s-maxage=${maxAge}, stale-while-revalidate=${maxAge * 2}`,
-    'CDN-Cache-Control': `public, s-maxage=${maxAge}`,
-    'Vercel-CDN-Cache-Control': `public, s-maxage=${maxAge}`
-  };
-}
-
 async function getSimilarArticles(categoryId: number, currentArticleId: number, limit: number = 3): Promise<SimilarArticle[]> {
   const cacheKey = `similar:${categoryId}:${currentArticleId}:${limit}`;
   
-  if (process.env.NODE_ENV !== 'development') {
-    const cached = await caches.match(cacheKey);
-    if (cached) {
-      return cached.json();
-    }
+  // Проверяем серверный кэш
+  const cached = CACHE.get(cacheKey);
+  if (cached && isCacheValid(cached, CACHE_CONFIG.similar)) {
+    return cached.data;
   }
   
   try {
@@ -117,17 +122,11 @@ async function getSimilarArticles(categoryId: number, currentArticleId: number, 
     
     const data = response.data.data;
     
-    // Кэшируем в браузерном кэше (если доступно)
-    if (process.env.NODE_ENV !== 'development' && typeof caches !== 'undefined') {
-      const cache = await caches.open('similar-articles');
-      const cacheResponse = new Response(JSON.stringify(data), {
-        headers: {
-          'Content-Type': 'application/json',
-          'Cache-Control': `max-age=${CACHE_CONFIG.similar}`,
-        },
-      });
-      await cache.put(cacheKey, cacheResponse);
-    }
+    // Сохраняем в серверный кэш
+    CACHE.set(cacheKey, {
+      data,
+      timestamp: Date.now()
+    });
     
     return data;
   } catch (error) {
@@ -139,11 +138,10 @@ async function getSimilarArticles(categoryId: number, currentArticleId: number, 
 async function getAuthor(name: string): Promise<Author | null> {
   const cacheKey = `author:${name}`;
   
-  if (process.env.NODE_ENV !== 'development') {
-    const cached = await caches.match(cacheKey);
-    if (cached) {
-      return cached.json();
-    }
+  // Проверяем серверный кэш
+  const cached = CACHE.get(cacheKey);
+  if (cached && isCacheValid(cached, CACHE_CONFIG.author)) {
+    return cached.data;
   }
   
   try {
@@ -164,33 +162,21 @@ async function getAuthor(name: string): Promise<Author | null> {
     );
     
     if (response.data.data.length === 0) {
-      // Кэшируем null-ответ тоже, но на более короткое время
-      if (process.env.NODE_ENV !== 'development' && typeof caches !== 'undefined') {
-        const cache = await caches.open('authors');
-        const cacheResponse = new Response(JSON.stringify(null), {
-          headers: {
-            'Content-Type': 'application/json',
-            'Cache-Control': 'max-age=300', // 5 минут для null-ответов
-          },
-        });
-        await cache.put(cacheKey, cacheResponse);
-      }
+      // Сохраняем null в кэш
+      CACHE.set(cacheKey, {
+        data: null,
+        timestamp: Date.now()
+      });
       return null;
     }
     
     const authorData = response.data.data[0];
     
-    // Кэшируем в браузерном кэше
-    if (process.env.NODE_ENV !== 'development' && typeof caches !== 'undefined') {
-      const cache = await caches.open('authors');
-      const cacheResponse = new Response(JSON.stringify(authorData), {
-        headers: {
-          'Content-Type': 'application/json',
-          'Cache-Control': `max-age=${CACHE_CONFIG.author}`,
-        },
-      });
-      await cache.put(cacheKey, cacheResponse);
-    }
+    // Сохраняем в серверный кэш
+    CACHE.set(cacheKey, {
+      data: authorData,
+      timestamp: Date.now()
+    });
     
     return authorData;
   } catch (error) {
@@ -202,11 +188,10 @@ async function getAuthor(name: string): Promise<Author | null> {
 async function getArticle(slug: string): Promise<Article | null> {
   const cacheKey = `article:${slug}`;
   
-  if (process.env.NODE_ENV !== 'development') {
-    const cached = await caches.match(cacheKey);
-    if (cached) {
-      return cached.json();
-    }
+  // Проверяем серверный кэш
+  const cached = CACHE.get(cacheKey);
+  if (cached && isCacheValid(cached, CACHE_CONFIG.article)) {
+    return cached.data;
   }
   
   try {
@@ -232,33 +217,21 @@ async function getArticle(slug: string): Promise<Article | null> {
     );
     
     if (response.data.data.length === 0) {
-      // Кэшируем 404 на короткое время
-      if (process.env.NODE_ENV !== 'development' && typeof caches !== 'undefined') {
-        const cache = await caches.open('articles');
-        const cacheResponse = new Response(JSON.stringify(null), {
-          headers: {
-            'Content-Type': 'application/json',
-            'Cache-Control': 'max-age=300', // 5 минут для 404
-          },
-        });
-        await cache.put(cacheKey, cacheResponse);
-      }
+      // Сохраняем null в кэш на короткое время
+      CACHE.set(cacheKey, {
+        data: null,
+        timestamp: Date.now()
+      });
       return null;
     }
     
     const articleData = response.data.data[0];
     
-    // Кэшируем в браузерном кэше
-    if (process.env.NODE_ENV !== 'development' && typeof caches !== 'undefined') {
-      const cache = await caches.open('articles');
-      const cacheResponse = new Response(JSON.stringify(articleData), {
-        headers: {
-          'Content-Type': 'application/json',
-          'Cache-Control': `max-age=${CACHE_CONFIG.article}`,
-        },
-      });
-      await cache.put(cacheKey, cacheResponse);
-    }
+    // Сохраняем в серверный кэш
+    CACHE.set(cacheKey, {
+      data: articleData,
+      timestamp: Date.now()
+    });
     
     return articleData;
   } catch (error) {
