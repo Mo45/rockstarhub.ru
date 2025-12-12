@@ -15,31 +15,6 @@ import CommentsSection from '@/components/comments/CommentsSection';
 import ShareButtons from '@/components/ShareButtons';
 import SupportProjectBlock from '@/components/SupportProjectBlock';
 
-// Серверный In-Memory кэш (работает только во время выполнения)
-const CACHE = new Map<string, { data: any; timestamp: number }>();
-
-// Настройки кэширования для разных типов данных
-const CACHE_CONFIG = {
-  article: 86400, // 24 часа в секундах
-  author: 604800, // 7 дней в секундах (7 * 24 * 3600)
-  similar: 3600, // 1 час в секундах
-  metadata: 86400, // 24 часа для метаданных
-} as const;
-
-// Функция для получения заголовков Cache-Control
-function getCacheHeaders(type: 'article' | 'author' | 'similar' | 'metadata') {
-  const maxAge = CACHE_CONFIG[type];
-  return {
-    'Cache-Control': `public, s-maxage=${maxAge}, stale-while-revalidate=${maxAge * 2}`,
-    'CDN-Cache-Control': `public, s-maxage=${maxAge}`,
-  };
-}
-
-// Проверяем, не истек ли кэш
-function isCacheValid(cacheEntry: { timestamp: number }, ttl: number): boolean {
-  return Date.now() - cacheEntry.timestamp < ttl * 1000;
-}
-
 interface Author {
   id: number;
   name: string;
@@ -92,14 +67,6 @@ interface SimilarArticle {
 }
 
 async function getSimilarArticles(categoryId: number, currentArticleId: number, limit: number = 3): Promise<SimilarArticle[]> {
-  const cacheKey = `similar:${categoryId}:${currentArticleId}:${limit}`;
-  
-  // Проверяем серверный кэш
-  const cached = CACHE.get(cacheKey);
-  if (cached && isCacheValid(cached, CACHE_CONFIG.similar)) {
-    return cached.data;
-  }
-  
   try {
     const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/articles`);
     
@@ -114,21 +81,12 @@ async function getSimilarArticles(categoryId: number, currentArticleId: number, 
       {
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
-          ...getCacheHeaders('similar'),
         },
-        timeout: 10000
+        timeout: 25000
       }
     );
     
-    const data = response.data.data;
-    
-    // Сохраняем в серверный кэш
-    CACHE.set(cacheKey, {
-      data,
-      timestamp: Date.now()
-    });
-    
-    return data;
+    return response.data.data;
   } catch (error) {
     console.error('Ошибка загрузки похожих статей:', error);
     return [];
@@ -136,49 +94,27 @@ async function getSimilarArticles(categoryId: number, currentArticleId: number, 
 }
 
 async function getAuthor(name: string): Promise<Author | null> {
-  const cacheKey = `author:${name}`;
-  
-  // Проверяем серверный кэш
-  const cached = CACHE.get(cacheKey);
-  if (cached && isCacheValid(cached, CACHE_CONFIG.author)) {
-    return cached.data;
-  }
-  
   try {
     const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/authors`);
     
     url.searchParams.set('filters[name][$eq]', name);
-    url.searchParams.set('populate[0]', 'avatar');
+    url.searchParams.set('populate[0]', '*');
     
     const response = await axios.get(
       url.toString(),
       {
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
-          ...getCacheHeaders('author'),
         },
-        timeout: 10000
+        timeout: 25000
       }
     );
     
     if (response.data.data.length === 0) {
-      // Сохраняем null в кэш
-      CACHE.set(cacheKey, {
-        data: null,
-        timestamp: Date.now()
-      });
       return null;
     }
     
-    const authorData = response.data.data[0];
-    
-    // Сохраняем в серверный кэш
-    CACHE.set(cacheKey, {
-      data: authorData,
-      timestamp: Date.now()
-    });
-    
-    return authorData;
+    return response.data.data[0];
   } catch (error) {
     console.error('Ошибка загрузки автора:', error);
     return null;
@@ -186,54 +122,27 @@ async function getAuthor(name: string): Promise<Author | null> {
 }
 
 async function getArticle(slug: string): Promise<Article | null> {
-  const cacheKey = `article:${slug}`;
-  
-  // Проверяем серверный кэш
-  const cached = CACHE.get(cacheKey);
-  if (cached && isCacheValid(cached, CACHE_CONFIG.article)) {
-    return cached.data;
-  }
-  
   try {
     const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/articles`);
     
     url.searchParams.set('filters[slug][$eq]', slug);
-    // Оптимизируем populate - запрашиваем только необходимые поля
-    url.searchParams.set('populate[0]', 'coverImage');
-    url.searchParams.set('populate[1]', 'author');
-    url.searchParams.set('populate[2]', 'category');
-    url.searchParams.set('populate[3]', 'tags');
-    url.searchParams.set('populate[4]', 'backGroundImg');
+    url.searchParams.set('populate[0]', '*');
     
     const response = await axios.get(
       url.toString(),
       {
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
-          ...getCacheHeaders('article'),
         },
-        timeout: 15000
+        timeout: 25000
       }
     );
     
     if (response.data.data.length === 0) {
-      // Сохраняем null в кэш на короткое время
-      CACHE.set(cacheKey, {
-        data: null,
-        timestamp: Date.now()
-      });
       return null;
     }
     
-    const articleData = response.data.data[0];
-    
-    // Сохраняем в серверный кэш
-    CACHE.set(cacheKey, {
-      data: articleData,
-      timestamp: Date.now()
-    });
-    
-    return articleData;
+    return response.data.data[0];
   } catch (error) {
     console.error('Ошибка загрузки статьи:', error);
     return null;
@@ -266,67 +175,37 @@ function countCharacters(content: any[]): number {
 
 function calculateReadingTime(content: any[]): number {
   const charactersCount = countCharacters(content);
+  // Средняя скорость чтения: 140 слов в минуту
+  // Средняя длина слова: 5 символов (для русского языка)
   const wordsCount = charactersCount / 5;
   const readingTime = Math.ceil(wordsCount / 140);
+  
+  // Гарантируем минимум 1 минуту
   return Math.max(1, readingTime);
 }
 
-// Экспортируем revalidate для ISR
-export const revalidate = 3600; // Ревалидировать страницу каждые 1 час
-
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
+  const article = await getArticle(slug);
   
-  try {
-    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/articles`);
-    
-    url.searchParams.set('filters[slug][$eq]', slug);
-    url.searchParams.set('fields[0]', 'title');
-    url.searchParams.set('fields[1]', 'excerpt');
-    url.searchParams.set('fields[2]', 'publishedAt');
-    url.searchParams.set('fields[3]', 'updatedAt');
-    url.searchParams.set('populate[0]', 'coverImage');
-    url.searchParams.set('populate[1]', 'author');
-    url.searchParams.set('populate[2]', 'category');
-    url.searchParams.set('populate[3]', 'tags');
-    
-    const response = await axios.get(
-      url.toString(),
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
-          ...getCacheHeaders('metadata'),
-        },
-        timeout: 10000
-      }
-    );
-    
-    if (response.data.data.length === 0) {
-      return {
-        title: 'Статья не найдена - Rockstar Хаб',
-      };
-    }
-    
-    const article = response.data.data[0];
-    
-    return generateSEOMetadata({
-      title: article.title,
-      description: article.excerpt,
-      imageUrl: article.coverImage?.url,
-      url: `/articles/${slug}`,
-      type: 'article',
-      publishedTime: article.publishedAt,
-      modifiedTime: article.updatedAt,
-      author: article.author?.name,
-      section: article.category?.name,
-      tags: article.tags?.map((tag: any) => tag.name),
-    });
-  } catch (error) {
-    console.error('Ошибка загрузки метаданных статьи:', error);
+  if (!article) {
     return {
-      title: 'Статья - Rockstar Хаб',
+      title: 'Статья не найдена - Rockstar Хаб',
     };
   }
+  
+  return generateSEOMetadata({
+    title: article.title,
+    description: article.excerpt,
+    imageUrl: article.coverImage?.url,
+    url: `/articles/${article.slug}`,
+    type: 'article',
+    publishedTime: article.publishedAt,
+    modifiedTime: article.updatedAt,
+    author: article.author?.name,
+    section: article.category?.name,
+    tags: article.tags?.map(tag => tag.name),
+  });
 }
 
 export async function generateStaticParams() {
@@ -334,18 +213,14 @@ export async function generateStaticParams() {
     const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/articles`);
     
     url.searchParams.set('fields[0]', 'slug');
-    url.searchParams.set('pagination[pageSize]', '50');
-    url.searchParams.set('filters[publishedAt][$notNull]', 'true');
-    url.searchParams.set('sort[0]', 'publishedAt:desc');
     
     const response = await axios.get(
       url.toString(),
       {
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
-          'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=172800',
         },
-        timeout: 15000
+        timeout: 25000
       }
     );
     
@@ -360,33 +235,24 @@ export async function generateStaticParams() {
 
 export default async function ArticlePage(props: { params: Promise<{ slug: string }> }) {
   const { slug } = await props.params;
-  
-  // Загружаем статью с кэшированием
   const article = await getArticle(slug);
   
   if (!article) {
     notFound();
   }
   
-  // Параллельно загружаем автора и похожие статьи
   let authorWithAvatar: Author | null = null;
+  if (article.author && article.author.name) {
+    authorWithAvatar = await getAuthor(article.author.name);
+  }
+
   let similarArticles: SimilarArticle[] = [];
-  
-  try {
-    [authorWithAvatar, similarArticles] = await Promise.allSettled([
-      article.author && article.author.name ? getAuthor(article.author.name) : Promise.resolve(null),
-      article.category && article.category.id ? getSimilarArticles(article.category.id, article.id, 3) : Promise.resolve([])
-    ]).then((results) => {
-      return [
-        results[0].status === 'fulfilled' ? results[0].value : null,
-        results[1].status === 'fulfilled' ? results[1].value : []
-      ];
-    });
-  } catch (error) {
-    console.error('Ошибка загрузки дополнительных данных:', error);
+  if (article.category && article.category.id) {
+    similarArticles = await getSimilarArticles(article.category.id, article.id, 3);
   }
   
   const readingTime = calculateReadingTime(article.content);
+
   const articleUrl = `${process.env.NEXT_PUBLIC_FRONTEND}/articles/${article.slug}`;
 
   const backgroundStyle: React.CSSProperties & { [key: `--${string}`]: string } = {};
@@ -394,8 +260,6 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
   if (article.backGroundImg?.url) {
     backgroundStyle.backgroundImage = `url(${process.env.NEXT_PUBLIC_BACKEND}${article.backGroundImg.url})`;
     backgroundStyle.backgroundRepeat = 'repeat';
-    backgroundStyle.backgroundSize = 'cover';
-    backgroundStyle.backgroundPosition = 'center';
   } else if (article.backGroundHex) {
     backgroundStyle.backgroundColor = article.backGroundHex;
   }
@@ -446,15 +310,10 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
       {article.coverImage && (
         <div className="max-w-6xl mx-auto">
           <Image 
-            src={`${process.env.NEXT_PUBLIC_BACKEND}${article.coverImage.formats?.large?.url || article.coverImage.url}`}
+            src={`${process.env.NEXT_PUBLIC_BACKEND}${article.coverImage.formats?.large?.url || article.coverImage.url}`} 
             alt={article.coverImage.alternativeText || article.title}
-            width={1200}
-            height={630}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 1200px"
-            priority={true}
-            loading="eager"
-            quality={85}
             decoding="async"
+            loading="lazy"
             className="rounded-lg mt-2 md:mt-6 w-full h-auto object-cover"
           />
         </div>
@@ -519,7 +378,6 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                   className="w-full h-96 rounded-lg"
-                  loading="lazy"
                 ></iframe>
               </div>
             </div>
@@ -549,10 +407,8 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
                     alt={authorWithAvatar.avatar.alternativeText || authorWithAvatar.name}
                     width={130}
                     height={130}
-                    sizes="130px"
-                    loading="lazy"
                     decoding="async"
-                    quality={75}
+                    loading="lazy"
                     className="rounded-full mx-auto md:mx-0"
                   />
                 </div>
@@ -613,19 +469,14 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
                 key={similarArticle.id} 
                 href={`/articles/${similarArticle.slug}`}
                 className="block hover:no-underline"
-                prefetch={false}
               >
                 <div className="card similar-card">
                   {similarArticle.coverImage && (
                     <Image 
-                      src={`${process.env.NEXT_PUBLIC_BACKEND}${similarArticle.coverImage.formats?.small?.url || similarArticle.coverImage.url}`} 
+                      src={`${process.env.NEXT_PUBLIC_BACKEND}${similarArticle.coverImage.formats?.small?.url || similarArticle.coverImage.formats?.thumbnail?.url || similarArticle.coverImage.url}`} 
                       alt={similarArticle.coverImage.alternativeText || similarArticle.title}
-                      width={400}
-                      height={225}
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 400px"
-                      loading="lazy"
                       decoding="async"
-                      quality={70}
+                      loading="lazy"
                       className="w-full h-40 object-cover"
                     />
                   )}
