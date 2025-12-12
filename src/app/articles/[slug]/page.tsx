@@ -15,6 +15,23 @@ import CommentsSection from '@/components/comments/CommentsSection';
 import ShareButtons from '@/components/ShareButtons';
 import SupportProjectBlock from '@/components/SupportProjectBlock';
 
+// Настройки кэширования для разных типов данных (только для заголовков Cache-Control)
+const CACHE_CONFIG = {
+  article: 86400, // 24 часа в секундах
+  author: 604800, // 7 дней в секундах (7 * 24 * 3600)
+  similar: 3600, // 1 час в секундах
+  metadata: 86400, // 24 часа для метаданных
+} as const;
+
+// Функция для получения заголовков Cache-Control
+function getCacheHeaders(type: 'article' | 'author' | 'similar' | 'metadata') {
+  const maxAge = CACHE_CONFIG[type];
+  return {
+    'Cache-Control': `public, s-maxage=${maxAge}, stale-while-revalidate=${maxAge * 2}`,
+    'CDN-Cache-Control': `public, s-maxage=${maxAge}`,
+  };
+}
+
 interface Author {
   id: number;
   name: string;
@@ -81,8 +98,9 @@ async function getSimilarArticles(categoryId: number, currentArticleId: number, 
       {
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+          ...getCacheHeaders('similar'),
         },
-        timeout: 25000
+        timeout: 10000
       }
     );
     
@@ -98,15 +116,16 @@ async function getAuthor(name: string): Promise<Author | null> {
     const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/authors`);
     
     url.searchParams.set('filters[name][$eq]', name);
-    url.searchParams.set('populate', '*');
+    url.searchParams.set('populate[0]', 'avatar');
     
     const response = await axios.get(
       url.toString(),
       {
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+          ...getCacheHeaders('author'),
         },
-        timeout: 25000
+        timeout: 10000
       }
     );
     
@@ -126,15 +145,21 @@ async function getArticle(slug: string): Promise<Article | null> {
     const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/articles`);
     
     url.searchParams.set('filters[slug][$eq]', slug);
-    url.searchParams.set('populate', '*');
+    // Оптимизируем populate - запрашиваем только необходимые поля
+    url.searchParams.set('populate[0]', 'coverImage');
+    url.searchParams.set('populate[1]', 'author');
+    url.searchParams.set('populate[2]', 'category');
+    url.searchParams.set('populate[3]', 'tags');
+    url.searchParams.set('populate[4]', 'backGroundImg');
     
     const response = await axios.get(
       url.toString(),
       {
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+          ...getCacheHeaders('article'),
         },
-        timeout: 25000
+        timeout: 15000
       }
     );
     
@@ -175,37 +200,67 @@ function countCharacters(content: any[]): number {
 
 function calculateReadingTime(content: any[]): number {
   const charactersCount = countCharacters(content);
-  // Средняя скорость чтения: 140 слов в минуту
-  // Средняя длина слова: 5 символов (для русского языка)
   const wordsCount = charactersCount / 5;
   const readingTime = Math.ceil(wordsCount / 140);
-  
-  // Гарантируем минимум 1 минуту
   return Math.max(1, readingTime);
 }
 
+// Экспортируем revalidate для ISR
+export const revalidate = 3600; // Ревалидировать страницу каждые 1 час
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const article = await getArticle(slug);
   
-  if (!article) {
+  try {
+    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/articles`);
+    
+    url.searchParams.set('filters[slug][$eq]', slug);
+    url.searchParams.set('fields[0]', 'title');
+    url.searchParams.set('fields[1]', 'excerpt');
+    url.searchParams.set('fields[2]', 'publishedAt');
+    url.searchParams.set('fields[3]', 'updatedAt');
+    url.searchParams.set('populate[0]', 'coverImage');
+    url.searchParams.set('populate[1]', 'author');
+    url.searchParams.set('populate[2]', 'category');
+    url.searchParams.set('populate[3]', 'tags');
+    
+    const response = await axios.get(
+      url.toString(),
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+          ...getCacheHeaders('metadata'),
+        },
+        timeout: 10000
+      }
+    );
+    
+    if (response.data.data.length === 0) {
+      return {
+        title: 'Статья не найдена - Rockstar Хаб',
+      };
+    }
+    
+    const article = response.data.data[0];
+    
+    return generateSEOMetadata({
+      title: article.title,
+      description: article.excerpt,
+      imageUrl: article.coverImage?.url,
+      url: `/articles/${slug}`,
+      type: 'article',
+      publishedTime: article.publishedAt,
+      modifiedTime: article.updatedAt,
+      author: article.author?.name,
+      section: article.category?.name,
+      tags: article.tags?.map((tag: any) => tag.name),
+    });
+  } catch (error) {
+    console.error('Ошибка загрузки метаданных статьи:', error);
     return {
-      title: 'Статья не найдена - Rockstar Хаб',
+      title: 'Статья - Rockstar Хаб',
     };
   }
-  
-  return generateSEOMetadata({
-    title: article.title,
-    description: article.excerpt,
-    imageUrl: article.coverImage?.url,
-    url: `/articles/${article.slug}`,
-    type: 'article',
-    publishedTime: article.publishedAt,
-    modifiedTime: article.updatedAt,
-    author: article.author?.name,
-    section: article.category?.name,
-    tags: article.tags?.map(tag => tag.name),
-  });
 }
 
 export async function generateStaticParams() {
@@ -213,14 +268,18 @@ export async function generateStaticParams() {
     const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/articles`);
     
     url.searchParams.set('fields[0]', 'slug');
+    url.searchParams.set('pagination[pageSize]', '50');
+    url.searchParams.set('filters[publishedAt][$notNull]', 'true');
+    url.searchParams.set('sort[0]', 'publishedAt:desc');
     
     const response = await axios.get(
       url.toString(),
       {
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+          'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=172800',
         },
-        timeout: 25000
+        timeout: 15000
       }
     );
     
@@ -235,24 +294,33 @@ export async function generateStaticParams() {
 
 export default async function ArticlePage(props: { params: Promise<{ slug: string }> }) {
   const { slug } = await props.params;
+  
+  // Загружаем статью
   const article = await getArticle(slug);
   
   if (!article) {
     notFound();
   }
   
+  // Параллельно загружаем автора и похожие статьи
   let authorWithAvatar: Author | null = null;
-  if (article.author && article.author.name) {
-    authorWithAvatar = await getAuthor(article.author.name);
-  }
-
   let similarArticles: SimilarArticle[] = [];
-  if (article.category && article.category.id) {
-    similarArticles = await getSimilarArticles(article.category.id, article.id, 3);
+  
+  try {
+    [authorWithAvatar, similarArticles] = await Promise.allSettled([
+      article.author && article.author.name ? getAuthor(article.author.name) : Promise.resolve(null),
+      article.category && article.category.id ? getSimilarArticles(article.category.id, article.id, 3) : Promise.resolve([])
+    ]).then((results) => {
+      return [
+        results[0].status === 'fulfilled' ? results[0].value : null,
+        results[1].status === 'fulfilled' ? results[1].value : []
+      ];
+    });
+  } catch (error) {
+    console.error('Ошибка загрузки дополнительных данных:', error);
   }
   
   const readingTime = calculateReadingTime(article.content);
-
   const articleUrl = `${process.env.NEXT_PUBLIC_FRONTEND}/articles/${article.slug}`;
 
   const backgroundStyle: React.CSSProperties & { [key: `--${string}`]: string } = {};
@@ -310,7 +378,7 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
       {article.coverImage && (
         <div className="max-w-6xl mx-auto">
           <Image 
-            src={`${process.env.NEXT_PUBLIC_BACKEND}${article.coverImage.formats?.large?.url || article.coverImage.url}`} 
+            src={`${process.env.NEXT_PUBLIC_BACKEND}${article.coverImage.formats?.large?.url || article.coverImage.url}`}
             alt={article.coverImage.alternativeText || article.title}
             decoding="async"
             loading="lazy"
@@ -473,7 +541,7 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
                 <div className="card similar-card">
                   {similarArticle.coverImage && (
                     <Image 
-                      src={`${process.env.NEXT_PUBLIC_BACKEND}${similarArticle.coverImage.formats?.small?.url || similarArticle.coverImage.formats?.thumbnail?.url || similarArticle.coverImage.url}`} 
+                      src={`${process.env.NEXT_PUBLIC_BACKEND}${similarArticle.coverImage.formats?.small?.url || similarArticle.coverImage.url}`} 
                       alt={similarArticle.coverImage.alternativeText || similarArticle.title}
                       decoding="async"
                       loading="lazy"
