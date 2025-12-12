@@ -358,31 +358,6 @@ export async function generateStaticParams() {
   }
 }
 
-// Оптимизация изображений
-function getImageUrl(image: any, useFormat?: 'large' | 'small' | 'thumbnail' | 'medium'): string {
-  if (!image?.url) return '';
-  
-  let url = image.url;
-  
-  // Если есть формат и он существует, используем его
-  if (useFormat && image.formats?.[useFormat]?.url) {
-    url = image.formats[useFormat].url;
-  }
-  
-  // Если URL уже абсолютный, возвращаем как есть
-  if (url.startsWith('http')) {
-    return url;
-  }
-  
-  // Если URL начинается с /, добавляем домен
-  if (url.startsWith('/')) {
-    return `https://data.rockstarhub.ru${url}`;
-  }
-  
-  // В крайнем случае добавляем baseUrl
-  return `${process.env.NEXT_PUBLIC_BACKEND || 'https://data.rockstarhub.ru'}${url}`;
-}
-
 export default async function ArticlePage(props: { params: Promise<{ slug: string }> }) {
   const { slug } = await props.params;
   
@@ -417,7 +392,7 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
   const backgroundStyle: React.CSSProperties & { [key: `--${string}`]: string } = {};
   
   if (article.backGroundImg?.url) {
-    backgroundStyle.backgroundImage = `url(${getImageUrl(article.backGroundImg, 'medium')})`;
+    backgroundStyle.backgroundImage = `url(${process.env.NEXT_PUBLIC_BACKEND}${article.backGroundImg.url})`;
     backgroundStyle.backgroundRepeat = 'repeat';
     backgroundStyle.backgroundSize = 'cover';
     backgroundStyle.backgroundPosition = 'center';
@@ -434,14 +409,14 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
     '@type': 'Article',
     'headline': article.title,
     'description': article.excerpt,
-    'image': article.coverImage?.url ? getImageUrl(article.coverImage, 'large') : undefined,
+    'image': article.coverImage?.url ? `${process.env.NEXT_PUBLIC_BACKEND}${article.coverImage.url}` : undefined,
     'datePublished': article.publishedAt,
     'dateModified': article.updatedAt,
     'author': authorWithAvatar ? {
       '@type': 'Person',
       'name': authorWithAvatar.name,
       'description': authorWithAvatar.bio,
-      'image': authorWithAvatar.avatar?.url ? getImageUrl(authorWithAvatar.avatar, 'thumbnail') : undefined
+      'image': authorWithAvatar.avatar?.url ? `${process.env.NEXT_PUBLIC_BACKEND}${authorWithAvatar.avatar.url}` : undefined
     } : undefined,
     'publisher': {
       '@type': 'Organization',
@@ -471,7 +446,7 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
       {article.coverImage && (
         <div className="max-w-6xl mx-auto">
           <Image 
-            src={getImageUrl(article.coverImage, 'large')}
+            src={`${process.env.NEXT_PUBLIC_BACKEND}${article.coverImage.formats?.large?.url || guide.coverImage.url}`}
             alt={article.coverImage.alternativeText || article.title}
             width={1200}
             height={630}
@@ -570,7 +545,7 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
               {authorWithAvatar.avatar && (
                 <div className="flex-shrink-0">
                   <Image
-                    src={getImageUrl(authorWithAvatar.avatar, 'thumbnail')}
+                    src={`${process.env.NEXT_PUBLIC_BACKEND}${authorWithAvatar.avatar.formats?.thumbnail?.url || authorWithAvatar.avatar.url}`} 
                     alt={authorWithAvatar.avatar.alternativeText || authorWithAvatar.name}
                     width={130}
                     height={130}
@@ -643,7 +618,7 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
                 <div className="card similar-card">
                   {similarArticle.coverImage && (
                     <Image 
-                      src={getImageUrl(similarArticle.coverImage, 'small')}
+                      src={`${process.env.NEXT_PUBLIC_BACKEND}${similarArticle.coverImage.formats?.small?.url || similarArticle.coverImage.url}`} 
                       alt={similarArticle.coverImage.alternativeText || similarArticle.title}
                       width={400}
                       height={225}
