@@ -562,6 +562,8 @@ function GameSchema({ game }: { game: Game }) {
   );
 }
 
+// Заменяем текущую реализацию на правильную:
+
 export default async function GamePage(props: { params: Promise<{ slug: string }> }) {
   const { slug } = await props.params;
   
