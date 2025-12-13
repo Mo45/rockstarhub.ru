@@ -10,6 +10,220 @@ import OrganizationSchema from '@/components/OrganizationSchema';
 import { generateSEOMetadata } from '@/components/SEOMetaTags';
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 
+interface Game {
+  id: number;
+  slug: string;
+  full_title: string;
+  short_title: string;
+  description: any[];
+  youtube_video: string;
+  cover_image: {
+    url: string;
+    alternativeText: string | null;
+    formats: {
+      large: {
+        url: string;
+      };
+    };
+  } | null;
+  platforms: string[];
+  release_dates: {
+    [key: string]: string;
+  };
+  developer: string;
+  publisher: string;
+  game_facts: {
+    id: number;
+    text: string;
+  }[];
+  purchase_links: {
+    [key: string]: string;
+  };
+  additional_links: {
+    [key: string]: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+  publishedAt: string;
+}
+
+interface Achievement {
+  id: number;
+  name_ru: string;
+  name_en: string;
+  description: string;
+  howtounlock: any[];
+  hidden: boolean;
+  psn_only: boolean;
+  gscore: number;
+  psn_trophy: string;
+  image: {
+    url: string;
+    alternativeText: string | null;
+    formats: {
+      thumbnail: {
+        url: string;
+      };
+    };
+  } | null;
+  page_url: string;
+}
+
+const CACHE = new Map();
+
+async function getGame(slug: string): Promise<Game | null> {
+  const cacheKey = `game:${slug}`;
+  
+  // Проверяем кэш
+  if (CACHE.has(cacheKey)) {
+    return CACHE.get(cacheKey);
+  }
+
+  try {
+    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/games`);
+    
+    url.searchParams.set('filters[slug][$eq]', slug);
+    url.searchParams.set('populate[0]', 'cover_image');
+    url.searchParams.set('populate[1]', 'game_facts');
+    
+    const response = await axios.get(
+      url.toString(),
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+        },
+        timeout: 25000
+      }
+    );
+    
+    if (response.data.data.length === 0) {
+      return null;
+    }
+    
+    const gameData = response.data.data[0];
+    // Кэшируем результат
+    CACHE.set(cacheKey, gameData);
+    return gameData;
+  } catch (error) {
+    console.error('Ошибка загрузки игры:', error);
+    return null;
+  }
+}
+
+async function getAchievements(gameName: string): Promise<Achievement[]> {
+  const cacheKey = `achievements:${gameName}`;
+  
+  // Проверяем кэш
+  if (CACHE.has(cacheKey)) {
+    return CACHE.get(cacheKey);
+  }
+
+  try {
+    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/achievements`);
+    
+    url.searchParams.set('filters[game_name][$eq]', gameName);
+    url.searchParams.set('populate[0]', 'image');
+    url.searchParams.set('pagination[page]', '1');
+    url.searchParams.set('pagination[pageSize]', '200');
+    
+    const response = await axios.get(
+      url.toString(),
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+        },
+        timeout: 25000
+      }
+    );
+    
+    const achievementsData = response.data.data;
+    // Кэшируем результат
+    CACHE.set(cacheKey, achievementsData);
+    return achievementsData;
+  } catch (error) {
+    console.error('Ошибка загрузки достижений:', error);
+    return [];
+  }
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const game = await getGame(slug);
+  
+  if (!game) {
+    return {
+      title: 'Игра не найдена - Rockstar Хаб',
+    };
+  }
+  
+  return generateSEOMetadata({
+    title: game.full_title,
+    description: game.description && game.description.length > 0 
+      ? game.description[0].children[0].text.substring(0, 160) + '...' 
+      : `Информация об игре ${game.full_title} от Rockstar Games`,
+    imageUrl: game.cover_image?.url,
+    url: `/games/${game.slug}`,
+    type: 'article',
+    publishedTime: game.publishedAt,
+    modifiedTime: game.updatedAt,
+    author: game.developer,
+    section: 'Видеоигры',
+    tags: [...game.platforms, game.developer, 'Rockstar Games'],
+  });
+}
+
+// Функция для преобразования RichText в простой текст
+const getPlainText = (richText: any[]) => {
+  if (!richText || !Array.isArray(richText)) return '';
+  
+  return richText.map(item => 
+    item.children.map((child: any) => child.text).join('')
+  ).join('\n');
+};
+
+function GameSchema({ game }: { game: Game }) {
+  const gameSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'VideoGame',
+    'name': game.full_title,
+    'description': game.description && game.description.length > 0 
+      ? getPlainText(game.description).substring(0, 160) + '...' 
+      : `Информация об игре ${game.full_title}`,
+    'image': game.cover_image?.url 
+      ? `${process.env.NEXT_PUBLIC_BACKEND}${game.cover_image.url}`
+      : undefined,
+    'author': game.developer ? {
+      '@type': 'Organization',
+      'name': game.developer
+    } : undefined,
+    'publisher': game.publisher ? {
+      '@type': 'Organization',
+      'name': game.publisher
+    } : undefined,
+    'gamePlatform': game.platforms,
+    'applicationCategory': 'Game'
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(gameSchema) }}
+    />
+  );
+}
+
+// /src/app/games/[slug]/page.tsx
+
+import axios from 'axios';
+import { notFound } from 'next/navigation';
+import Link from 'next/link';
+import PlatformTag from '@/components/PlatformTag';
+import GameCard from '@/components/GameCard';
+import AchievementsList from '@/components/AchievementsList';
+import OrganizationSchema from '@/components/OrganizationSchema';
+import { generateSEOMetadata } from '@/components/SEOMetaTags';
+import { BlocksRenderer } from '@strapi/blocks-react-renderer';
+
 // Настройки кэширования (12 часов для игр и достижений)
 const CACHE_CONFIG = {
   game: 43200, // 12 часов
@@ -351,21 +565,15 @@ function GameSchema({ game }: { game: Game }) {
 export default async function GamePage(props: { params: Promise<{ slug: string }> }) {
   const { slug } = await props.params;
   
-  try {
-    // Параллельная загрузка игры и достижений
-    const [game, achievements] = await Promise.allSettled([
-      getGame(slug),
-      getAchievements(slug)
-    ]).then((results) => {
-      return [
-        results[0].status === 'fulfilled' ? results[0].value : null,
-        results[1].status === 'fulfilled' ? results[1].value : []
-      ];
-    });
-    
-    if (!game) {
-      notFound();
-    }
+  // Параллельная загрузка игры и достижений
+  const [game, achievements] = await Promise.all([
+    getGame(slug),
+    getAchievements(slug)
+  ]);
+  
+  if (!game) {
+    notFound();
+  }
 
     return (
       <div className="min-h-screen p-8 max-w-6xl mx-auto">
