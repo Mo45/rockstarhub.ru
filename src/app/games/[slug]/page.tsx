@@ -10,6 +10,23 @@ import OrganizationSchema from '@/components/OrganizationSchema';
 import { generateSEOMetadata } from '@/components/SEOMetaTags';
 import { BlocksRenderer } from '@strapi/blocks-react-renderer';
 
+// Настройки кэширования (12 часов для игр и достижений)
+const CACHE_CONFIG = {
+  game: 43200, // 12 часов
+  achievements: 43200, // 12 часов
+  metadata: 7200, // 2 часа
+  staticParams: 86400, // 24 часа
+} as const;
+
+// Функция для получения заголовков Cache-Control
+function getCacheHeaders(type: 'game' | 'achievements' | 'metadata' | 'staticParams') {
+  const maxAge = CACHE_CONFIG[type];
+  return {
+    'Cache-Control': `public, s-maxage=${maxAge}, stale-while-revalidate=${maxAge * 2}`,
+    'CDN-Cache-Control': `public, s-maxage=${maxAge}`,
+  };
+}
+
 interface Game {
   id: number;
   slug: string;
@@ -69,30 +86,49 @@ interface Achievement {
   page_url: string;
 }
 
-const CACHE = new Map();
+// Временный кэш в памяти для SSR
+const MEMORY_CACHE = new Map();
 
 async function getGame(slug: string): Promise<Game | null> {
   const cacheKey = `game:${slug}`;
   
-  // Проверяем кэш
-  if (CACHE.has(cacheKey)) {
-    return CACHE.get(cacheKey);
+  // Проверяем кэш в памяти (только для SSR)
+  if (typeof window === 'undefined' && MEMORY_CACHE.has(cacheKey)) {
+    return MEMORY_CACHE.get(cacheKey);
   }
 
   try {
     const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/games`);
     
     url.searchParams.set('filters[slug][$eq]', slug);
+    // Оптимизированный запрос - только необходимые поля
+    url.searchParams.set('fields[0]', 'slug');
+    url.searchParams.set('fields[1]', 'full_title');
+    url.searchParams.set('fields[2]', 'short_title');
+    url.searchParams.set('fields[3]', 'description');
+    url.searchParams.set('fields[4]', 'youtube_video');
+    url.searchParams.set('fields[5]', 'platforms');
+    url.searchParams.set('fields[6]', 'release_dates');
+    url.searchParams.set('fields[7]', 'developer');
+    url.searchParams.set('fields[8]', 'publisher');
+    url.searchParams.set('fields[9]', 'createdAt');
+    url.searchParams.set('fields[10]', 'updatedAt');
+    url.searchParams.set('fields[11]', 'publishedAt');
+    
+    // Оптимизированный populate
     url.searchParams.set('populate[0]', 'cover_image');
     url.searchParams.set('populate[1]', 'game_facts');
+    url.searchParams.set('populate[2]', 'purchase_links');
+    url.searchParams.set('populate[3]', 'additional_links');
     
     const response = await axios.get(
       url.toString(),
       {
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+          ...getCacheHeaders('game'),
         },
-        timeout: 25000
+        timeout: 15000
       }
     );
     
@@ -101,8 +137,13 @@ async function getGame(slug: string): Promise<Game | null> {
     }
     
     const gameData = response.data.data[0];
-    // Кэшируем результат
-    CACHE.set(cacheKey, gameData);
+    
+    // Кэшируем в памяти для SSR
+    if (typeof window === 'undefined') {
+      MEMORY_CACHE.set(cacheKey, gameData);
+      setTimeout(() => MEMORY_CACHE.delete(cacheKey), 60000); // Очищаем через 1 минуту
+    }
+    
     return gameData;
   } catch (error) {
     console.error('Ошибка загрузки игры:', error);
@@ -113,32 +154,53 @@ async function getGame(slug: string): Promise<Game | null> {
 async function getAchievements(gameName: string): Promise<Achievement[]> {
   const cacheKey = `achievements:${gameName}`;
   
-  // Проверяем кэш
-  if (CACHE.has(cacheKey)) {
-    return CACHE.get(cacheKey);
+  // Проверяем кэш в памяти (только для SSR)
+  if (typeof window === 'undefined' && MEMORY_CACHE.has(cacheKey)) {
+    return MEMORY_CACHE.get(cacheKey);
   }
 
   try {
     const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/achievements`);
     
     url.searchParams.set('filters[game_name][$eq]', gameName);
-    url.searchParams.set('populate[0]', 'image');
+    // Оптимизированный запрос - только необходимые поля
+    url.searchParams.set('fields[0]', 'name_ru');
+    url.searchParams.set('fields[1]', 'name_en');
+    url.searchParams.set('fields[2]', 'description');
+    url.searchParams.set('fields[3]', 'howtounlock');
+    url.searchParams.set('fields[4]', 'hidden');
+    url.searchParams.set('fields[5]', 'psn_only');
+    url.searchParams.set('fields[6]', 'gscore');
+    url.searchParams.set('fields[7]', 'psn_trophy');
+    url.searchParams.set('fields[8]', 'page_url');
+    
+    // Только миниатюры изображений
+    url.searchParams.set('populate[0]', 'image.formats.thumbnail');
+    
+    // Пагинация для оптимизации
     url.searchParams.set('pagination[page]', '1');
-    url.searchParams.set('pagination[pageSize]', '200');
+    url.searchParams.set('pagination[pageSize]', '50');
+    url.searchParams.set('sort[0]', 'gscore:desc');
     
     const response = await axios.get(
       url.toString(),
       {
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+          ...getCacheHeaders('achievements'),
         },
-        timeout: 25000
+        timeout: 10000
       }
     );
     
     const achievementsData = response.data.data;
-    // Кэшируем результат
-    CACHE.set(cacheKey, achievementsData);
+    
+    // Кэшируем в памяти для SSR
+    if (typeof window === 'undefined') {
+      MEMORY_CACHE.set(cacheKey, achievementsData);
+      setTimeout(() => MEMORY_CACHE.delete(cacheKey), 60000); // Очищаем через 1 минуту
+    }
+    
     return achievementsData;
   } catch (error) {
     console.error('Ошибка загрузки достижений:', error);
@@ -146,39 +208,113 @@ async function getAchievements(gameName: string): Promise<Achievement[]> {
   }
 }
 
+// Экспортируем revalidate для ISR
+export const revalidate = 43200; // Ревалидировать страницу каждые 12 часов
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const game = await getGame(slug);
   
-  if (!game) {
+  try {
+    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/games`);
+    
+    url.searchParams.set('filters[slug][$eq]', slug);
+    // Только поля, необходимые для метаданных
+    url.searchParams.set('fields[0]', 'full_title');
+    url.searchParams.set('fields[1]', 'short_title');
+    url.searchParams.set('fields[2]', 'description');
+    url.searchParams.set('fields[3]', 'publishedAt');
+    url.searchParams.set('fields[4]', 'updatedAt');
+    url.searchParams.set('fields[5]', 'developer');
+    url.searchParams.set('fields[6]', 'platforms');
+    
+    // Только cover_image для метаданных
+    url.searchParams.set('populate[0]', 'cover_image');
+    
+    const response = await axios.get(
+      url.toString(),
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+          ...getCacheHeaders('metadata'),
+        },
+        timeout: 10000
+      }
+    );
+    
+    if (response.data.data.length === 0) {
+      return {
+        title: 'Игра не найдена - Rockstar Хаб',
+      };
+    }
+    
+    const game = response.data.data[0];
+    
+    // Функция для извлечения текста из RichText
+    const getPlainText = (richText: any[]): string => {
+      if (!richText || !Array.isArray(richText)) return '';
+      
+      return richText.map(item => 
+        item.children?.map((child: any) => child.text || '').join('') || ''
+      ).join(' ').substring(0, 160) + '...';
+    };
+    
+    return generateSEOMetadata({
+      title: game.full_title,
+      description: game.short_title || getPlainText(game.description) || `Информация об игре ${game.full_title} от Rockstar Games`,
+      imageUrl: game.cover_image?.url,
+      url: `/games/${slug}`,
+      type: 'article',
+      publishedTime: game.publishedAt,
+      modifiedTime: game.updatedAt,
+      author: game.developer,
+      section: 'Видеоигры',
+      tags: [...(game.platforms || []), game.developer, 'Rockstar Games'],
+    });
+  } catch (error) {
+    console.error('Ошибка загрузки метаданных игры:', error);
     return {
-      title: 'Игра не найдена - Rockstar Хаб',
+      title: 'Игра - Rockstar Хаб',
     };
   }
-  
-  return generateSEOMetadata({
-    title: game.full_title,
-    description: game.description && game.description.length > 0 
-      ? game.description[0].children[0].text.substring(0, 160) + '...' 
-      : `Информация об игре ${game.full_title} от Rockstar Games`,
-    imageUrl: game.cover_image?.url,
-    url: `/games/${game.slug}`,
-    type: 'article',
-    publishedTime: game.publishedAt,
-    modifiedTime: game.updatedAt,
-    author: game.developer,
-    section: 'Видеоигры',
-    tags: [...game.platforms, game.developer, 'Rockstar Games'],
-  });
+}
+
+export async function generateStaticParams() {
+  try {
+    const url = new URL(`${process.env.NEXT_PUBLIC_BACKEND}/api/games`);
+    
+    // Только slug для генерации путей
+    url.searchParams.set('fields[0]', 'slug');
+    url.searchParams.set('filters[publishedAt][$notNull]', 'true');
+    url.searchParams.set('pagination[pageSize]', '100');
+    url.searchParams.set('sort[0]', 'publishedAt:desc');
+    
+    const response = await axios.get(
+      url.toString(),
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_STRAPI_API_TOKEN}`,
+          ...getCacheHeaders('staticParams'),
+        },
+        timeout: 15000
+      }
+    );
+    
+    return response.data.data.map((game: Game) => ({
+      slug: game.slug,
+    }));
+  } catch (error) {
+    console.error('Ошибка генерации статических параметров для игр:', error);
+    return [];
+  }
 }
 
 // Функция для преобразования RichText в простой текст
-const getPlainText = (richText: any[]) => {
+const getPlainText = (richText: any[]): string => {
   if (!richText || !Array.isArray(richText)) return '';
   
   return richText.map(item => 
-    item.children.map((child: any) => child.text).join('')
-  ).join('\n');
+    item.children?.map((child: any) => child.text || '').join('') || ''
+  ).join(' ');
 };
 
 function GameSchema({ game }: { game: Game }) {
@@ -186,9 +322,7 @@ function GameSchema({ game }: { game: Game }) {
     '@context': 'https://schema.org',
     '@type': 'VideoGame',
     'name': game.full_title,
-    'description': game.description && game.description.length > 0 
-      ? getPlainText(game.description).substring(0, 160) + '...' 
-      : `Информация об игре ${game.full_title}`,
+    'description': game.short_title || getPlainText(game.description).substring(0, 160) + '...',
     'image': game.cover_image?.url 
       ? `${process.env.NEXT_PUBLIC_BACKEND}${game.cover_image.url}`
       : undefined,
@@ -201,7 +335,9 @@ function GameSchema({ game }: { game: Game }) {
       'name': game.publisher
     } : undefined,
     'gamePlatform': game.platforms,
-    'applicationCategory': 'Game'
+    'applicationCategory': 'Game',
+    'datePublished': game.publishedAt,
+    'dateModified': game.updatedAt
   };
 
   return (
@@ -215,111 +351,121 @@ function GameSchema({ game }: { game: Game }) {
 export default async function GamePage(props: { params: Promise<{ slug: string }> }) {
   const { slug } = await props.params;
   
-  // Параллельная загрузка игры и достижений
-  const [game, achievements] = await Promise.all([
-    getGame(slug),
-    getAchievements(slug)
-  ]);
-  
-  if (!game) {
-    notFound();
-  }
+  try {
+    // Параллельная загрузка игры и достижений
+    const [game, achievements] = await Promise.allSettled([
+      getGame(slug),
+      getAchievements(slug)
+    ]).then((results) => {
+      return [
+        results[0].status === 'fulfilled' ? results[0].value : null,
+        results[1].status === 'fulfilled' ? results[1].value : []
+      ];
+    });
+    
+    if (!game) {
+      notFound();
+    }
 
-  return (
-    <div className="min-h-screen p-8 max-w-6xl mx-auto">
-      <GameSchema game={game} />
-      <OrganizationSchema />
-      
-      {/* Хлебные крошки */}
-      <nav className="flex mb-4" aria-label="Хлебные крошки">
-        <ol className="flex items-center space-x-2 text-sm text-gray-500">
-          <li>
-            <Link href="/" className="hover:text-gray-700 transition-colors">
-              Главная
-            </Link>
-          </li>
-          <li className="flex items-center">
-            <span className="mx-2">/</span>
-            <Link href="/games" className="hover:text-gray-700 transition-colors">
-              Игры
-            </Link>
-          </li>
-          <li className="flex items-center">
-            <span className="mx-2">/</span>
-            <span className="text-rockstar-500 font-medium">{game.full_title}</span>
-          </li>
-        </ol>
-      </nav>
-      
-      <header className="mb-8">
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
-          {game.full_title}
-        </h1>
+    return (
+      <div className="min-h-screen p-8 max-w-6xl mx-auto">
+        <GameSchema game={game} />
+        <OrganizationSchema />
         
-        {game.short_title && (
-          <h2 className="text-xl text-gray-600 mb-2">
-            {game.short_title}
-          </h2>
-        )}
+        {/* Хлебные крошки */}
+        <nav className="flex mb-4" aria-label="Хлебные крошки">
+          <ol className="flex items-center space-x-2 text-sm text-gray-500">
+            <li>
+              <Link href="/" className="hover:text-gray-700 transition-colors">
+                Главная
+              </Link>
+            </li>
+            <li className="flex items-center">
+              <span className="mx-2">/</span>
+              <Link href="/games" className="hover:text-gray-700 transition-colors">
+                Игры
+              </Link>
+            </li>
+            <li className="flex items-center">
+              <span className="mx-2">/</span>
+              <span className="text-rockstar-500 font-medium">{game.full_title}</span>
+            </li>
+          </ol>
+        </nav>
         
-        <div className="flex flex-wrap gap-2 mt-4">
-          {game.platforms.map(platform => (
-            <PlatformTag key={platform} platform={platform} />
-          ))}
-        </div>
-      </header>
-      
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2">
+        <header className="mb-8">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
+            {game.full_title}
+          </h1>
           
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4">Описание</h2>
-            {game.description && game.description.length > 0 ? (
-              <div className="prose max-w-none">
-                <BlocksRenderer content={game.description} />
-              </div>
-            ) : (
-              <p className="text-gray-500">Описание отсутствует</p>
-            )}
-          </section>
+          {game.short_title && (
+            <h2 className="text-xl text-gray-600 mb-2">
+              {game.short_title}
+            </h2>
+          )}
           
-          {game.game_facts && game.game_facts.length > 0 && (
+          <div className="flex flex-wrap gap-2 mt-4">
+            {game.platforms?.map(platform => (
+              <PlatformTag key={platform} platform={platform} />
+            ))}
+          </div>
+        </header>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2">
+            
             <section className="mb-8">
-              <h2 className="text-2xl font-semibold mb-4">Интересные факты</h2>
-              <ul className="list-disc list-inside space-y-2">
-                {game.game_facts.map(fact => (
-                  <li key={fact.id}>{fact.text}</li>
-                ))}
-              </ul>
+              <h2 className="text-2xl font-semibold mb-4">Описание</h2>
+              {game.description && game.description.length > 0 ? (
+                <div className="prose max-w-none">
+                  <BlocksRenderer content={game.description} />
+                </div>
+              ) : (
+                <p className="text-gray-500">Описание отсутствует</p>
+              )}
             </section>
-          )}
+            
+            {game.game_facts && game.game_facts.length > 0 && (
+              <section className="mb-8">
+                <h2 className="text-2xl font-semibold mb-4">Интересные факты</h2>
+                <ul className="list-disc list-inside space-y-2">
+                  {game.game_facts.map(fact => (
+                    <li key={fact.id}>{fact.text}</li>
+                  ))}
+                </ul>
+              </section>
+            )}
 
-          {game.youtube_video && (
-            <div className="mt-6 mb-6">
-              <h2 className="text-2xl font-semibold mb-4">{`Трейлер ${game.full_title}`}</h2>
-              <div className="aspect-w-16 aspect-h-9">
-                <iframe
-                  src={`https://www.youtube.com/embed/${game.youtube_video}`}
-                  title={`Трейлер ${game.full_title}`}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="w-full h-80 rounded-lg"
-                ></iframe>
+            {game.youtube_video && (
+              <div className="mt-6 mb-6">
+                <h2 className="text-2xl font-semibold mb-4">{`Трейлер ${game.full_title}`}</h2>
+                <div className="aspect-w-16 aspect-h-9">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${game.youtube_video}`}
+                    title={`Трейлер ${game.full_title}`}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="w-full h-80 rounded-lg"
+                  ></iframe>
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          <AchievementsList achievements={achievements} gameSlug={slug} limit={3}/>
-        </div>
-        
-        <div className="lg:col-span-1">
-          <GameCard 
-            game={game} 
-            achievements={achievements}
-            className="sticky top-4"
-          />
+            <AchievementsList achievements={achievements} gameSlug={slug} limit={3}/>
+          </div>
+          
+          <div className="lg:col-span-1">
+            <GameCard 
+              game={game} 
+              achievements={achievements}
+              className="sticky top-4"
+            />
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  } catch (error) {
+    console.error('Ошибка загрузки страницы игры:', error);
+    notFound();
+  }
 }
