@@ -565,15 +565,19 @@ function GameSchema({ game }: { game: Game }) {
 export default async function GamePage(props: { params: Promise<{ slug: string }> }) {
   const { slug } = await props.params;
   
-  // Параллельная загрузка игры и достижений
-  const [game, achievements] = await Promise.all([
-    getGame(slug),
-    getAchievements(slug)
-  ]);
-  
-  if (!game) {
-    notFound();
-  }
+  try {
+    // Параллельная загрузка игры и достижений с правильной типизацией
+    const [gameResult, achievementsResult] = await Promise.allSettled([
+      getGame(slug),
+      getAchievements(slug)
+    ]);
+
+    const game = gameResult.status === 'fulfilled' ? gameResult.value : null;
+    const achievements = achievementsResult.status === 'fulfilled' ? achievementsResult.value : [];
+    
+    if (!game) {
+      notFound();
+    }
 
     return (
       <div className="min-h-screen p-8 max-w-6xl mx-auto">
