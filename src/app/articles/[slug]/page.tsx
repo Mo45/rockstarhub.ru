@@ -267,8 +267,7 @@ export default async function ArticlePage(props: { params: Promise<{ slug: strin
       article.author && article.author.name ? getAuthor(article.author.name) : Promise.resolve(null)
     ]).then((results) => {
       return [
-        results[0].status === 'fulfilled' ? results[0].value : null,
-        results[1].status === 'fulfilled' ? results[1].value : []
+        results[0].status === 'fulfilled' ? results[0].value : null
       ];
     });
   } catch (error) {
